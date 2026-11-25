@@ -72,7 +72,7 @@ export function ProductGallery({
               onClick={() => setActiveIndex(index)}
               aria-label={`Show image ${index + 1} of ${productName}`}
               aria-pressed={index === activeIndex}
-              className={`relative h-20 w-20 overflow-hidden rounded-lg border bg-canvas transition-colors ${
+              className={`relative h-20 w-20 overflow-hidden rounded-lg border bg-canvas transition-all hover:-translate-y-0.5 hover:scale-105 ${
                 index === activeIndex
                   ? "border-accent ring-2 ring-accent/20"
                   : "border-line hover:border-accent/50"

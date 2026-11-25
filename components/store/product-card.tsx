@@ -49,7 +49,7 @@ export function ProductCard({
   );
 
   return (
-    <article className="group relative flex h-full flex-col overflow-hidden rounded-xl premium-card transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_18px_40px_-28px_rgba(23,28,44,0.4)]">
+    <article className="card-shine group relative flex h-full flex-col overflow-hidden rounded-xl premium-card transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_18px_40px_-28px_rgba(23,28,44,0.4)]">
       <div className="relative aspect-square overflow-hidden bg-canvas">
         <Link
           href={`/products/${product.slug}`}
@@ -147,7 +147,7 @@ export function ProductCard({
           aria-label={`View ${product.name}`}
         >
           View details
-          <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
+          <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </Link>
       </div>
     </article>

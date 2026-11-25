@@ -24,6 +24,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ProductCard } from "@/components/store/product-card";
 import { ProductVisual } from "@/components/store/product-visual";
+import { Reveal } from "@/components/store/reveal";
 import { ProductGrid, SectionHeading } from "@/components/store/section-heading";
 import type { ProductListItem } from "@/lib/data/store";
 import { getCategories, getProducts, getSiteSettings } from "@/lib/data/store";
@@ -51,9 +52,9 @@ const steps = [
 ];
 
 const heroPositions = [
-  "absolute left-0 top-4 rotate-[-5deg]",
-  "absolute right-2 top-0 rotate-[4deg]",
-  "absolute bottom-0 left-24 rotate-[-2deg]",
+  "absolute left-0 top-4 rotate-[-5deg] animate-float-soft",
+  "absolute right-2 top-0 rotate-[4deg] animate-float-soft [animation-delay:-2.4s]",
+  "absolute bottom-0 left-24 rotate-[-2deg] animate-float-soft [animation-delay:-4.8s]",
 ];
 
 const trustPoints = [
@@ -147,7 +148,7 @@ export default async function HomePage() {
       <section className="relative overflow-hidden bg-dark text-white">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0"
+          className="animate-glow-soft pointer-events-none absolute inset-0"
           style={{
             background:
               "radial-gradient(circle at 16% 18%, rgba(138,112,232,0.28), transparent 42%), radial-gradient(circle at 84% 78%, rgba(77,141,202,0.18), transparent 45%)",
@@ -157,9 +158,12 @@ export default async function HomePage() {
 
         <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
           <div className="grid items-center gap-12 lg:grid-cols-[1fr_0.9fr]">
-            <div>
+            <div className="hero-enter">
               <div className="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/80">
-                <span className="h-1.5 w-1.5 rounded-full bg-highlight" />
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-highlight opacity-60" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-highlight" />
+                </span>
                 Discover the world of smart shopping
               </div>
 
@@ -203,7 +207,7 @@ export default async function HomePage() {
               </div>
             </div>
 
-            <div className="relative hidden min-h-[440px] lg:block">
+            <div className="hero-enter relative hidden min-h-[440px] lg:block [animation-delay:0.12s]">
               <div
                 aria-hidden="true"
                 className="absolute left-8 top-4 h-[380px] w-[380px] rounded-full border border-white/10"
@@ -222,8 +226,9 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section id="categories" className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        <SectionHeading
+      <Reveal>
+        <section id="categories" className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+          <SectionHeading
           eyebrow="Explore"
           title="Shop by category"
           action={{ href: "/products", label: "View all" }}
@@ -236,7 +241,7 @@ export default async function HomePage() {
               <Link
                 key={category.id}
                 href={`/products?category=${encodeURIComponent(category.slug)}`}
-                className="group relative aspect-[4/3] overflow-hidden rounded-xl border border-line premium-card"
+                className="group relative aspect-[4/3] overflow-hidden rounded-xl border border-line premium-card transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg"
               >
                 {image ? (
                   <Image
@@ -274,9 +279,11 @@ export default async function HomePage() {
             );
           })}
         </div>
-      </section>
+        </section>
+      </Reveal>
 
       {featured.items.length > 0 && (
+        <Reveal>
         <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="Curated for you"
@@ -293,8 +300,10 @@ export default async function HomePage() {
             ))}
           </ProductGrid>
         </section>
+        </Reveal>
       )}
 
+      <Reveal delay={60}>
       <section className="border-y border-line bg-surface/70 py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
@@ -313,8 +322,10 @@ export default async function HomePage() {
           </ProductGrid>
         </div>
       </section>
+      </Reveal>
 
       {popular.items.length > 0 && (
+        <Reveal>
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="Trending"
@@ -331,13 +342,15 @@ export default async function HomePage() {
             ))}
           </ProductGrid>
         </section>
+        </Reveal>
       )}
 
+      <Reveal>
       <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
         <div className="relative overflow-hidden rounded-2xl bg-dark px-6 py-12 text-white sm:px-10">
           <div
             aria-hidden="true"
-            className="absolute right-0 top-0 h-full w-1/2"
+            className="animate-glow-soft absolute right-0 top-0 h-full w-1/2"
             style={{
               background:
                 "radial-gradient(circle at 70% 40%, rgba(138,112,232,0.32), transparent 62%)",
@@ -358,7 +371,7 @@ export default async function HomePage() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/request"
-                className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-dark hover:bg-highlight"
+                className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-dark transition-all hover:-translate-y-0.5 hover:bg-highlight"
               >
                 Request any product
                 <ArrowRight aria-hidden="true" className="h-4 w-4" />
@@ -367,7 +380,7 @@ export default async function HomePage() {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl border border-white/30 px-5 py-3 text-sm font-medium text-white hover:border-highlight hover:text-highlight"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/30 px-5 py-3 text-sm font-medium text-white transition-all hover:-translate-y-0.5 hover:border-highlight hover:text-highlight"
               >
                 <MessageCircle aria-hidden="true" className="h-4 w-4" />
                 WhatsApp
@@ -376,7 +389,9 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      </Reveal>
 
+      <Reveal delay={60}>
       <section className="border-y border-line bg-surface/70 py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
@@ -385,7 +400,7 @@ export default async function HomePage() {
           />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((step, index) => (
-              <div key={step.title} className="premium-card rounded-xl p-5">
+              <div key={step.title} className="premium-card rounded-xl p-5 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg">
                 <div className="flex items-center justify-between">
                   <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-mint text-accent">
                     <step.icon aria-hidden="true" className="h-4 w-4" />
@@ -399,12 +414,14 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      </Reveal>
 
+      <Reveal>
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <SectionHeading eyebrow="Why Netbazar" title="Sourcing with clarity" />
         <div className="grid gap-4 md:grid-cols-3">
           {trustPoints.map((point) => (
-            <div key={point.title} className="flex gap-4 rounded-xl border border-line bg-canvas/50 p-5">
+            <div key={point.title} className="flex gap-4 rounded-xl border border-line bg-canvas/50 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:bg-surface hover:shadow-lg">
               <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-surface text-accent shadow-sm">
                 <point.icon aria-hidden="true" className="h-4 w-4" />
               </span>
@@ -416,6 +433,7 @@ export default async function HomePage() {
           ))}
         </div>
       </section>
+      </Reveal>
     </div>
   );
 }

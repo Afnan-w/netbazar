@@ -21,7 +21,7 @@ export function WishlistLink() {
     <Link
       href="/wishlist"
       aria-label={`Wishlist, ${count} saved ${count === 1 ? "product" : "products"}`}
-      className="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-line text-ink/70 transition-colors hover:border-brand hover:text-brand"
+      className="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-line text-ink/70 transition-all hover:scale-105 hover:border-accent hover:text-accent"
     >
       <Heart aria-hidden="true" className="h-4 w-4" />
       {count > 0 && (
