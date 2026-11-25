@@ -97,6 +97,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             alt: image.alt || product.name,
           }))}
           productName={product.name}
+          categorySlug={product.category?.slug ?? "everyday"}
         />
 
         <div>
@@ -112,6 +113,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
             {product.is_featured && (
               <span className="rounded-full border border-brand/40 px-3 py-1 text-xs text-brand">
                 Featured
+              </span>
+            )}
+            {product.sku.startsWith("SAMPLE-") && (
+              <span className="rounded-full bg-ink px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-white/90">
+                Sample data
               </span>
             )}
           </div>

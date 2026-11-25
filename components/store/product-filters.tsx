@@ -23,7 +23,7 @@ function FilterFields({
   idPrefix: string;
 }) {
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 rounded-3xl border border-ink/10 bg-canvas/80 p-5 shadow-[0_18px_50px_-40px_rgba(24,35,45,0.45)] backdrop-blur">
       <div>
         <label
           htmlFor={`${idPrefix}-search`}

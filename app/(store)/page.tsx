@@ -1,7 +1,10 @@
 import {
   ArrowRight,
   CircleHelp,
+  Compass,
   Cpu,
+  Gamepad2,
+  Gift,
   Grid2X2,
   Home,
   MessageCircle,
@@ -9,6 +12,7 @@ import {
   Search,
   Shirt,
   Smartphone,
+  Sparkles,
   Truck,
   Wallet,
   type LucideIcon,
@@ -25,6 +29,10 @@ const categoryIcons: Record<string, LucideIcon> = {
   "home-and-kitchen": Home,
   fashion: Shirt,
   electronics: Cpu,
+  "toys-and-games": Gamepad2,
+  "beauty-and-care": Sparkles,
+  "outdoor-and-travel": Compass,
+  everyday: Gift,
 };
 
 const steps = [
@@ -96,22 +104,71 @@ export default async function HomePage() {
 
   return (
     <div>
-      <section className="border-b border-ink/5 bg-canvas/60">
-        <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 sm:py-24 lg:grid-cols-[1.1fr_0.9fr] lg:px-8">
+      <section className="relative overflow-hidden border-b border-ink/5 bg-canvas/60">
+        <div
+          aria-hidden="true"
+          className="hairline-grid pointer-events-none absolute inset-0 opacity-50"
+        />
+        <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 sm:py-24 lg:grid-cols-[1.1fr_0.9fr] lg:px-8">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
-              China to Bangladesh sourcing
-            </p>
-            <h1 className="mt-5 max-w-2xl text-4xl font-light leading-[1.1] tracking-tight sm:text-6xl">
-              Discover more.
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="rounded-full border border-brand/30 bg-mint/70 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-brand">
+                Preview catalogue
+              </span>
+              <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-ink/40">
+                Sample data
+              </span>
+            </div>
+            <h1 className="mt-5 max-w-2xl text-balance text-4xl font-light leading-[1.08] tracking-tight sm:text-6xl">
+              Find it here.
               <br />
-              Shop smarter.
+              Source it simply.
             </h1>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-ink/65">
               Hand-picked products from Chinese suppliers, listed in BDT and
               delivered to your door in Bangladesh. Order or request on WhatsApp.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+
+            <form action="/products" method="get" role="search" className="mt-7 max-w-xl">
+              <label htmlFor="hero-search" className="sr-only">
+                Search products
+              </label>
+              <div className="flex items-center gap-2 rounded-full border border-ink/15 bg-surface p-1.5 pl-4 shadow-[0_16px_44px_-30px_rgba(24,35,45,0.6)] transition-colors focus-within:border-brand">
+                <Search aria-hidden="true" className="h-4 w-4 shrink-0 text-ink/45" />
+                <input
+                  id="hero-search"
+                  name="q"
+                  type="search"
+                  placeholder="Search products, categories or SKU"
+                  className="w-full bg-transparent text-sm outline-none placeholder:text-ink/40"
+                />
+                <button
+                  type="submit"
+                  className="shrink-0 rounded-full bg-brand px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
+                >
+                  Search
+                </button>
+              </div>
+            </form>
+
+            <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-ink/50">
+              <span>Try:</span>
+              {[
+                { label: "speaker", href: "/products?q=speaker" },
+                { label: "toys", href: "/products?category=toys-and-games" },
+                { label: "backpack", href: "/products?q=backpack" },
+              ].map((term) => (
+                <Link
+                  key={term.label}
+                  href={term.href}
+                  className="rounded-full border border-ink/15 px-2.5 py-1 transition-colors hover:border-brand hover:text-brand"
+                >
+                  {term.label}
+                </Link>
+              ))}
+            </div>
+
+            <div className="mt-7 flex flex-wrap gap-3">
               <Link
                 href="/products"
                 className="inline-flex items-center gap-2 rounded-full border border-brand bg-brand px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
@@ -131,21 +188,38 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="relative hidden min-h-[360px] rounded-[2rem] border border-ink/10 bg-surface p-8 lg:block">
-            <div className="absolute right-8 top-8 h-24 w-24 rounded-full bg-mint" />
-            <div className="absolute bottom-10 left-10 h-16 w-16 rounded-full border border-brand/30" />
+          <div className="glass-panel relative hidden min-h-[380px] rounded-[2rem] border border-ink/10 p-8 shadow-[0_40px_90px_-60px_rgba(24,35,45,0.65)] lg:block">
+            <div
+              aria-hidden="true"
+              className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-brand/10 blur-3xl"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute bottom-8 left-8 h-20 w-20 rounded-full border border-brand/20"
+            />
             <div className="relative flex h-full flex-col justify-between">
               <div>
-                <PackageCheck aria-hidden="true" className="h-10 w-10 text-brand" />
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-mint text-brand">
+                  <PackageCheck aria-hidden="true" className="h-6 w-6" />
+                </span>
                 <p className="mt-8 max-w-xs text-2xl font-light leading-snug">
-                  A simpler way to source products from China.
+                  A calmer way to browse, ask and order.
+                </p>
+                <p className="mt-3 max-w-xs text-sm leading-relaxed text-ink/55">
+                  No cart and no checkout. Just a clear confirmation on WhatsApp.
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-3 text-sm">
-                <div className="rounded-2xl border border-ink/10 p-4"> curated picks </div>
-                <div className="rounded-2xl border border-ink/10 p-4"> WhatsApp first </div>
-                <div className="rounded-2xl border border-ink/10 p-4"> BDT prices </div>
-                <div className="rounded-2xl border border-ink/10 p-4"> Direct delivery </div>
+                {["Curated picks", "WhatsApp first", "BDT prices", "Direct delivery"].map(
+                  (item) => (
+                    <div
+                      key={item}
+                      className="rounded-2xl border border-ink/10 bg-surface/70 px-4 py-4 backdrop-blur"
+                    >
+                      {item}
+                    </div>
+                  ),
+                )}
               </div>
             </div>
           </div>
@@ -158,7 +232,7 @@ export default async function HomePage() {
           title="Shop by category"
           description="Start with what you need. Every listing links to WhatsApp for confirmation."
         />
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
           {categories.length > 0 ? (
             categories.map((category) => {
               const Icon = categoryIcons[category.slug] ?? Grid2X2;
@@ -166,8 +240,12 @@ export default async function HomePage() {
                 <Link
                   key={category.id}
                   href={`/products?category=${encodeURIComponent(category.slug)}`}
-                  className="group rounded-3xl border border-ink/10 bg-canvas p-5 transition-colors hover:border-brand/40 hover:bg-mint/40"
+                  className="group relative overflow-hidden rounded-3xl border border-ink/10 bg-canvas p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-[0_20px_45px_-30px_rgba(24,35,45,0.45)]"
                 >
+                  <div
+                    aria-hidden="true"
+                    className="absolute -right-6 -top-6 h-20 w-20 rounded-full bg-brand/8 transition-colors group-hover:bg-brand/12"
+                  />
                   <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-mint text-brand">
                     <Icon aria-hidden="true" className="h-5 w-5" />
                   </span>

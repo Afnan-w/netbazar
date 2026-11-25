@@ -70,17 +70,32 @@ export default async function ProductsPage({
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <header className="mb-8 max-w-2xl">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
-          Catalogue
-        </p>
-        <h1 className="mt-2 text-3xl font-light tracking-tight sm:text-4xl">
-          All products
-        </h1>
-        <p className="mt-3 text-sm leading-relaxed text-ink/60">
-          Browse hand-picked listings. Confirm availability, final price, shipping
-          and delivery time on WhatsApp before payment.
-        </p>
+      <header className="relative mb-8 overflow-hidden rounded-[32px] border border-ink/10 bg-canvas/70 px-6 py-8 sm:px-8 sm:py-10">
+        <div
+          aria-hidden="true"
+          className="hairline-grid pointer-events-none absolute inset-0 opacity-40"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-brand/10 blur-3xl"
+        />
+        <div className="relative max-w-2xl">
+          <div className="flex flex-wrap items-center gap-3">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
+              Catalogue
+            </p>
+            <span className="rounded-full border border-ink/15 px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.12em] text-ink/45">
+              Preview data
+            </span>
+          </div>
+          <h1 className="mt-3 text-balance text-3xl font-light tracking-tight sm:text-4xl">
+            All products
+          </h1>
+          <p className="mt-3 text-sm leading-relaxed text-ink/60">
+            Browse hand-picked listings. Confirm availability, final price, shipping
+            and delivery time on WhatsApp before payment.
+          </p>
+        </div>
       </header>
 
       <div className="grid gap-8 lg:grid-cols-[240px_1fr]">

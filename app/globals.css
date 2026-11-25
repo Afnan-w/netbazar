@@ -33,3 +33,31 @@ body {
   background: var(--color-mint);
   color: var(--color-ink);
 }
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .glass-panel {
+    background: linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--color-surface) 92%, transparent),
+      color-mix(in srgb, var(--color-canvas) 88%, transparent)
+    );
+    backdrop-filter: blur(18px);
+  }
+
+  .hairline-grid {
+    background-image: linear-gradient(
+        color-mix(in srgb, var(--color-ink) 6%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--color-ink) 6%, transparent) 1px,
+        transparent 1px
+      );
+    background-size: 36px 36px;
+  }
+}

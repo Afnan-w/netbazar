@@ -1,8 +1,8 @@
 "use client";
 
-import { Package } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import { ProductVisual } from "@/components/store/product-visual";
 
 export type GalleryImage = {
   url: string;
@@ -12,16 +12,18 @@ export type GalleryImage = {
 export function ProductGallery({
   images,
   productName,
+  categorySlug,
 }: {
   images: GalleryImage[];
   productName: string;
+  categorySlug: string;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const active = images[activeIndex];
 
   return (
     <div className="space-y-3">
-      <div className="relative aspect-square overflow-hidden rounded-3xl border border-ink/10 bg-canvas">
+      <div className="relative aspect-square overflow-hidden rounded-[28px] border border-ink/10 bg-canvas shadow-[0_24px_70px_-44px_rgba(24,35,45,0.5)]">
         {active?.url ? (
           <Image
             key={active.url}
@@ -33,12 +35,19 @@ export function ProductGallery({
             className="object-contain p-4"
           />
         ) : (
-          <div className="flex h-full flex-col items-center justify-center gap-3 text-ink/35">
-            <Package aria-hidden="true" className="h-14 w-14" />
-            <p className="text-sm">Product photos will be added soon.</p>
-          </div>
+          <ProductVisual
+            categorySlug={categorySlug}
+            name={productName}
+            iconClassName="h-24 w-24"
+          />
         )}
       </div>
+
+      {!active?.url && (
+        <p className="px-1 text-xs text-ink/45">
+          Preview visual. Add real product photos in the admin dashboard.
+        </p>
+      )}
 
       {images.length > 1 && (
         <div className="flex flex-wrap gap-3" role="group" aria-label="Product images">
@@ -64,7 +73,11 @@ export function ProductGallery({
                   className="object-cover"
                 />
               ) : (
-                <Package aria-hidden="true" className="m-auto h-6 w-6 text-ink/30" />
+                <ProductVisual
+                  categorySlug={categorySlug}
+                  name={`${productName} ${index + 1}`}
+                  iconClassName="h-7 w-7"
+                />
               )}
             </button>
           ))}

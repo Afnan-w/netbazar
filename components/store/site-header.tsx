@@ -50,7 +50,7 @@ export function SiteHeader({
 
   return (
     <header className="sticky top-0 z-40 border-b border-ink/10 bg-surface/95 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-[4.25rem] max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
         <Link
           href="/"
           className="shrink-0 text-xl font-semibold tracking-tight"
@@ -73,7 +73,7 @@ export function SiteHeader({
           ))}
         </nav>
 
-        <div className="ml-auto hidden w-56 md:block xl:w-72">
+        <div className="ml-auto hidden w-64 md:block xl:w-80">
           <SearchForm />
         </div>
 
@@ -81,7 +81,7 @@ export function SiteHeader({
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="ml-auto inline-flex shrink-0 items-center gap-2 rounded-full border border-brand px-4 py-2 text-sm font-medium text-brand transition-colors hover:bg-mint md:ml-0"
+          className="ml-auto inline-flex shrink-0 items-center gap-2 rounded-full bg-brand px-4 py-2 text-sm font-medium text-white shadow-[0_12px_28px_-16px_rgba(22,168,120,0.9)] transition-opacity hover:opacity-90 md:ml-0"
         >
           <MessageCircle aria-hidden="true" className="h-4 w-4" />
           <span className="hidden sm:inline">Order on WhatsApp</span>
@@ -108,15 +108,18 @@ export function SiteHeader({
         aria-label="Categories"
         className="hidden border-t border-ink/5 lg:block"
       >
-        <div className="mx-auto flex max-w-7xl gap-6 overflow-x-auto px-4 py-3 text-sm text-ink/60 sm:px-6 lg:px-8">
-          <Link href="/products" className="whitespace-nowrap hover:text-brand">
+        <div className="mx-auto flex max-w-7xl gap-2.5 overflow-x-auto px-4 py-2.5 text-sm sm:px-6 lg:px-8">
+          <Link
+            href="/products"
+            className="whitespace-nowrap rounded-full border border-ink/10 bg-canvas/60 px-3.5 py-1.5 text-ink/65 transition-colors hover:border-brand/40 hover:text-brand"
+          >
             All products
           </Link>
           {categories.map((category) => (
             <Link
               key={category.slug}
               href={`/products?category=${encodeURIComponent(category.slug)}`}
-              className="whitespace-nowrap hover:text-brand"
+              className="whitespace-nowrap rounded-full border border-ink/10 px-3.5 py-1.5 text-ink/65 transition-colors hover:border-brand/40 hover:text-brand"
             >
               {category.name}
             </Link>
