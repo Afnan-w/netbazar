@@ -19,11 +19,21 @@ export function ProductGallery({
   categorySlug: string;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [origin, setOrigin] = useState("50% 50%");
   const active = images[activeIndex];
 
   return (
     <div className="space-y-3">
-      <div className="relative aspect-square overflow-hidden rounded-[28px] border border-ink/10 bg-canvas shadow-[0_24px_70px_-44px_rgba(24,35,45,0.5)]">
+      <div
+        className="group relative aspect-square cursor-zoom-in overflow-hidden rounded-[28px] border border-line bg-canvas premium-card"
+        onMouseMove={(event) => {
+          const bounds = event.currentTarget.getBoundingClientRect();
+          const x = ((event.clientX - bounds.left) / bounds.width) * 100;
+          const y = ((event.clientY - bounds.top) / bounds.height) * 100;
+          setOrigin(`${x}% ${y}%`);
+        }}
+        onMouseLeave={() => setOrigin("50% 50%")}
+      >
         {active?.url ? (
           <Image
             key={active.url}
@@ -31,8 +41,9 @@ export function ProductGallery({
             alt={active.alt || `${productName} product photo`}
             fill
             priority
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-contain p-4"
+            sizes="(max-width: 1024px) 100vw, 55vw"
+            style={{ transformOrigin: origin }}
+            className="object-contain p-5 transition-transform duration-300 group-hover:scale-150"
           />
         ) : (
           <ProductVisual
@@ -41,10 +52,13 @@ export function ProductGallery({
             iconClassName="h-24 w-24"
           />
         )}
+        <span className="pointer-events-none absolute bottom-3 right-3 rounded-full bg-surface/85 px-2.5 py-1 text-[10px] font-medium text-muted backdrop-blur">
+          Hover to zoom
+        </span>
       </div>
 
       {!active?.url && (
-        <p className="px-1 text-xs text-ink/45">
+        <p className="px-1 text-xs text-muted">
           Preview visual. Add real product photos in the admin dashboard.
         </p>
       )}
@@ -60,8 +74,8 @@ export function ProductGallery({
               aria-pressed={index === activeIndex}
               className={`relative h-20 w-20 overflow-hidden rounded-2xl border bg-canvas transition-colors ${
                 index === activeIndex
-                  ? "border-brand"
-                  : "border-ink/10 hover:border-brand/50"
+                  ? "border-brand ring-2 ring-brand/20"
+                  : "border-line hover:border-brand/50"
               }`}
             >
               {image.url ? (

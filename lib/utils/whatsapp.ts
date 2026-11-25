@@ -1,3 +1,5 @@
+export const DEFAULT_WHATSAPP_NUMBER = "8801627293330";
+
 export function buildWhatsAppUrl(number: string, message: string): string {
   const digits = number.replace(/\D/g, "");
   if (!digits) return "#";

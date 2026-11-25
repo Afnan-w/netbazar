@@ -7,6 +7,7 @@ import type {
   SiteSettings,
 } from "@/types/database";
 import { demoCategories, demoProducts, getDemoProductBySlug, getDemoRelated } from "./demo-catalogue";
+import { marketplaceFor, shippingDaysValue } from "@/lib/utils/marketplace";
 
 type StoreClient = Awaited<ReturnType<typeof createClient>>;
 type ProductImageData = Pick<
@@ -15,18 +16,30 @@ type ProductImageData = Pick<
 >;
 type CategorySummary = Pick<Category, "id" | "name" | "slug">;
 
+export type ProductBadge = "New" | "Hot" | "Best seller" | "Limited";
+
+export type ProductMarketplace = {
+  badge?: ProductBadge;
+  rating?: number;
+  soldCount?: number;
+  shippingDays?: string;
+};
+
 export type ProductListItem = Product & {
   images: ProductImageData[];
   category: CategorySummary | null;
+  marketplace?: ProductMarketplace;
 };
 
 export type ProductDetail = Product & {
   images: ProductImageData[];
   category: CategorySummary | null;
+  marketplace?: ProductMarketplace;
 };
 
 export type ProductSort = "newest" | "price-asc" | "price-desc";
 export type AvailabilityFilter = "all" | "available" | "unavailable";
+export type ShippingFilter = "all" | "fast" | "standard";
 
 export type ProductQuery = {
   search?: string;
@@ -35,6 +48,10 @@ export type ProductQuery = {
   sort?: ProductSort;
   page?: number;
   pageSize?: number;
+  offset?: number;
+  minPrice?: number;
+  maxPrice?: number;
+  shippingTime?: ShippingFilter;
   featured?: boolean;
   popular?: boolean;
   excludeProductId?: string;
@@ -135,6 +152,7 @@ async function attachRelations(
   return products.map((product) => ({
     ...product,
     images: imagesByProduct.get(product.id) ?? [],
+    marketplace: marketplaceFor(product),
     category: product.category_id
       ? (categoryById.get(product.category_id) ?? null)
       : null,
@@ -164,19 +182,31 @@ function filterDemo(query: ProductQuery = {}): { items: ProductListItem[]; total
   if (query.categorySlug) items = items.filter((p) => p.category?.slug === query.categorySlug);
   if (query.search) {
     const q = query.search.toLowerCase();
-    items = items.filter((p) => p.name.toLowerCase().includes(q) || p.sku.toLowerCase().includes(q));
+    items = items.filter(
+      (p) =>
+        p.name.toLowerCase().includes(q) ||
+        p.sku.toLowerCase().includes(q) ||
+        p.description.toLowerCase().includes(q),
+    );
   }
   if (query.availability === "available") items = items.filter((p) => p.status === "available");
   else if (query.availability === "unavailable") items = items.filter((p) => p.status === "unavailable");
   if (query.featured) items = items.filter((p) => p.is_featured);
   if (query.popular) items = items.filter((p) => p.is_popular);
   if (query.excludeProductId) items = items.filter((p) => p.id !== query.excludeProductId);
+  if (query.minPrice !== undefined) items = items.filter((p) => p.price_bdt >= query.minPrice!);
+  if (query.maxPrice !== undefined) items = items.filter((p) => p.price_bdt <= query.maxPrice!);
+  if (query.shippingTime === "fast") {
+    items = items.filter((p) => shippingDaysValue(p.marketplace?.shippingDays) <= 7);
+  } else if (query.shippingTime === "standard") {
+    items = items.filter((p) => shippingDaysValue(p.marketplace?.shippingDays) <= 12);
+  }
   if (query.sort === "price-asc") items.sort((a, b) => a.price_bdt - b.price_bdt);
   else if (query.sort === "price-desc") items.sort((a, b) => b.price_bdt - a.price_bdt);
   const total = items.length;
   const page = Math.max(1, Math.floor(query.page ?? 1));
   const pageSize = Math.max(1, Math.min(48, Math.floor(query.pageSize ?? 12)));
-  const from = (page - 1) * pageSize;
+  const from = (page - 1) * pageSize + Math.max(0, Math.floor(query.offset ?? 0));
   return { items: items.slice(from, from + pageSize), total };
 }
 
@@ -238,6 +268,8 @@ export async function getProducts(
     request = request.neq("status", "draft");
   }
 
+  if (query.minPrice !== undefined) request = request.gte("price_bdt", query.minPrice);
+  if (query.maxPrice !== undefined) request = request.lte("price_bdt", query.maxPrice);
   if (query.featured) request = request.eq("is_featured", true);
   if (query.popular) request = request.eq("is_popular", true);
   if (query.excludeProductId) {
@@ -252,7 +284,7 @@ export async function getProducts(
     request = request.order("created_at", { ascending: false });
   }
 
-  const from = (page - 1) * pageSize;
+  const from = (page - 1) * pageSize + Math.max(0, Math.floor(query.offset ?? 0));
   const { data, error, count } = await request.range(from, from + pageSize - 1);
 
   if (error) {
@@ -260,9 +292,19 @@ export async function getProducts(
     return filterDemo(query);
   }
 
-  const items = await attachRelations(supabase, data ?? []);
+  let items = await attachRelations(supabase, data ?? []);
   const onlySamples = items.length > 0 && items.every((p) => p.sku.startsWith("SAMPLE-"));
   if ((items.length === 0 && (count ?? 0) === 0) || onlySamples) return filterDemo(query);
+
+  if (query.shippingTime === "fast") {
+    items = items.filter((p) => shippingDaysValue(p.marketplace?.shippingDays) <= 7);
+    return { items, total: items.length };
+  }
+  if (query.shippingTime === "standard") {
+    items = items.filter((p) => shippingDaysValue(p.marketplace?.shippingDays) <= 12);
+    return { items, total: items.length };
+  }
+
   return { items, total: count ?? items.length };
 }
 

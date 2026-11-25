@@ -1,65 +1,242 @@
 "use client";
 
-import { Menu, MessageCircle, Search, X } from "lucide-react";
+import {
+  ArrowRight,
+  BadgeCheck,
+  ChevronDown,
+  Compass,
+  Cpu,
+  Gamepad2,
+  Gift,
+  Grid2X2,
+  Home,
+  Menu,
+  MessageCircle,
+  Search,
+  ShieldCheck,
+  Shirt,
+  Smartphone,
+  Sparkles,
+  WalletCards,
+  X,
+  type LucideIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { WishlistLink } from "@/components/store/wishlist-link";
 
-type HeaderCategory = {
-  name: string;
-  slug: string;
+type HeaderCategory = { name: string; slug: string };
+type SearchSuggestion = { name: string; slug: string; category?: string };
+
+const categoryIcons: Record<string, LucideIcon> = {
+  "phone-accessories": Smartphone,
+  "home-and-kitchen": Home,
+  fashion: Shirt,
+  electronics: Cpu,
+  "toys-and-games": Gamepad2,
+  "beauty-and-care": Sparkles,
+  "outdoor-and-travel": Compass,
+  everyday: Gift,
 };
 
 const primaryLinks = [
   { href: "/products", label: "Shop" },
   { href: "/request", label: "Request" },
   { href: "/faq", label: "FAQ" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
 ];
 
-function SearchForm({ compact = false }: { compact?: boolean }) {
+function SearchForm({
+  suggestions,
+  compact = false,
+}: {
+  suggestions: SearchSuggestion[];
+  compact?: boolean;
+}) {
+  const [query, setQuery] = useState("");
+  const [open, setOpen] = useState(false);
+
+  const matches = useMemo(() => {
+    const term = query.trim().toLowerCase();
+    const pool = term
+      ? suggestions.filter(
+          (item) =>
+            item.name.toLowerCase().includes(term) ||
+            item.slug.includes(term) ||
+            item.category?.toLowerCase().includes(term),
+        )
+      : suggestions;
+    return pool.slice(0, 5);
+  }, [query, suggestions]);
+
   return (
     <form action="/products" method="get" role="search" className="w-full">
       <label htmlFor={compact ? "mobile-search" : "header-search"} className="sr-only">
         Search products
       </label>
-      <div className="flex items-center gap-2 rounded-full border border-ink/15 bg-surface px-3.5 py-2 transition-colors focus-within:border-brand">
-        <Search aria-hidden="true" className="h-4 w-4 shrink-0 text-ink/45" />
-        <input
-          id={compact ? "mobile-search" : "header-search"}
-          name="q"
-          type="search"
-          placeholder="Search products or SKU"
-          className="w-full bg-transparent text-sm outline-none placeholder:text-ink/40"
-        />
+      <div
+        className="relative"
+        onBlur={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false);
+        }}
+      >
+        <div className="flex items-center gap-2 rounded-full border border-line bg-canvas/70 px-3.5 py-2 transition-colors focus-within:border-brand focus-within:bg-surface">
+          <Search aria-hidden="true" className="h-4 w-4 shrink-0 text-muted" />
+          <input
+            id={compact ? "mobile-search" : "header-search"}
+            name="q"
+            value={query}
+            onChange={(event) => {
+              setQuery(event.target.value);
+              setOpen(true);
+            }}
+            onFocus={() => setOpen(true)}
+            placeholder="Search products or categories"
+            autoComplete="off"
+            className="w-full bg-transparent text-sm outline-none placeholder:text-muted"
+          />
+        </div>
+
+        {open && matches.length > 0 && (
+          <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-50 overflow-hidden rounded-2xl premium-card p-2">
+            <p className="px-2 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted">
+              {query ? "Suggestions" : "Popular searches"}
+            </p>
+            {matches.map((item) => (
+              <Link
+                key={item.slug}
+                href={`/products?q=${encodeURIComponent(item.name)}`}
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-2 rounded-xl px-2 py-2 text-sm text-ink/75 hover:bg-canvas hover:text-brand"
+              >
+                <Search aria-hidden="true" className="h-3.5 w-3.5 text-muted" />
+                <span className="truncate">{item.name}</span>
+                {item.category && (
+                  <span className="ml-auto text-[11px] text-muted">{item.category}</span>
+                )}
+              </Link>
+            ))}
+            {query && (
+              <button
+                type="submit"
+                className="mt-1 flex w-full items-center justify-between rounded-xl bg-mint px-3 py-2 text-left text-xs font-medium text-brand"
+              >
+                See all results for “{query}”
+                <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </form>
   );
 }
 
+function MegaMenu({ categories }: { categories: HeaderCategory[] }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls="mega-menu"
+        onClick={() => setOpen((value) => !value)}
+        onFocus={() => setOpen(true)}
+        className="inline-flex items-center gap-1 text-sm text-ink/70 transition-colors hover:text-brand"
+      >
+        Categories
+        <ChevronDown
+          aria-hidden="true"
+          className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+
+      {open && (
+        <div
+          id="mega-menu"
+          className="absolute left-0 top-[calc(100%+1rem)] z-50 w-[min(860px,calc(100vw-2rem))] rounded-[26px] premium-card p-4"
+        >
+          <div className="mb-3 flex items-center justify-between px-1">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
+              Shop by category
+            </p>
+            <Link
+              href="/products"
+              onClick={() => setOpen(false)}
+              className="inline-flex items-center gap-1 text-xs font-medium text-brand"
+            >
+              View all
+              <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+            {categories.map((category) => {
+              const Icon = categoryIcons[category.slug] ?? Grid2X2;
+              return (
+                <Link
+                  key={category.slug}
+                  href={`/products?category=${encodeURIComponent(category.slug)}`}
+                  onClick={() => setOpen(false)}
+                  className="group/card flex flex-col gap-3 rounded-2xl border border-line bg-canvas/50 p-3 transition-colors hover:border-brand/40 hover:bg-mint"
+                >
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-surface text-brand shadow-sm">
+                    <Icon aria-hidden="true" className="h-4 w-4" />
+                  </span>
+                  <span className="text-sm font-medium text-ink group-hover/card:text-brand">
+                    {category.name}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function SiteHeader({
   categories,
+  suggestions,
   whatsappUrl,
 }: {
   categories: HeaderCategory[];
+  suggestions: SearchSuggestion[];
   whatsappUrl: string;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-ink/10 bg-surface/95 backdrop-blur">
-      <div className="mx-auto flex h-[4.25rem] max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-40 border-b border-line bg-surface/95 backdrop-blur-xl">
+      <div className="bg-brand text-white">
+        <div className="mx-auto flex h-8 max-w-7xl items-center justify-center gap-2 px-4 text-[11px] tracking-wide sm:px-6 lg:px-8">
+          <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5 text-accent" />
+          <span>China → Bangladesh</span>
+          <span className="text-white/40">·</span>
+          <span className="hidden sm:inline">Verified suppliers</span>
+          <span className="hidden text-white/40 sm:inline">·</span>
+          <span>BDT pricing</span>
+        </div>
+      </div>
+
+      <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
         <Link
           href="/"
           className="shrink-0 text-xl font-semibold tracking-tight"
           onClick={() => setMenuOpen(false)}
         >
           net<span className="text-brand">bazar</span>
+          <span className="ml-1 inline-block h-1.5 w-1.5 rounded-full bg-accent align-top" />
         </Link>
 
         <nav aria-label="Main navigation" className="hidden items-center gap-5 lg:flex">
+          <MegaMenu categories={categories} />
           {primaryLinks.map((link) => (
             <Link
               key={link.href}
@@ -73,75 +250,94 @@ export function SiteHeader({
           ))}
         </nav>
 
-        <div className="ml-auto hidden w-64 md:block xl:w-80">
-          <SearchForm />
+        <div className="mx-auto hidden w-full max-w-sm md:block">
+          <SearchForm suggestions={suggestions} />
         </div>
 
-        <a
-          href={whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="ml-auto inline-flex shrink-0 items-center gap-2 rounded-full bg-brand px-4 py-2 text-sm font-medium text-white shadow-[0_12px_28px_-16px_rgba(22,168,120,0.9)] transition-opacity hover:opacity-90 md:ml-0"
-        >
-          <MessageCircle aria-hidden="true" className="h-4 w-4" />
-          <span>WhatsApp</span>
-        </a>
-
-        <button
-          type="button"
-          className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-ink/15 lg:hidden"
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-          aria-expanded={menuOpen}
-          aria-controls="mobile-menu"
-          onClick={() => setMenuOpen((open) => !open)}
-        >
-          {menuOpen ? (
-            <X aria-hidden="true" className="h-5 w-5" />
-          ) : (
-            <Menu aria-hidden="true" className="h-5 w-5" />
-          )}
-        </button>
+        <div className="ml-auto flex items-center gap-2 md:ml-0">
+          <div className="hidden md:block">
+            <WishlistLink />
+          </div>
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex shrink-0 items-center gap-2 rounded-full bg-brand px-4 py-2 text-sm font-medium text-white shadow-[0_12px_28px_-16px_rgba(13,92,69,0.9)] transition-colors hover:brightness-110"
+          >
+            <MessageCircle aria-hidden="true" className="h-4 w-4" />
+            <span className="hidden sm:inline">Order on WhatsApp</span>
+            <span className="sm:hidden">Order</span>
+          </a>
+          <button
+            type="button"
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line lg:hidden"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            {menuOpen ? (
+              <X aria-hidden="true" className="h-5 w-5" />
+            ) : (
+              <Menu aria-hidden="true" className="h-5 w-5" />
+            )}
+          </button>
+        </div>
       </div>
 
       {menuOpen && (
-        <div id="mobile-menu" className="border-t border-ink/10 bg-surface lg:hidden">
+        <div id="mobile-menu" className="border-t border-line bg-surface lg:hidden">
           <div className="space-y-5 px-4 py-5 sm:px-6">
-            <SearchForm compact />
-            <nav aria-label="Mobile navigation" className="grid gap-1">
+            <SearchForm suggestions={suggestions} compact />
+            <nav aria-label="Mobile navigation" className="grid grid-cols-2 gap-2">
               {primaryLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className="rounded-xl px-3 py-2 text-sm text-ink/75 hover:bg-canvas hover:text-brand"
+                  className="rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-brand hover:text-brand"
                 >
                   {link.label}
                 </Link>
               ))}
+              <Link
+                href="/wishlist"
+                onClick={() => setMenuOpen(false)}
+                className="rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-brand hover:text-brand"
+              >
+                Wishlist
+              </Link>
             </nav>
             <div>
-              <p className="px-3 pb-2 text-xs font-semibold uppercase tracking-widest text-ink/40">
+              <p className="pb-2 text-[11px] font-semibold uppercase tracking-widest text-muted">
                 Categories
               </p>
-              <nav aria-label="Mobile categories" className="grid gap-1">
-                <Link
-                  href="/products"
-                  onClick={() => setMenuOpen(false)}
-                  className="rounded-xl px-3 py-2 text-sm text-ink/75 hover:bg-canvas hover:text-brand"
-                >
-                  All products
-                </Link>
-                {categories.map((category) => (
-                  <Link
-                    key={category.slug}
-                    href={`/products?category=${encodeURIComponent(category.slug)}`}
-                    onClick={() => setMenuOpen(false)}
-                    className="rounded-xl px-3 py-2 text-sm text-ink/75 hover:bg-canvas hover:text-brand"
-                  >
-                    {category.name}
-                  </Link>
-                ))}
-              </nav>
+              <div className="grid grid-cols-2 gap-2">
+                {categories.map((category) => {
+                  const Icon = categoryIcons[category.slug] ?? Grid2X2;
+                  return (
+                    <Link
+                      key={category.slug}
+                      href={`/products?category=${encodeURIComponent(category.slug)}`}
+                      onClick={() => setMenuOpen(false)}
+                      className="inline-flex items-center gap-2 rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-brand hover:text-brand"
+                    >
+                      <Icon aria-hidden="true" className="h-4 w-4 text-brand" />
+                      {category.name}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="flex items-center gap-4 border-t border-line pt-4 text-[11px] text-muted">
+              <span className="inline-flex items-center gap-1">
+                <BadgeCheck aria-hidden="true" className="h-3.5 w-3.5 text-brand" />
+                Verified suppliers
+              </span>
+              <span className="inline-flex items-center gap-1">
+                <WalletCards aria-hidden="true" className="h-3.5 w-3.5 text-brand" />
+                BDT pricing
+              </span>
             </div>
           </div>
         </div>

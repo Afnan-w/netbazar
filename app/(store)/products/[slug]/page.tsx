@@ -1,24 +1,41 @@
-import { ArrowLeft, MessageCircle, PackageCheck } from "lucide-react";
+import {
+  ArrowLeft,
+  Check,
+  MessageCircle,
+  PackageCheck,
+  ShieldCheck,
+  Star,
+  Truck,
+} from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProductCard } from "@/components/store/product-card";
 import { ProductGallery } from "@/components/store/product-gallery";
 import { SectionHeading } from "@/components/store/section-heading";
+import { WishlistButton } from "@/components/store/wishlist-button";
 import { getProductBySlug, getRelatedProducts, getSiteSettings } from "@/lib/data/store";
 import { formatBDT } from "@/lib/utils/format";
 import { getProductImageUrl } from "@/lib/utils/images";
+import { discountPercent, marketplaceFor } from "@/lib/utils/marketplace";
+import { absoluteProductUrl } from "@/lib/utils/product-url";
 import { specificationRows } from "@/lib/utils/specifications";
 import { buildWhatsAppUrl, productOrderMessage } from "@/lib/utils/whatsapp";
 
 type ProductPageProps = { params: Promise<{ slug: string }> };
 
-function siteUrl(): string {
-  return (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(
-    /\/$/,
-    "",
-  );
-}
+const badgeClasses: Record<string, string> = {
+  "Best seller": "bg-[#0F172A] text-white",
+  Hot: "bg-[#0D5C45] text-white",
+  New: "bg-mint text-brand",
+  Limited: "bg-[#F8ECCB] text-[#73570E]",
+};
+
+const assurances = [
+  "Price confirmed before payment",
+  "Shipping and delivery agreed on WhatsApp",
+  "No cart or checkout — order directly",
+];
 
 export async function generateMetadata({
   params,
@@ -33,7 +50,7 @@ export async function generateMetadata({
   const imageUrl = product.images[0]
     ? getProductImageUrl(product.images[0].storage_path)
     : undefined;
-  const canonical = `${siteUrl()}/products/${product.slug}`;
+  const canonical = absoluteProductUrl(product.slug);
 
   return {
     title: product.name,
@@ -66,14 +83,15 @@ export default async function ProductPage({ params }: ProductPageProps) {
   ]);
 
   const price = formatBDT(product.price_bdt);
-  const pageUrl = `${siteUrl()}/products/${product.slug}`;
+  const market = marketplaceFor(product);
+  const discount = discountPercent(product.price_bdt, product.reference_price_bdt);
   const whatsappUrl = buildWhatsAppUrl(
     settings.whatsapp_number,
     productOrderMessage({
       name: product.name,
       sku: product.sku,
       price,
-      url: pageUrl,
+      url: absoluteProductUrl(product.slug),
     }),
   );
   const specs = specificationRows(product.specifications);
@@ -83,13 +101,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <Link
         href="/products"
-        className="inline-flex items-center gap-2 text-sm text-ink/55 hover:text-brand"
+        className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-brand"
       >
         <ArrowLeft aria-hidden="true" className="h-4 w-4" />
         Back to products
       </Link>
 
-      <div className="mt-6 grid gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+      <div className="mt-6 grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
         <ProductGallery
           images={product.images.map((image) => ({
             url: getProductImageUrl(image.storage_path),
@@ -99,93 +117,127 @@ export default async function ProductPage({ params }: ProductPageProps) {
           categorySlug={product.category?.slug ?? "everyday"}
         />
 
-        <div>
+        <aside className="premium-card h-fit rounded-[28px] p-6 lg:sticky lg:top-32">
           <div className="flex flex-wrap items-center gap-2">
             {product.category && (
               <Link
                 href={`/products?category=${encodeURIComponent(product.category.slug)}`}
-                className="rounded-full border border-ink/15 px-3 py-1 text-xs text-ink/60 hover:border-brand hover:text-brand"
+                className="rounded-full border border-line px-3 py-1 text-xs text-muted transition-colors hover:border-brand hover:text-brand"
               >
                 {product.category.name}
               </Link>
             )}
-            {product.is_featured && (
-              <span className="rounded-full border border-brand/40 px-3 py-1 text-xs text-brand">Featured</span>
+            {market.badge && (
+              <span
+                className={`rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${badgeClasses[market.badge] ?? ""}`}
+              >
+                {market.badge}
+              </span>
             )}
           </div>
 
           <h1 className="mt-4 text-3xl font-light tracking-tight sm:text-4xl">
             {product.name}
           </h1>
-          <p className="mt-2 text-xs uppercase tracking-[0.14em] text-ink/45">
-            SKU {product.sku}
-          </p>
+          <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted">
+            <span>SKU {product.sku}</span>
+            <span className="inline-flex items-center gap-1 text-ink/70">
+              <Star aria-hidden="true" className="h-3.5 w-3.5 fill-accent text-accent" />
+              {market.rating?.toFixed(1)} · {market.soldCount} sold
+            </span>
+          </div>
 
-          <div className="mt-6 flex flex-wrap items-baseline gap-3">
+          <div className="mt-6 flex flex-wrap items-baseline gap-3 border-y border-line py-5">
             <span className="text-3xl font-semibold text-brand">{price}</span>
             {product.reference_price_bdt !== null && (
-              <span className="text-lg text-ink/40 line-through">
+              <span className="text-lg text-muted line-through">
                 {formatBDT(product.reference_price_bdt)}
+              </span>
+            )}
+            {discount > 0 && (
+              <span className="rounded-full bg-accent px-2.5 py-1 text-xs font-semibold text-white">
+                Save {discount}%
               </span>
             )}
           </div>
 
-          <div className="mt-4 flex items-center gap-2">
+          <div className="mt-5 flex flex-wrap items-center gap-3">
             <span
               className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs ${
                 available
                   ? "border-brand/30 bg-mint text-brand"
-                  : "border-ink/15 text-ink/55"
+                  : "border-line text-muted"
               }`}
             >
               <PackageCheck aria-hidden="true" className="h-3.5 w-3.5" />
               {available ? "Available" : "Unavailable"}
             </span>
+            <span className="inline-flex items-center gap-2 text-xs text-muted">
+              <Truck aria-hidden="true" className="h-3.5 w-3.5 text-brand" />
+              Ships in {market.shippingDays}
+            </span>
           </div>
 
-          <p className="mt-6 max-w-prose text-sm leading-relaxed text-ink/60">
-            {product.description?.replace(/^(?:SAMPLE DATA|DEMO)\s*—\s*/, "") || "Details confirmed on WhatsApp."}
+          <p className="mt-5 text-sm leading-relaxed text-muted">
+            {product.description?.replace(/^(?:SAMPLE DATA|DEMO)\s*—\s*/, "") ||
+              "Details confirmed on WhatsApp."}
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3">
+          <div className="mt-7 flex flex-wrap items-center gap-3">
             <a
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-medium text-white shadow-[0_14px_30px_-16px_rgba(22,168,120,0.8)] transition-opacity hover:opacity-90"
+              className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white transition-colors hover:brightness-110"
             >
               <MessageCircle aria-hidden="true" className="h-4 w-4" />
               Order on WhatsApp
             </a>
-            <span className="text-xs text-ink/40">Price & delivery confirmed before payment</span>
+            <div className="flex items-center gap-2">
+              <WishlistButton id={product.id} name={product.name} className="h-11 w-11" />
+              <span className="text-xs text-muted">Save</span>
+            </div>
           </div>
 
-          <section className="mt-10 border-t border-ink/10 pt-8">
-            <h2 className="text-lg font-medium">Specifications</h2>
+          <ul className="mt-5 space-y-2 border-t border-line pt-5 text-xs text-muted">
+            {assurances.map((item) => (
+              <li key={item} className="flex items-center gap-2">
+                <Check aria-hidden="true" className="h-3.5 w-3.5 text-brand" />
+                {item}
+              </li>
+            ))}
+          </ul>
+
+          <section className="mt-7 border-t border-line pt-6">
+            <h2 className="text-sm font-medium">Specifications</h2>
             {specs.length > 0 ? (
-              <dl className="mt-4 divide-y divide-ink/10 rounded-2xl border border-ink/10">
+              <dl className="mt-3 divide-y divide-line rounded-2xl border border-line">
                 {specs.map(([key, value]) => (
                   <div
                     key={key}
-                    className="grid grid-cols-[minmax(100px,0.8fr)_1.2fr] gap-4 px-4 py-3 text-sm"
+                    className="grid grid-cols-[minmax(100px,0.8fr)_1.2fr] gap-4 px-4 py-2.5 text-sm"
                   >
-                    <dt className="text-ink/50">{key}</dt>
-                    <dd className="text-ink/80">{value}</dd>
+                    <dt className="text-muted">{key}</dt>
+                    <dd className="text-ink/85">{value}</dd>
                   </div>
                 ))}
               </dl>
             ) : (
-              <p className="mt-3 text-sm text-ink/55">
-                Specifications will be added soon. Ask us on WhatsApp if you need
-                more details.
+              <p className="mt-3 text-sm text-muted">
+                Ask us on WhatsApp for full specifications.
               </p>
             )}
           </section>
-        </div>
+
+          <p className="mt-5 inline-flex items-center gap-2 text-xs text-muted">
+            <ShieldCheck aria-hidden="true" className="h-4 w-4 text-brand" />
+            Verified supplier listing
+          </p>
+        </aside>
       </div>
 
       {related.length > 0 && (
-        <section className="mt-20 border-t border-ink/10 pt-14">
+        <section className="mt-20 border-t border-line pt-14">
           <SectionHeading
             eyebrow="More to explore"
             title="Related products"
@@ -193,7 +245,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
           />
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {related.map((item) => (
-              <ProductCard key={item.id} product={item} />
+              <ProductCard
+                key={item.id}
+                product={item}
+                whatsappNumber={settings.whatsapp_number}
+              />
             ))}
           </div>
         </section>

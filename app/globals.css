@@ -1,17 +1,43 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-brand: #16a878;
-  --color-ink: #18232d;
-  --color-surface: #ffffff;
-  --color-canvas: #f4f6f5;
-  --color-mint: #e6f6ef;
+  --color-brand: var(--brand);
+  --color-accent: var(--accent);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-surface: var(--surface);
+  --color-canvas: var(--canvas);
+  --color-line: var(--line);
+  --color-mint: var(--mint);
   --font-sans: var(--font-inter);
 }
 
 :root {
-  background: var(--color-surface);
-  color: var(--color-ink);
+  color-scheme: light;
+  --brand: #0d5c45;
+  --accent: #c9a227;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --surface: #ffffff;
+  --canvas: #f8f9f7;
+  --line: #e7ebe8;
+  --mint: #eef6f2;
+  background: var(--canvas);
+  color: var(--ink);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --brand: #1c7c60;
+    --accent: #e3c15c;
+    --ink: #f1f5f9;
+    --muted: #94a3b8;
+    --surface: #111a24;
+    --canvas: #0a1119;
+    --line: #23303d;
+    --mint: #132b24;
+  }
 }
 
 html {
@@ -20,18 +46,19 @@ html {
 
 body {
   min-height: 100vh;
-  background: var(--color-surface);
+  background: var(--canvas);
+  color: var(--ink);
   font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-brand);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 
 ::selection {
-  background: var(--color-mint);
-  color: var(--color-ink);
+  background: color-mix(in srgb, var(--accent) 24%, transparent);
+  color: var(--ink);
 }
 
 @layer utilities {
@@ -40,24 +67,30 @@ body {
   }
 
   .glass-panel {
-    background: linear-gradient(
-      145deg,
-      color-mix(in srgb, var(--color-surface) 92%, transparent),
-      color-mix(in srgb, var(--color-canvas) 88%, transparent)
-    );
-    backdrop-filter: blur(18px);
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    backdrop-filter: blur(20px);
   }
 
   .hairline-grid {
     background-image: linear-gradient(
-        color-mix(in srgb, var(--color-ink) 6%, transparent) 1px,
+        color-mix(in srgb, var(--ink) 5%, transparent) 1px,
         transparent 1px
       ),
       linear-gradient(
         90deg,
-        color-mix(in srgb, var(--color-ink) 6%, transparent) 1px,
+        color-mix(in srgb, var(--ink) 5%, transparent) 1px,
         transparent 1px
       );
-    background-size: 36px 36px;
+    background-size: 40px 40px;
+  }
+
+  .premium-card {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    box-shadow: 0 24px 60px -44px rgb(15 23 42 / 0.45);
+  }
+
+  .gold-rule {
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
   }
 }

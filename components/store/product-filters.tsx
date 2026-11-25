@@ -1,17 +1,30 @@
 import { SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
-import type { AvailabilityFilter, ProductSort } from "@/lib/data/store";
+import type {
+  AvailabilityFilter,
+  ProductSort,
+  ShippingFilter,
+} from "@/lib/data/store";
 import type { Category } from "@/types/database";
+
+export type ProductView = "grid" | "list";
 
 export type ProductFilterValues = {
   search: string;
   category: string;
   availability: AvailabilityFilter;
   sort: ProductSort;
+  minPrice: string;
+  maxPrice: string;
+  shippingTime: ShippingFilter;
+  view: ProductView;
 };
 
 const fieldClass =
-  "w-full rounded-xl border border-ink/15 bg-surface px-3 py-2 text-sm outline-none transition-colors focus:border-brand";
+  "w-full rounded-xl border border-line bg-canvas/60 px-3 py-2 text-sm outline-none transition-colors focus:border-brand focus:bg-surface";
+
+const labelClass =
+  "mb-2 block text-[11px] font-semibold uppercase tracking-widest text-muted";
 
 function FilterFields({
   values,
@@ -24,11 +37,10 @@ function FilterFields({
 }) {
   return (
     <div className="space-y-5">
+      <input type="hidden" name="view" value={values.view} />
+
       <div>
-        <label
-          htmlFor={`${idPrefix}-search`}
-          className="mb-2 block text-xs font-semibold uppercase tracking-widest text-ink/50"
-        >
+        <label htmlFor={`${idPrefix}-search`} className={labelClass}>
           Search
         </label>
         <input
@@ -42,10 +54,7 @@ function FilterFields({
       </div>
 
       <div>
-        <label
-          htmlFor={`${idPrefix}-category`}
-          className="mb-2 block text-xs font-semibold uppercase tracking-widest text-ink/50"
-        >
+        <label htmlFor={`${idPrefix}-category`} className={labelClass}>
           Category
         </label>
         <select
@@ -64,10 +73,31 @@ function FilterFields({
       </div>
 
       <div>
-        <label
-          htmlFor={`${idPrefix}-availability`}
-          className="mb-2 block text-xs font-semibold uppercase tracking-widest text-ink/50"
-        >
+        <p className={labelClass}>Price range (BDT)</p>
+        <div className="grid grid-cols-2 gap-2">
+          <input
+            id={`${idPrefix}-min`}
+            name="min"
+            type="number"
+            min={0}
+            defaultValue={values.minPrice}
+            placeholder="Min"
+            className={fieldClass}
+          />
+          <input
+            id={`${idPrefix}-max`}
+            name="max"
+            type="number"
+            min={0}
+            defaultValue={values.maxPrice}
+            placeholder="Max"
+            className={fieldClass}
+          />
+        </div>
+      </div>
+
+      <div>
+        <label htmlFor={`${idPrefix}-availability`} className={labelClass}>
           Availability
         </label>
         <select
@@ -83,10 +113,23 @@ function FilterFields({
       </div>
 
       <div>
-        <label
-          htmlFor={`${idPrefix}-sort`}
-          className="mb-2 block text-xs font-semibold uppercase tracking-widest text-ink/50"
+        <label htmlFor={`${idPrefix}-shipping`} className={labelClass}>
+          Delivery estimate
+        </label>
+        <select
+          id={`${idPrefix}-shipping`}
+          name="shipping"
+          defaultValue={values.shippingTime}
+          className={fieldClass}
         >
+          <option value="all">Any delivery time</option>
+          <option value="fast">Fast · 7 days or less</option>
+          <option value="standard">Standard · 12 days or less</option>
+        </select>
+      </div>
+
+      <div>
+        <label htmlFor={`${idPrefix}-sort`} className={labelClass}>
           Sort by
         </label>
         <select
@@ -102,10 +145,15 @@ function FilterFields({
       </div>
 
       <div className="flex items-center gap-3 pt-1">
-        <button type="submit" className="rounded-full bg-brand px-4 py-2 text-sm font-medium text-white hover:opacity-90">
-          Apply
+        <button
+          type="submit"
+          className="rounded-full bg-brand px-4 py-2 text-sm font-medium text-white transition-colors hover:brightness-110"
+        >
+          Apply filters
         </button>
-        <Link href="/products" className="text-sm text-ink/45 hover:text-brand">Clear</Link>
+        <Link href="/products" className="text-sm text-muted hover:text-brand">
+          Clear
+        </Link>
       </div>
     </div>
   );
@@ -120,21 +168,22 @@ export function ProductFilters({
 }) {
   return (
     <>
-      <details className="mb-6 rounded-3xl border border-ink/10 bg-canvas lg:hidden">
+      <details className="mb-6 rounded-[20px] premium-card lg:hidden">
         <summary className="flex cursor-pointer list-none items-center gap-2 px-5 py-4 text-sm font-medium [&::-webkit-details-marker]:hidden">
           <SlidersHorizontal aria-hidden="true" className="h-4 w-4 text-brand" />
           Filters
-          <span className="ml-auto text-xs text-ink/45">Search, category, price</span>
+          <span className="ml-auto text-xs text-muted">Price, category, delivery</span>
         </summary>
-        <form action="/products" method="get" className="border-t border-ink/10 px-5 py-5">
+        <form action="/products" method="get" className="border-t border-line px-5 py-5">
           <FilterFields values={values} categories={categories} idPrefix="mobile" />
         </form>
       </details>
 
-      <aside aria-label="Product filters" className="hidden lg:sticky lg:top-28 lg:block lg:self-start">
-        <form action="/products" method="get" className="rounded-3xl border border-ink/8 bg-canvas/40 p-5">
-          <div className="mb-5 flex items-center gap-2 text-sm font-medium text-ink/70">
-            <SlidersHorizontal aria-hidden="true" className="h-4 w-4" /> Filters
+      <aside aria-label="Product filters" className="hidden lg:sticky lg:top-32 lg:block lg:self-start">
+        <form action="/products" method="get" className="rounded-[24px] premium-card p-5">
+          <div className="mb-5 flex items-center gap-2 border-b border-line pb-4 text-sm font-medium">
+            <SlidersHorizontal aria-hidden="true" className="h-4 w-4 text-brand" />
+            Filters
           </div>
           <FilterFields values={values} categories={categories} idPrefix="desktop" />
         </form>

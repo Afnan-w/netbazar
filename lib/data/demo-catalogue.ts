@@ -1,4 +1,5 @@
 import type { Category } from "@/types/database";
+import { marketplaceFor } from "@/lib/utils/marketplace";
 import type { ProductDetail, ProductListItem } from "./store";
 
 type DemoProduct = Omit<ProductListItem, "category"> & {
@@ -27,6 +28,7 @@ const demoProductsRaw: DemoProduct[] = [
     specifications: { "Battery": "24 hrs with case", "Bluetooth": "5.3", "Charging": "USB-C" },
     price_bdt: 1850, reference_price_bdt: 2400, category_id: "demo-cat-tech", categorySlug: "electronics",
     status: "available", is_featured: true, is_popular: true, created_at: now, updated_at: now,
+    marketplace: { badge: "Best seller", rating: 4.8, soldCount: 2400, shippingDays: "5–8 days" },
     images: img("https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=900&q=80", "White wireless earbuds in a charging case"),
   },
   {
@@ -135,9 +137,13 @@ const demoProductsRaw: DemoProduct[] = [
   },
 ];
 
-export const demoProducts: ProductListItem[] = demoProductsRaw.map(({ categorySlug, ...p }) => {
+export const demoProducts: ProductListItem[] = demoProductsRaw.map(({ categorySlug, ...p }, index) => {
   const category = demoCategories.find((c) => c.slug === categorySlug) ?? null;
-  return { ...p, category: category ? { id: category.id, name: category.name, slug: category.slug } : null };
+  return {
+    ...p,
+    marketplace: marketplaceFor(p, index),
+    category: category ? { id: category.id, name: category.name, slug: category.slug } : null,
+  };
 });
 
 export function getDemoProductBySlug(slug: string): ProductDetail | null {

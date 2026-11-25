@@ -1,13 +1,13 @@
-import { Mail, MessageCircle } from "lucide-react";
+import { ArrowUpRight, Mail, MessageCircle, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { buildWhatsAppUrl } from "@/lib/utils/whatsapp";
 import type { SiteSettings } from "@/types/database";
 
 const shopLinks = [
   { href: "/products", label: "All products" },
+  { href: "/wishlist", label: "Wishlist" },
   { href: "/request", label: "Request a product" },
   { href: "/faq", label: "FAQ" },
-  { href: "/contact", label: "Contact" },
 ];
 
 const policyLinks = [
@@ -18,28 +18,33 @@ const policyLinks = [
 
 export function SiteFooter({ settings }: { settings: SiteSettings }) {
   return (
-    <footer className="mt-20 border-t border-ink/10 bg-canvas">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <footer
+      className="mt-20 text-white"
+      style={{ background: "linear-gradient(135deg, #0B211A, #061710)" }}
+    >
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-4">
           <div>
             <Link href="/" className="text-xl font-semibold tracking-tight">
-              net<span className="text-brand">bazar</span>
+              net<span className="text-accent">bazar</span>
             </Link>
-            <p className="mt-3 max-w-xs text-sm leading-relaxed text-ink/65">
-              China to Bangladesh sourcing. Browse, ask and order on WhatsApp.
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/65">
+              China to Bangladesh sourcing. Curated products, BDT pricing and WhatsApp ordering.
             </p>
-            <p className="mt-3 text-xs leading-relaxed text-ink/50">
-              Upfront payment. Price, shipping and delivery confirmed first.
+            <p className="mt-4 inline-flex items-center gap-2 text-xs text-white/55">
+              <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5 text-accent" />
+              Price, shipping and delivery confirmed first.
             </p>
           </div>
 
           <nav aria-label="Shop links">
             <h2 className="text-sm font-semibold">Shop</h2>
-            <ul className="mt-4 space-y-2 text-sm text-ink/65">
+            <ul className="mt-4 space-y-2 text-sm text-white/65">
               {shopLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="hover:text-brand">
+                  <Link href={link.href} className="group inline-flex items-center gap-1 hover:text-accent">
                     {link.label}
+                    <ArrowUpRight aria-hidden="true" className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100" />
                   </Link>
                 </li>
               ))}
@@ -48,10 +53,10 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
 
           <nav aria-label="Policy links">
             <h2 className="text-sm font-semibold">Policies</h2>
-            <ul className="mt-4 space-y-2 text-sm text-ink/65">
+            <ul className="mt-4 space-y-2 text-sm text-white/65">
               {policyLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="hover:text-brand">
+                  <Link href={link.href} className="hover:text-accent">
                     {link.label}
                   </Link>
                 </li>
@@ -61,12 +66,12 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
 
           <div>
             <h2 className="text-sm font-semibold">Get in touch</h2>
-            <div className="mt-4 space-y-3 text-sm text-ink/65">
+            <div className="mt-4 space-y-3 text-sm text-white/65">
               <a
                 href={buildWhatsAppUrl(settings.whatsapp_number, "Hello Netbazar")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 hover:text-brand"
+                className="inline-flex items-center gap-2 hover:text-accent"
               >
                 <MessageCircle aria-hidden="true" className="h-4 w-4" />
                 WhatsApp
@@ -74,7 +79,7 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
               {settings.contact_email && (
                 <a
                   href={`mailto:${settings.contact_email}`}
-                  className="inline-flex items-center gap-2 hover:text-brand"
+                  className="inline-flex items-center gap-2 hover:text-accent"
                 >
                   <Mail aria-hidden="true" className="h-4 w-4" />
                   {settings.contact_email}
@@ -85,7 +90,7 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
                   href={settings.facebook_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 hover:text-brand"
+                  className="block hover:text-accent"
                 >
                   Facebook
                 </a>
@@ -95,7 +100,7 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
                   href={settings.instagram_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 hover:text-brand"
+                  className="block hover:text-accent"
                 >
                   Instagram
                 </a>
@@ -104,9 +109,9 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-2 border-t border-ink/10 pt-6 text-xs text-ink/45 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-white/45 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Netbazar. All rights reserved.</p>
-          <p>China to Bangladesh sourcing, simplified.</p>
+          <p>China → Bangladesh · Verified suppliers · BDT pricing</p>
         </div>
       </div>
     </footer>
