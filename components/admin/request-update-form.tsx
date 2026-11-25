@@ -1,8 +1,11 @@
 "use client";
 
+import { ClipboardList } from "lucide-react";
 import { useActionState, useEffect } from "react";
 import { updateRequest } from "@/app/admin/(dashboard)/requests/actions";
 import { useToast } from "@/components/admin/toast";
+import { Button } from "@/components/ui/button";
+import { Field, Select, Textarea } from "@/components/ui/input";
 import { idleActionResult } from "@/types/actions";
 import type { ProductRequest, ProductRequestStatus } from "@/types/database";
 
@@ -16,9 +19,6 @@ const statuses: ProductRequestStatus[] = [
   "cancelled",
 ];
 
-const inputClass =
-  "mt-1.5 w-full rounded-xl border border-ink/15 bg-surface px-3 py-2.5 text-sm outline-none focus:border-brand";
-
 export function RequestUpdateForm({ request }: { request: ProductRequest }) {
   const [state, formAction] = useActionState(updateRequest, idleActionResult);
   const { show } = useToast();
@@ -29,54 +29,53 @@ export function RequestUpdateForm({ request }: { request: ProductRequest }) {
   }, [state, show]);
 
   return (
-    <form
-      action={formAction}
-      className="rounded-xl border border-ink/10 bg-surface p-5 sm:p-6"
-    >
-      <h2 className="text-lg font-medium">Update request</h2>
-      <input type="hidden" name="id" value={request.id} />
-      <div className="mt-5 grid gap-5 sm:grid-cols-2">
+    <form action={formAction} className="nova-panel p-5 sm:p-6">
+      <div className="flex items-center gap-3">
+        <span className="grid h-10 w-10 place-items-center rounded-control bg-primary-tint text-primary">
+          <ClipboardList aria-hidden="true" className="h-5 w-5" />
+        </span>
         <div>
-          <label htmlFor="status" className="text-sm font-medium">
-            Status
-          </label>
-          <select
+          <h2 className="text-base font-bold text-ink">Update request</h2>
+          <p className="mt-0.5 text-xs text-muted">
+            Track progress and keep internal notes.
+          </p>
+        </div>
+      </div>
+      <input type="hidden" name="id" value={request.id} />
+      <div className="mt-6 grid gap-5 sm:grid-cols-2">
+        <Field label="Status" htmlFor="status">
+          <Select
             id="status"
             name="status"
             defaultValue={request.status}
-            className={inputClass}
           >
             {statuses.map((status) => (
               <option key={status} value={status}>
                 {status.charAt(0).toUpperCase() + status.slice(1)}
               </option>
             ))}
-          </select>
-        </div>
+          </Select>
+        </Field>
         <div className="sm:col-span-2">
-          <label htmlFor="admin_notes" className="text-sm font-medium">
-            Internal notes
-          </label>
-          <textarea
-            id="admin_notes"
-            name="admin_notes"
-            rows={5}
-            maxLength={5000}
-            defaultValue={request.admin_notes}
-            placeholder="Supplier quotes, quotes given, payment status, delivery notes…"
-            className={inputClass}
-          />
-          <p className="mt-1.5 text-xs text-ink/50">
-            Only admins can see these notes.
-          </p>
+          <Field
+            label="Internal notes"
+            htmlFor="admin_notes"
+            hint="Only admins can see these notes."
+          >
+            <Textarea
+              id="admin_notes"
+              name="admin_notes"
+              rows={5}
+              maxLength={5000}
+              defaultValue={request.admin_notes}
+              placeholder="Supplier quotes, quotes given, payment status, delivery notes…"
+            />
+          </Field>
         </div>
       </div>
-      <button
-        type="submit"
-        className="mt-6 rounded-full border border-brand bg-brand px-6 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90"
-      >
+      <Button type="submit" size="lg" pill className="mt-6 min-w-44">
         Save changes
-      </button>
+      </Button>
     </form>
   );
 }

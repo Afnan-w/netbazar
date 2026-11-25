@@ -24,7 +24,8 @@ export function ConfirmButton({
     <button
       type="button"
       disabled={pending}
-      className={className}
+      aria-busy={pending}
+      className={`disabled:cursor-not-allowed disabled:opacity-60 ${className ?? ""}`}
       onClick={() => {
         if (!window.confirm(confirmMessage)) return;
         startTransition(async () => {

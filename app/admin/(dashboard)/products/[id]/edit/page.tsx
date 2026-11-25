@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ImageManager } from "@/components/admin/image-manager";
 import { PageHeader } from "@/components/admin/page-header";
 import { ProductForm } from "@/components/admin/product-form";
+import { buttonClass } from "@/components/ui/button";
 import { getAdminCategories, getAdminProduct } from "@/lib/data/admin";
 
 type EditProductPageProps = { params: Promise<{ id: string }> };
@@ -17,7 +18,7 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
   if (!product) notFound();
 
   return (
-    <div>
+    <div className="mx-auto max-w-4xl">
       <PageHeader
         title="Edit product"
         description={`SKU ${product.sku} · Last updated ${new Date(product.updated_at).toLocaleDateString("en-GB")}`}
@@ -26,7 +27,7 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
             href={`/products/${product.slug}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-ink/20 px-4 py-2 text-sm font-medium hover:border-brand hover:text-brand"
+            className={buttonClass({ variant: "secondary", pill: true })}
           >
             View on site
             <ExternalLink aria-hidden="true" className="h-4 w-4" />

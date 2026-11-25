@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/admin/page-header";
 import { RequestUpdateForm } from "@/components/admin/request-update-form";
 import { StatusBadge } from "@/components/admin/status-badge";
+import { buttonClass } from "@/components/ui/button";
 import { getAdminRequest } from "@/lib/data/admin";
 import { formatBDT } from "@/lib/utils/format";
 import { buildWhatsAppUrl } from "@/lib/utils/whatsapp";
@@ -34,13 +35,13 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
     <div>
       <Link
         href="/admin/requests"
-        className="inline-flex items-center gap-2 text-sm text-ink/55 hover:text-brand"
+        className="inline-flex min-h-11 items-center gap-2 rounded-control px-2 text-sm font-medium text-secondary-ink hover:bg-primary-tint hover:text-primary"
       >
         <ArrowLeft aria-hidden="true" className="h-4 w-4" />
         Back to requests
       </Link>
 
-      <div className="mt-6">
+      <div className="mt-5">
         <PageHeader
           title="Request details"
           description={`Submitted ${new Date(request.created_at).toLocaleString("en-GB")}`}
@@ -49,7 +50,7 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-brand bg-brand px-4 py-2 text-sm font-medium text-white hover:opacity-90"
+              className={buttonClass({ pill: true })}
             >
               <MessageCircle aria-hidden="true" className="h-4 w-4" />
               Message customer
@@ -58,20 +59,22 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
         />
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <section className="rounded-xl border border-ink/10 bg-surface p-5 sm:p-6">
-          <div className="flex items-center gap-3">
-            <h2 className="text-lg font-medium">Customer submission</h2>
+      <div className="grid gap-5 2xl:grid-cols-[1.1fr_0.9fr]">
+        <section className="nova-panel p-5 sm:p-6">
+          <div className="flex flex-wrap items-center gap-3">
+            <h2 className="text-base font-bold text-ink">Customer submission</h2>
             <StatusBadge status={request.status} />
           </div>
-          <dl className="mt-5 divide-y divide-ink/10 rounded-2xl border border-ink/10">
+          <dl className="mt-5 divide-y divide-border overflow-hidden rounded-card border border-border bg-page/50">
             {rows.map((row) => (
               <div
                 key={row.label}
-                className="grid grid-cols-[120px_1fr] gap-4 px-4 py-3 text-sm"
+                className="grid grid-cols-[110px_1fr] gap-4 px-4 py-3 text-sm sm:grid-cols-[140px_1fr]"
               >
-                <dt className="text-ink/50">{row.label}</dt>
-                <dd className="whitespace-pre-wrap break-words text-ink/80">{row.value}</dd>
+                <dt className="text-xs font-medium text-muted">{row.label}</dt>
+                <dd className="whitespace-pre-wrap break-words text-ink">
+                  {row.value}
+                </dd>
               </div>
             ))}
           </dl>
@@ -80,7 +83,7 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
               href={request.product_link}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-5 inline-flex items-center gap-2 text-sm text-brand hover:underline"
+              className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-control px-2 text-sm font-medium text-primary hover:bg-primary-tint"
             >
               Open product link
               <ExternalLink aria-hidden="true" className="h-4 w-4" />

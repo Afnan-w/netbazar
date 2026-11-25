@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
-  return <div className="min-h-screen bg-canvas text-ink">{children}</div>;
+  return <div className="min-h-screen bg-page text-ink">{children}</div>;
 }

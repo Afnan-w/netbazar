@@ -44,23 +44,23 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className={`pointer-events-auto flex items-start gap-3 rounded-2xl border bg-surface p-4 text-sm shadow-sm ${
-              toast.tone === "error"
-                ? "border-red-200 text-red-700"
-                : "border-brand/30 text-ink"
-            }`}
+            className="toast-pop nova-card pointer-events-auto flex items-start gap-3 p-4 text-sm text-ink"
           >
             {toast.tone === "error" ? (
-              <AlertCircle aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-red-600" />
+              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-control bg-blush text-sale">
+                <AlertCircle aria-hidden="true" className="h-4 w-4" />
+              </span>
             ) : (
-              <CheckCircle2 aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
+              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-control bg-primary-tint">
+                <CheckCircle2 aria-hidden="true" className="h-4 w-4 text-success" />
+              </span>
             )}
             <p className="flex-1 leading-relaxed">{toast.message}</p>
             <button
               type="button"
               onClick={() => dismiss(toast.id)}
               aria-label="Dismiss notification"
-              className="rounded-full p-0.5 text-ink/40 hover:text-ink"
+              className="grid h-8 w-8 shrink-0 place-items-center rounded-control text-muted transition-colors hover:bg-primary-tint hover:text-primary"
             >
               <X aria-hidden="true" className="h-4 w-4" />
             </button>

@@ -14,9 +14,11 @@ export default async function WishlistPage() {
   ]);
 
   return (
-    <WishlistView
-      products={result.items}
-      whatsappNumber={settings.whatsapp_number}
-    />
+    <div className="min-h-[70vh] bg-gradient-to-b from-primary-tint/30 to-page">
+      <WishlistView
+        products={result.items}
+        whatsappNumber={settings.whatsapp_number}
+      />
+    </div>
   );
 }

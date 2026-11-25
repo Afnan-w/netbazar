@@ -6,7 +6,7 @@ export default async function AdminSettingsPage() {
   const settings = await getAdminSettings();
 
   return (
-    <div>
+    <div className="mx-auto max-w-4xl">
       <PageHeader
         title="Site settings"
         description="Shared storefront details. Changes appear across the site after saving."

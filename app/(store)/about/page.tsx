@@ -1,3 +1,4 @@
+import { ArrowRight, MessageCircle, Sparkles } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -27,45 +28,53 @@ const points = [
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto max-w-4xl px-4 py-14 sm:px-6 lg:px-8">
-      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
-        About Netbazar
-      </p>
-      <h1 className="mt-2 text-3xl font-light tracking-tight sm:text-4xl">
-        China-to-Bangladesh sourcing, kept simple.
-      </h1>
-      <p className="mt-5 max-w-2xl text-sm leading-relaxed text-ink/70">
-        Netbazar is a small sourcing store, not a marketplace. We list a focused
-        catalogue of products picked from Chinese suppliers and help customers in
-        Bangladesh order them through WhatsApp.
-      </p>
+    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+      <div className="nova-panel p-6 sm:p-8">
+        <span className="inline-flex items-center gap-2 rounded-badge bg-primary-tint px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-primary">
+          <Sparkles aria-hidden="true" className="h-3.5 w-3.5" />
+          About Netbazar
+        </span>
+        <h1 className="mt-4 text-balance text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+          China-to-Bangladesh sourcing, kept simple.
+        </h1>
+        <p className="mt-5 max-w-2xl text-sm leading-relaxed text-secondary-ink">
+          Netbazar is a small sourcing store, not a marketplace. We list a focused
+          catalogue of products picked from Chinese suppliers and help customers in
+          Bangladesh order them through WhatsApp.
+        </p>
+      </div>
 
-      <div className="mt-10 grid gap-4 sm:grid-cols-2">
-        {points.map((point) => (
-          <div key={point.title} className="rounded-xl border border-ink/10 p-6">
-            <h2 className="text-base font-medium">{point.title}</h2>
-            <p className="mt-2 text-sm leading-relaxed text-ink/65">{point.text}</p>
+      <div className="mt-8 grid gap-4 sm:grid-cols-2">
+        {points.map((point, index) => (
+          <div key={point.title} className="nova-card nova-lift p-6">
+            <span className="grid h-10 w-10 place-items-center rounded-control bg-primary-tint text-sm font-bold text-primary">
+              0{index + 1}
+            </span>
+            <h2 className="mt-4 text-base font-bold text-ink">{point.title}</h2>
+            <p className="mt-2 text-sm leading-relaxed text-secondary-ink">{point.text}</p>
           </div>
         ))}
       </div>
 
-      <div className="mt-10 rounded-xl bg-canvas p-6">
-        <h2 className="text-lg font-medium">Ready to start?</h2>
-        <p className="mt-2 text-sm leading-relaxed text-ink/65">
+      <div className="nova-panel mt-8 bg-lilac/40 p-6 sm:p-8">
+        <h2 className="text-lg font-bold text-ink">Ready to start?</h2>
+        <p className="mt-2 text-sm leading-relaxed text-secondary-ink">
           Browse the catalogue or tell us what you need. We will confirm the details
           on WhatsApp before any payment.
         </p>
-        <div className="mt-5 flex gap-3">
+        <div className="mt-5 flex flex-wrap gap-3">
           <Link
             href="/products"
-            className="rounded-full border border-brand px-4 py-2 text-sm font-medium text-brand hover:bg-mint"
+            className="inline-flex min-h-11 items-center gap-2 rounded-control bg-primary px-4 text-sm font-bold text-white pressable hover:bg-primary-hover active:bg-primary-active"
           >
             Browse products
+            <ArrowRight aria-hidden="true" className="h-4 w-4" />
           </Link>
           <Link
             href="/request"
-            className="rounded-full border border-ink/20 px-4 py-2 text-sm font-medium hover:border-brand hover:text-brand"
+            className="inline-flex min-h-11 items-center gap-2 rounded-control border border-border bg-surface px-4 text-sm font-semibold text-primary pressable hover:bg-primary-tint"
           >
+            <MessageCircle aria-hidden="true" className="h-4 w-4" />
             Request a product
           </Link>
         </div>

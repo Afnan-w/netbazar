@@ -25,62 +25,68 @@ type Palette = {
   line: string;
 };
 
+const mix = (token: string, percent: number) =>
+  `color-mix(in srgb, ${token} ${percent}%, var(--surface))`;
+
+const wash = (token: string, percent: number) =>
+  `color-mix(in srgb, ${token} ${percent}%, transparent)`;
+
 const palettes: Record<string, Palette> = {
   "phone-accessories": {
     icon: Smartphone,
-    from: "#F3F6F2",
-    to: "#E7EFE8",
-    glow: "#D6E6D7",
-    line: "#E1EAE1",
+    from: mix("var(--sage)", 50),
+    to: mix("var(--primary-tint)", 65),
+    glow: wash("var(--sage)", 55),
+    line: wash("var(--ink)", 7),
   },
   "home-and-kitchen": {
     icon: Home,
-    from: "#F7F4EC",
-    to: "#EFE9DC",
-    glow: "#E5D9BF",
-    line: "#E9E2D3",
+    from: mix("var(--peach)", 50),
+    to: mix("var(--blush)", 60),
+    glow: wash("var(--peach)", 55),
+    line: wash("var(--ink)", 7),
   },
   fashion: {
     icon: Shirt,
-    from: "#F8F2E9",
-    to: "#F0E4D6",
-    glow: "#E8D4BC",
-    line: "#EDDFCE",
+    from: mix("var(--blush)", 50),
+    to: mix("var(--lilac)", 60),
+    glow: wash("var(--blush)", 55),
+    line: wash("var(--ink)", 7),
   },
   electronics: {
     icon: Cpu,
-    from: "#F1F6F3",
-    to: "#E5EFE9",
-    glow: "#CFE3D7",
-    line: "#DBE8DF",
+    from: mix("var(--primary-tint)", 50),
+    to: mix("var(--sage)", 60),
+    glow: wash("var(--primary-tint)", 55),
+    line: wash("var(--ink)", 7),
   },
   "toys-and-games": {
     icon: Gamepad2,
-    from: "#FBF1EC",
-    to: "#F5E2D8",
-    glow: "#EAD0C0",
-    line: "#F0DED4",
+    from: mix("var(--blush)", 55),
+    to: mix("var(--peach)", 65),
+    glow: wash("var(--blush)", 55),
+    line: wash("var(--ink)", 7),
   },
   "beauty-and-care": {
     icon: Sparkles,
-    from: "#F9F3EA",
-    to: "#F2E6D3",
-    glow: "#E9D7B7",
-    line: "#EFE2CB",
+    from: mix("var(--lilac)", 55),
+    to: mix("var(--blush)", 65),
+    glow: wash("var(--lilac)", 55),
+    line: wash("var(--ink)", 7),
   },
   "outdoor-and-travel": {
     icon: Compass,
-    from: "#F1F6F4",
-    to: "#E4EEE9",
-    glow: "#CFE1D7",
-    line: "#DCE9E2",
+    from: mix("var(--sage)", 55),
+    to: mix("var(--peach)", 60),
+    glow: wash("var(--sage)", 55),
+    line: wash("var(--ink)", 7),
   },
   everyday: {
     icon: Grid2X2,
-    from: "#F7F5EE",
-    to: "#EDE9DD",
-    glow: "#DED8C5",
-    line: "#E7E2D4",
+    from: mix("var(--primary-tint)", 55),
+    to: mix("var(--lilac)", 60),
+    glow: wash("var(--primary-tint)", 55),
+    line: wash("var(--ink)", 7),
   },
 };
 
@@ -147,7 +153,7 @@ export function ProductVisual({
     >
       <div
         aria-hidden="true"
-        className="absolute inset-0 opacity-60"
+        className="hairline-grid absolute inset-0 opacity-70"
         style={{
           backgroundImage: `linear-gradient(${palette.line} 1px, transparent 1px), linear-gradient(90deg, ${palette.line} 1px, transparent 1px)`,
           backgroundSize: "34px 34px",
@@ -160,7 +166,7 @@ export function ProductVisual({
       />
       <div
         aria-hidden="true"
-        className={`absolute grid h-[58%] w-[58%] place-items-center rounded-xl border border-white/70 bg-white/65 shadow-[0_18px_40px_-28px_rgba(23,28,44,0.4)] backdrop-blur-sm ${
+        className={`absolute grid h-[58%] w-[58%] place-items-center rounded-card border border-border/70 bg-surface/70 shadow-card backdrop-blur-sm ${
           offset === 0 ? "rotate-[5deg]" : offset === 1 ? "-rotate-[5deg]" : "rotate-0"
         }`}
         style={{
@@ -168,7 +174,7 @@ export function ProductVisual({
           top: offset === 1 ? "24%" : "20%",
         }}
       >
-        <VisualIcon categorySlug={categorySlug} name={name} className={`${iconClassName} text-ink/70`} />
+        <VisualIcon categorySlug={categorySlug} name={name} className={`${iconClassName} text-primary`} />
       </div>
       <div
         aria-hidden="true"
@@ -182,7 +188,7 @@ export function ProductVisual({
       />
       <div
         aria-hidden="true"
-        className="absolute right-6 top-6 h-2 w-2 rounded-full border border-ink/15"
+        className="absolute right-6 top-6 h-2 w-2 rounded-full border border-primary/20"
       />
     </div>
   );

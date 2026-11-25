@@ -21,10 +21,10 @@ export type ProductFilterValues = {
 };
 
 const fieldClass =
-  "w-full rounded-lg border border-line bg-canvas/60 px-3 py-2 text-sm outline-none transition-colors focus:border-brand focus:bg-surface focus:ring-2 focus:ring-brand/15";
+  "soft-input w-full text-sm text-ink placeholder:text-muted transition-colors duration-200 hover:border-primary/30 focus:border-primary focus:outline-none";
 
 const labelClass =
-  "mb-2 block text-[11px] font-semibold uppercase tracking-widest text-muted";
+  "mb-2 inline-flex rounded-badge bg-primary-tint px-2 py-1 text-[10px] font-semibold uppercase tracking-widest text-primary";
 
 function FilterFields({
   values,
@@ -144,14 +144,17 @@ function FilterFields({
         </select>
       </div>
 
-      <div className="flex items-center gap-3 pt-1">
+      <div className="flex flex-wrap items-center gap-3 pt-1">
         <button
           type="submit"
-          className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#0a7055]"
+          className="inline-flex min-h-11 items-center justify-center rounded-full border border-primary bg-primary px-5 text-sm font-semibold text-white shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-hover hover:shadow-card-hover active:translate-y-0 active:bg-primary-active pressable"
         >
           Apply filters
         </button>
-        <Link href="/products" className="text-sm text-muted hover:text-brand">
+        <Link
+          href="/products"
+          className="inline-flex min-h-11 items-center rounded-control px-2 text-sm text-secondary-ink transition-colors duration-200 hover:text-primary hover:underline hover:underline-offset-4"
+        >
           Clear
         </Link>
       </div>
@@ -168,21 +171,23 @@ export function ProductFilters({
 }) {
   return (
     <>
-      <details className="mb-6 rounded-xl premium-card lg:hidden">
-        <summary className="flex cursor-pointer list-none items-center gap-2 px-5 py-4 text-sm font-medium [&::-webkit-details-marker]:hidden">
-          <SlidersHorizontal aria-hidden="true" className="h-4 w-4 text-brand" />
+      <details className="mb-6 rounded-card border border-border bg-surface shadow-card lg:hidden">
+        <summary className="flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-card px-5 py-3 text-sm font-semibold text-ink transition-colors duration-200 [&::-webkit-details-marker]:hidden">
+          <SlidersHorizontal aria-hidden="true" className="h-4 w-4 text-primary" />
           Filters
-          <span className="ml-auto text-xs text-muted">Price, category, delivery</span>
+          <span className="ml-auto text-xs font-normal text-muted">Price, category, delivery</span>
         </summary>
-        <form action="/products" method="get" className="border-t border-line px-5 py-5">
+        <form action="/products" method="get" className="border-t border-border p-5">
           <FilterFields values={values} categories={categories} idPrefix="mobile" />
         </form>
       </details>
 
-      <aside aria-label="Product filters" className="hidden lg:sticky lg:top-32 lg:block lg:self-start">
-        <form action="/products" method="get" className="rounded-2xl premium-card p-5 shadow-[0_20px_50px_-42px_rgba(8,61,49,0.5)]">
-          <div className="mb-5 flex items-center gap-2 border-b border-line pb-4 text-sm font-medium">
-            <SlidersHorizontal aria-hidden="true" className="h-4 w-4 text-brand" />
+      <aside aria-label="Product filters" className="hidden lg:sticky lg:top-28 lg:block lg:self-start">
+        <form action="/products" method="get" className="rounded-card border border-border bg-surface p-5 shadow-card">
+          <div className="mb-5 flex items-center gap-2 border-b border-border pb-4 text-sm font-semibold text-ink">
+            <span className="flex h-9 w-9 items-center justify-center rounded-control bg-primary-tint text-primary">
+              <SlidersHorizontal aria-hidden="true" className="h-4 w-4" />
+            </span>
             Filters
           </div>
           <FilterFields values={values} categories={categories} idPrefix="desktop" />

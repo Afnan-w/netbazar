@@ -27,7 +27,7 @@ export default async function StoreLayout({ children }: { children: ReactNode })
         }))}
         whatsappUrl={whatsappUrl}
       />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 bg-page">{children}</main>
       <SiteFooter settings={settings} />
     </div>
   );

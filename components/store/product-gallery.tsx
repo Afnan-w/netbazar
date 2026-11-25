@@ -25,7 +25,7 @@ export function ProductGallery({
   return (
     <div className="space-y-3">
       <div
-        className="group relative aspect-square cursor-zoom-in overflow-hidden rounded-2xl border border-line bg-canvas premium-card shadow-[0_24px_60px_-44px_rgba(8,61,49,0.5)]"
+        className="group relative aspect-square cursor-zoom-in overflow-hidden rounded-panel border border-border bg-image-backdrop shadow-card"
         onMouseMove={(event) => {
           const bounds = event.currentTarget.getBoundingClientRect();
           const x = ((event.clientX - bounds.left) / bounds.width) * 100;
@@ -43,7 +43,7 @@ export function ProductGallery({
             priority
             sizes="(max-width: 1024px) 100vw, 55vw"
             style={{ transformOrigin: origin }}
-            className="object-contain p-5 transition-transform duration-300 group-hover:scale-150"
+            className="object-contain p-5 transition-transform duration-200 group-hover:scale-150"
           />
         ) : (
           <ProductVisual
@@ -52,7 +52,7 @@ export function ProductGallery({
             iconClassName="h-24 w-24"
           />
         )}
-        <span className="pointer-events-none absolute bottom-3 right-3 rounded-full bg-surface/85 px-2.5 py-1 text-[10px] font-medium text-muted backdrop-blur">
+        <span className="pointer-events-none absolute bottom-3 right-3 rounded-badge bg-surface/85 px-2.5 py-1 text-[10px] font-medium text-muted shadow-card backdrop-blur">
           Hover to zoom
         </span>
       </div>
@@ -72,10 +72,10 @@ export function ProductGallery({
               onClick={() => setActiveIndex(index)}
               aria-label={`Show image ${index + 1} of ${productName}`}
               aria-pressed={index === activeIndex}
-              className={`relative h-20 w-20 overflow-hidden rounded-lg border bg-canvas transition-all hover:-translate-y-0.5 hover:scale-105 ${
+              className={`relative h-20 w-20 overflow-hidden rounded-control border bg-image-backdrop transition-all duration-200 hover:-translate-y-0.5 hover:shadow-card pressable ${
                 index === activeIndex
-                  ? "border-brand ring-2 ring-brand/20"
-                  : "border-line hover:border-brand/50"
+                  ? "border-primary ring-2 ring-primary/20"
+                  : "border-border hover:border-primary/40"
               }`}
             >
               {image.url ? (

@@ -37,10 +37,10 @@ export function ProductRow({
   );
 
   return (
-    <article className="group flex flex-col gap-4 rounded-2xl premium-card p-4 transition-all hover:-translate-y-0.5 hover:border-brand/25 hover:shadow-lg sm:flex-row sm:items-center">
+    <article className="nova-card group flex flex-col gap-4 rounded-card p-4 nova-lift sm:flex-row sm:items-center">
       <Link
         href={`/products/${product.slug}`}
-        className="relative h-32 w-full shrink-0 overflow-hidden rounded-xl bg-canvas sm:h-28 sm:w-32"
+        className="relative h-32 w-full shrink-0 overflow-hidden rounded-control bg-image-backdrop sm:h-28 sm:w-32"
         aria-label={`View ${product.name}`}
       >
         {imageUrl ? (
@@ -58,30 +58,31 @@ export function ProductRow({
             iconClassName="h-9 w-9"
           />
         )}
+        {market.badge && (
+          <span className="pointer-events-none absolute left-2 top-2 rounded-badge bg-surface px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary shadow-card ring-1 ring-border/70">
+            {market.badge}
+          </span>
+        )}
       </Link>
 
       <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-2 text-[11px] uppercase tracking-wider text-muted">
-          <span>{product.category?.name ?? "General"}</span>
-          {market.badge && (
-            <>
-              <span aria-hidden="true">·</span>
-              <span className="font-semibold text-gold-ink">{market.badge}</span>
-            </>
-          )}
+        <div className="flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-wider text-muted">
+          <span className="font-semibold">{product.category?.name ?? "General"}</span>
+          <span aria-hidden="true">·</span>
+          <span className="truncate normal-case tracking-normal">{product.sku}</span>
         </div>
         <Link href={`/products/${product.slug}`}>
-          <h3 className="mt-1 truncate text-sm font-semibold text-ink group-hover:text-brand">
+          <h3 className="mt-1 truncate text-card-title font-semibold text-ink transition-colors duration-200 group-hover:text-primary">
             {product.name}
           </h3>
         </Link>
         <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-muted">
-          <span className="inline-flex items-center gap-1 text-ink/75">
-            <Star aria-hidden="true" className="h-3 w-3 fill-accent text-accent" />
+          <span className="inline-flex items-center gap-1 text-secondary-ink">
+            <Star aria-hidden="true" className="h-3 w-3 fill-star text-star" />
             {market.rating?.toFixed(1)} · {market.soldCount} sold
           </span>
           <span className="inline-flex items-center gap-1">
-            <Truck aria-hidden="true" className="h-3.5 w-3.5 text-brand" />
+            <Truck aria-hidden="true" className="h-3.5 w-3.5 text-primary" />
             Ships in {market.shippingDays}
           </span>
         </div>
@@ -90,7 +91,7 @@ export function ProductRow({
       <div className="flex shrink-0 items-center justify-between gap-3 sm:flex-col sm:items-end sm:justify-center">
         <WishlistButton id={product.id} name={product.name} />
         <div className="text-right">
-          <p className="text-base font-semibold tracking-tight text-ink">
+          <p className="text-[18px] font-bold tracking-tight text-ink">
             {formatBDT(product.price_bdt)}
           </p>
           {discount > 0 && (
@@ -98,7 +99,7 @@ export function ProductRow({
               <span className="line-through">
                 {formatBDT(product.reference_price_bdt)}
               </span>
-              <span className="rounded-full bg-mint px-2 py-0.5 font-semibold text-gold-ink ring-1 ring-accent/40">
+              <span className="rounded-badge bg-sale px-2 py-0.5 font-semibold text-white">
                 -{discount}%
               </span>
             </p>
@@ -108,7 +109,7 @@ export function ProductRow({
           <Link
             href={`/products/${product.slug}`}
             aria-label={`View ${product.name}`}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line text-ink/60 hover:border-brand hover:text-brand"
+            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-control border border-border bg-surface text-secondary-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:text-primary hover:shadow-card pressable"
           >
             <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
           </Link>
@@ -116,7 +117,7 @@ export function ProductRow({
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#0a7055]"
+            className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-primary bg-primary px-4 text-xs font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-hover hover:shadow-card active:translate-y-0 active:bg-primary-active pressable"
           >
             <MessageCircle aria-hidden="true" className="h-3.5 w-3.5" />
             Order

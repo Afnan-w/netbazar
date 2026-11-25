@@ -24,6 +24,7 @@ import {
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { WishlistLink } from "@/components/store/wishlist-link";
 
 type HeaderCategory = { name: string; slug: string };
@@ -86,8 +87,7 @@ function SearchForm({
           }
         }}
       >
-        <div className="flex items-center gap-2 rounded-xl border border-line bg-canvas/70 px-3.5 py-3 transition-colors focus-within:border-brand focus-within:bg-surface focus-within:ring-2 focus-within:ring-brand/15">
-          <Search aria-hidden="true" className="h-4 w-4 shrink-0 text-brand" />
+        <div className="flex min-h-11 items-center gap-2 rounded-control border border-border bg-page/70 px-3.5 transition-colors duration-200 focus-within:border-primary focus-within:bg-surface focus-within:shadow-card">
           <input
             id={compact ? "mobile-search" : "header-search"}
             name="q"
@@ -128,16 +128,17 @@ function SearchForm({
             aria-expanded={open}
             aria-controls={listId}
             aria-autocomplete="list"
-            className="w-full bg-transparent text-sm outline-none placeholder:text-subtle"
+            className="w-full min-h-11 bg-transparent text-sm text-ink outline-none placeholder:text-muted"
           />
+          <Search aria-hidden="true" className="h-4 w-4 shrink-0 text-primary" />
         </div>
 
         {open && matches.length > 0 && (
           <div
             id={listId}
-            className="dropdown-pop absolute left-0 right-0 top-[calc(100%+8px)] z-50 overflow-hidden rounded-xl premium-card p-2"
+            className="dropdown-pop absolute left-0 right-0 top-[calc(100%+8px)] z-50 overflow-hidden rounded-card border border-border bg-surface/95 p-2 shadow-card-hover backdrop-blur-xl"
           >
-            <p className="px-2 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-subtle">
+            <p className="px-2 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted">
               {query ? "Suggestions" : "Popular searches"}
             </p>
             {matches.map((item, index) => (
@@ -148,13 +149,13 @@ function SearchForm({
                   setOpen(false);
                   setActiveIndex(-1);
                 }}
-                className={`flex items-center gap-2 rounded-lg px-2 py-2 text-sm transition-colors ${
+                className={`flex min-h-11 items-center gap-2 rounded-control px-2 py-2 text-sm transition-colors duration-200 ${
                   activeIndex === index
-                    ? "bg-mint text-brand"
-                    : "text-ink/75 hover:bg-canvas hover:text-brand"
+                    ? "bg-primary-tint text-primary"
+                    : "text-secondary-ink hover:bg-page hover:text-primary"
                 }`}
               >
-                <Search aria-hidden="true" className="h-3.5 w-3.5 text-subtle" />
+                <Search aria-hidden="true" className="h-3.5 w-3.5 text-muted" />
                 <span className="truncate">{item.name}</span>
                 {item.category && (
                   <span className="ml-auto text-[11px] text-muted">{item.category}</span>
@@ -164,7 +165,7 @@ function SearchForm({
             {query && (
               <button
                 type="submit"
-                className="mt-1 flex w-full items-center justify-between rounded-lg bg-mint px-3 py-2 text-left text-xs font-semibold text-brand"
+                className="mt-1 flex min-h-11 w-full items-center justify-between rounded-control bg-primary-tint px-3 py-2 text-left text-xs font-semibold text-primary transition-colors duration-200 hover:bg-primary/15"
               >
                 See all results for “{query}”
                 <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
@@ -192,19 +193,19 @@ function MegaMenu({ categories }: { categories: HeaderCategory[] }) {
         aria-controls="mega-menu"
         onClick={() => setOpen((value) => !value)}
         onFocus={() => setOpen(true)}
-        className="inline-flex items-center gap-1 text-sm text-ink/70 transition-colors hover:text-brand"
+        className="inline-flex min-h-11 items-center gap-1 rounded-control px-3 text-sm text-secondary-ink transition-colors duration-200 hover:bg-primary-tint hover:text-primary"
       >
         Categories
         <ChevronDown
           aria-hidden="true"
-          className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`}
+          className={`h-3.5 w-3.5 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
         />
       </button>
 
       {open && (
         <div
           id="mega-menu"
-          className="dropdown-pop absolute left-0 top-[calc(100%+1rem)] z-50 w-[min(860px,calc(100vw-2rem))] rounded-2xl premium-card p-4"
+          className="dropdown-pop absolute left-0 top-[calc(100%+1rem)] z-50 w-[min(860px,calc(100vw-2rem))] rounded-panel border border-border bg-surface/95 p-4 shadow-card-hover backdrop-blur-xl"
         >
           <div className="mb-3 flex items-center justify-between px-1">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
@@ -213,7 +214,7 @@ function MegaMenu({ categories }: { categories: HeaderCategory[] }) {
             <Link
               href="/products"
               onClick={() => setOpen(false)}
-              className="inline-flex items-center gap-1 text-xs font-semibold text-brand"
+              className="inline-flex min-h-11 items-center gap-1 rounded-control px-2 text-xs font-semibold text-primary transition-colors duration-200 hover:bg-primary-tint"
             >
               View all
               <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
@@ -227,12 +228,12 @@ function MegaMenu({ categories }: { categories: HeaderCategory[] }) {
                   key={category.slug}
                   href={`/products?category=${encodeURIComponent(category.slug)}`}
                   onClick={() => setOpen(false)}
-                  className="group/card flex flex-col gap-3 rounded-xl border border-line bg-canvas/50 p-3 transition-all hover:-translate-y-0.5 hover:border-brand/25 hover:bg-mint/60 hover:shadow-sm"
+                  className="group/card flex flex-col gap-3 rounded-card border border-border bg-page/60 p-3 transition-all duration-200 hover:-translate-y-1 hover:border-primary/25 hover:bg-primary-tint hover:shadow-card"
                 >
-                  <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-surface text-brand shadow-sm">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-control bg-primary-tint text-primary shadow-card">
                     <Icon aria-hidden="true" className="h-4 w-4" />
                   </span>
-                  <span className="text-sm font-medium text-ink group-hover/card:text-brand">
+                  <span className="text-sm font-medium text-ink transition-colors duration-200 group-hover/card:text-primary">
                     {category.name}
                   </span>
                 </Link>
@@ -267,31 +268,31 @@ export function SiteHeader({
 
   return (
     <header
-      className={`sticky top-0 z-40 border-b backdrop-blur-xl transition-shadow duration-300 ${
+      className={`sticky top-0 z-50 border-b backdrop-blur-xl transition-shadow duration-200 ${
         scrolled
-          ? "border-line/70 bg-surface/90 shadow-[0_14px_36px_-28px_rgba(8,61,49,0.55)]"
-          : "border-line bg-surface/95"
+          ? "border-border/70 bg-surface/90 shadow-card"
+          : "border-border bg-surface/95"
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-[72px] max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
         <Link
           href="/"
-          className="shrink-0 text-xl font-semibold tracking-tight"
+          className="shrink-0 text-xl font-semibold tracking-tight text-ink transition-colors duration-200 hover:text-primary"
           onClick={() => setMenuOpen(false)}
         >
-          Net<span className="text-gold-ink">bazar</span>
+          Net<span className="text-primary">bazar</span>
         </Link>
 
-        <nav aria-label="Main navigation" className="hidden items-center gap-5 lg:flex">
+        <nav aria-label="Main navigation" className="hidden items-center gap-1 lg:flex">
           <MegaMenu categories={categories} />
           {primaryLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`relative inline-flex text-sm transition-colors after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-brand after:transition-transform after:duration-300 hover:text-brand hover:after:scale-x-100 ${
+              className={`relative inline-flex min-h-11 items-center rounded-control px-3 text-sm transition-colors duration-200 after:absolute after:bottom-1 after:left-3 after:h-0.5 after:w-[calc(100%-1.5rem)] after:origin-left after:scale-x-0 after:bg-primary after:transition-transform after:duration-200 hover:text-primary hover:after:scale-x-100 ${
                 pathname === link.href
-                  ? "font-medium text-brand after:scale-x-100"
-                  : "text-ink/70"
+                  ? "font-medium text-primary after:scale-x-100"
+                  : "text-secondary-ink"
               }`}
             >
               {link.label}
@@ -299,15 +300,18 @@ export function SiteHeader({
           ))}
         </nav>
 
-        <div className="mx-auto hidden w-full max-w-2xl md:block">
+        <div className="mx-auto hidden w-full max-w-xl md:block">
           <SearchForm suggestions={suggestions} />
         </div>
 
         <div className="ml-auto flex items-center gap-2 md:ml-0">
+          <div className="hidden md:block">
+            <ThemeToggle compact />
+          </div>
           <Link
             href="/admin/login"
             aria-label="Account"
-            className="hidden h-10 w-10 items-center justify-center rounded-full border border-line text-ink/70 transition-colors hover:border-brand hover:text-brand sm:inline-flex"
+            className="hidden min-h-11 min-w-11 items-center justify-center rounded-full border border-border bg-surface text-secondary-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:text-primary hover:shadow-card sm:inline-flex"
           >
             <UserRound aria-hidden="true" className="h-4 w-4" />
           </Link>
@@ -318,15 +322,19 @@ export function SiteHeader({
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_28px_-16px_rgba(8,61,49,0.85)] transition-all hover:-translate-y-0.5 hover:bg-[#0a7055] hover:shadow-[0_16px_32px_-14px_rgba(8,61,49,0.9)]"
+            className="relative inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-primary bg-primary px-4 text-sm font-semibold text-white shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-hover hover:shadow-card-hover active:translate-y-0 active:bg-primary-active pressable"
           >
+            <span
+              aria-hidden="true"
+              className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-success ring-2 ring-surface"
+            />
             <MessageCircle aria-hidden="true" className="h-4 w-4" />
             <span className="hidden sm:inline">Order on WhatsApp</span>
             <span className="sm:hidden">Order</span>
           </a>
           <button
             type="button"
-            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line lg:hidden"
+            className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full border border-border bg-surface text-secondary-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:text-primary hover:shadow-card lg:hidden pressable"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
@@ -341,11 +349,11 @@ export function SiteHeader({
         </div>
       </div>
 
-      <nav aria-label="Category navigation" className="hidden border-t border-line bg-surface lg:block">
+      <nav aria-label="Category navigation" className="hidden border-t border-border bg-surface/95 lg:block">
         <div className="mx-auto flex h-11 max-w-7xl items-center gap-1 overflow-x-auto px-4 sm:px-6 lg:px-8">
           <Link
             href="/products"
-            className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-semibold text-gold-ink hover:bg-mint"
+            className="inline-flex min-h-11 shrink-0 items-center rounded-full bg-primary-tint px-4 text-xs font-semibold text-primary transition-colors duration-200 hover:bg-primary/15"
           >
             All Categories
           </Link>
@@ -355,23 +363,23 @@ export function SiteHeader({
               <Link
                 key={category.slug}
                 href={`/products?category=${encodeURIComponent(category.slug)}`}
-                className="inline-flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs text-ink/65 transition-colors hover:bg-canvas hover:text-brand"
+                className="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full px-3 text-xs text-secondary-ink transition-colors duration-200 hover:bg-primary-tint hover:text-primary"
               >
-                <Icon aria-hidden="true" className="h-3.5 w-3.5 text-subtle" />
+                <Icon aria-hidden="true" className="h-3.5 w-3.5 text-primary" />
                 {category.name}
               </Link>
             );
           })}
-          <span aria-hidden="true" className="mx-2 h-4 w-px shrink-0 bg-line" />
+          <span aria-hidden="true" className="mx-2 h-4 w-px shrink-0 bg-border" />
           <Link
             href="/products?featured=1"
-            className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium text-ink/65 hover:bg-canvas hover:text-brand"
+            className="inline-flex min-h-11 shrink-0 items-center rounded-full px-3 text-xs font-medium text-secondary-ink transition-colors duration-200 hover:bg-primary-tint hover:text-primary"
           >
             Featured Products
           </Link>
           <Link
             href="/products?sort=newest"
-            className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium text-ink/65 hover:bg-canvas hover:text-brand"
+            className="inline-flex min-h-11 shrink-0 items-center rounded-full px-3 text-xs font-medium text-secondary-ink transition-colors duration-200 hover:bg-primary-tint hover:text-primary"
           >
             New Arrivals
           </Link>
@@ -381,7 +389,7 @@ export function SiteHeader({
       {menuOpen && (
         <div
           id="mobile-menu"
-          className="dropdown-pop border-t border-line bg-surface lg:hidden"
+          className="dropdown-pop border-t border-border bg-surface/95 backdrop-blur-xl lg:hidden"
         >
           <div className="space-y-5 px-4 py-5 sm:px-6">
             <SearchForm suggestions={suggestions} compact />
@@ -391,7 +399,7 @@ export function SiteHeader({
                   key={link.href}
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className="rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-brand hover:text-brand"
+                  className="inline-flex min-h-11 items-center justify-center rounded-control border border-border bg-surface px-3 text-sm text-secondary-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:bg-primary-tint hover:text-primary"
                 >
                   {link.label}
                 </Link>
@@ -399,14 +407,14 @@ export function SiteHeader({
               <Link
                 href="/wishlist"
                 onClick={() => setMenuOpen(false)}
-                className="rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-brand hover:text-brand"
+                className="inline-flex min-h-11 items-center justify-center rounded-control border border-border bg-surface px-3 text-sm text-secondary-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:bg-primary-tint hover:text-primary"
               >
                 Wishlist
               </Link>
               <Link
                 href="/admin/login"
                 onClick={() => setMenuOpen(false)}
-                className="rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-brand hover:text-brand"
+                className="inline-flex min-h-11 items-center justify-center rounded-control border border-border bg-surface px-3 text-sm text-secondary-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:bg-primary-tint hover:text-primary"
               >
                 Account
               </Link>
@@ -423,22 +431,29 @@ export function SiteHeader({
                       key={category.slug}
                       href={`/products?category=${encodeURIComponent(category.slug)}`}
                       onClick={() => setMenuOpen(false)}
-                      className="inline-flex items-center gap-2 rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-brand hover:text-brand"
+                      className="inline-flex min-h-11 items-center gap-2 rounded-control border border-border bg-surface px-3 text-sm text-secondary-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:bg-primary-tint hover:text-primary"
                     >
-                      <Icon aria-hidden="true" className="h-4 w-4 text-brand" />
+                      <Icon aria-hidden="true" className="h-4 w-4 text-primary" />
                       {category.name}
                     </Link>
                   );
                 })}
               </div>
             </div>
-            <div className="flex items-center gap-4 border-t border-line pt-4 text-[11px] text-muted">
+            <div className="flex items-center justify-between gap-4 rounded-card border border-border bg-page/60 p-3">
+              <div>
+                <p className="text-sm font-medium text-ink">Appearance</p>
+                <p className="text-xs text-muted">Switch between light and dark</p>
+              </div>
+              <ThemeToggle />
+            </div>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-border pt-4 text-[11px] text-muted">
               <span className="inline-flex items-center gap-1">
-                <BadgeCheck aria-hidden="true" className="h-3.5 w-3.5 text-gold-ink" />
+                <BadgeCheck aria-hidden="true" className="h-3.5 w-3.5 text-primary" />
                 Verified suppliers
               </span>
               <span className="inline-flex items-center gap-1">
-                <WalletCards aria-hidden="true" className="h-3.5 w-3.5 text-gold-ink" />
+                <WalletCards aria-hidden="true" className="h-3.5 w-3.5 text-primary" />
                 BDT pricing
               </span>
             </div>

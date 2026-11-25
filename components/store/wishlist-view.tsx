@@ -28,10 +28,10 @@ export function WishlistView({
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <header className="mb-10">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent">
+        <p className="inline-flex rounded-badge bg-primary-tint px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">
           Saved picks
         </p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
+        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
           Your wishlist
         </h1>
       </header>
@@ -47,15 +47,17 @@ export function WishlistView({
           ))}
         </div>
       ) : (
-        <div className="rounded-xl border border-dashed border-line bg-canvas/60 px-6 py-20 text-center">
-          <Heart aria-hidden="true" className="mx-auto h-8 w-8 text-accent" />
-          <h2 className="mt-4 text-lg font-medium">Nothing saved yet</h2>
-          <p className="mx-auto mt-2 max-w-sm text-sm text-muted">
+        <div className="rounded-panel border border-dashed border-border bg-surface px-6 py-20 text-center shadow-card">
+          <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-control bg-primary-tint text-primary">
+            <Heart aria-hidden="true" className="h-8 w-8" />
+          </span>
+          <h2 className="mt-4 text-lg font-semibold text-ink">Nothing saved yet</h2>
+          <p className="mx-auto mt-2 max-w-sm text-sm text-secondary-ink">
             Tap the heart on any product to keep it here while you browse.
           </p>
           <Link
             href="/products"
-            className="mt-6 inline-flex rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white hover:bg-highlight"
+            className="mt-6 inline-flex min-h-11 items-center rounded-full border border-primary bg-primary px-5 text-sm font-medium text-white shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-hover hover:shadow-card-hover active:translate-y-0 active:bg-primary-active pressable"
           >
             Browse products
           </Link>

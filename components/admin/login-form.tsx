@@ -2,10 +2,8 @@
 
 import { LockKeyhole, Mail } from "lucide-react";
 import { useActionState } from "react";
-import {
-  initialLoginState,
-  signIn,
-} from "@/app/admin/login/actions";
+import { initialLoginState, signIn } from "@/app/admin/login/actions";
+import { Button } from "@/components/ui/button";
 
 export function LoginForm() {
   const [state, formAction, pending] = useActionState(
@@ -16,54 +14,53 @@ export function LoginForm() {
   return (
     <form action={formAction} className="space-y-5">
       <div>
-        <label htmlFor="email" className="text-sm font-medium">
+        <label htmlFor="email" className="mb-2 block text-xs font-semibold text-secondary-ink">
           Email
         </label>
-        <div className="mt-2 flex items-center gap-2 rounded-xl border border-ink/15 bg-surface px-3 focus-within:border-brand">
-          <Mail aria-hidden="true" className="h-4 w-4 text-ink/40" />
+        <div className="flex min-h-11 items-center gap-3 rounded-control border border-border bg-surface px-3 transition-all focus-within:border-primary focus-within:ring-[3px] focus-within:ring-primary/15">
+          <Mail aria-hidden="true" className="h-4 w-4 shrink-0 text-primary" />
           <input
             id="email"
             name="email"
             type="email"
             autoComplete="email"
             required
-            className="w-full bg-transparent px-1 py-2.5 text-sm outline-none"
+            className="w-full bg-transparent py-2.5 text-sm text-ink outline-none placeholder:text-muted"
             placeholder="owner@example.com"
           />
         </div>
       </div>
 
       <div>
-        <label htmlFor="password" className="text-sm font-medium">
+        <label htmlFor="password" className="mb-2 block text-xs font-semibold text-secondary-ink">
           Password
         </label>
-        <div className="mt-2 flex items-center gap-2 rounded-xl border border-ink/15 bg-surface px-3 focus-within:border-brand">
-          <LockKeyhole aria-hidden="true" className="h-4 w-4 text-ink/40" />
+        <div className="flex min-h-11 items-center gap-3 rounded-control border border-border bg-surface px-3 transition-all focus-within:border-primary focus-within:ring-[3px] focus-within:ring-primary/15">
+          <LockKeyhole aria-hidden="true" className="h-4 w-4 shrink-0 text-primary" />
           <input
             id="password"
             name="password"
             type="password"
             autoComplete="current-password"
             required
-            className="w-full bg-transparent px-1 py-2.5 text-sm outline-none"
+            className="w-full bg-transparent py-2.5 text-sm text-ink outline-none placeholder:text-muted"
             placeholder="••••••••"
           />
         </div>
       </div>
 
       {state.error && (
-        <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
+        <p
+          role="alert"
+          className="rounded-control bg-blush px-4 py-3 text-sm font-medium text-sale ring-1 ring-border"
+        >
           {state.error}
         </p>
       )}
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="w-full rounded-full border border-brand bg-brand px-5 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-60"
-      >
+      <Button type="submit" size="lg" className="w-full" disabled={pending}>
         {pending ? "Signing in…" : "Sign in"}
-      </button>
+      </Button>
     </form>
   );
 }

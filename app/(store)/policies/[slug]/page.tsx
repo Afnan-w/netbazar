@@ -1,3 +1,4 @@
+import { FileText, Sparkles } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -84,27 +85,46 @@ export default async function PolicyPage({ params }: PolicyPageProps) {
   const policy = policies[slug];
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6 lg:px-8">
-      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
-        Policies
-      </p>
-      <h1 className="mt-2 text-3xl font-light tracking-tight sm:text-4xl">
-        {policy.title}
-      </h1>
-      <p className="mt-4 text-sm leading-relaxed text-ink/60">{policy.intro}</p>
+    <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+      <div className="nova-panel p-6 sm:p-8">
+        <span className="inline-flex items-center gap-2 rounded-badge bg-primary-tint px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-primary">
+          <Sparkles aria-hidden="true" className="h-3.5 w-3.5" />
+          Policies
+        </span>
+        <h1 className="mt-4 text-balance text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+          {policy.title}
+        </h1>
+        <p className="mt-4 text-sm leading-relaxed text-secondary-ink">{policy.intro}</p>
+      </div>
 
-      <div className="mt-10 space-y-6">
-        {policy.sections.map((section) => (
-          <section key={section.heading} className="border-t border-ink/10 pt-6">
-            <h2 className="text-lg font-medium">{section.heading}</h2>
-            <p className="mt-2 text-sm leading-relaxed text-ink/70">{section.body}</p>
+      <div className="mt-8 space-y-4">
+        {policy.sections.map((section, index) => (
+          <section key={section.heading} className="nova-card relative overflow-hidden p-6">
+            <span aria-hidden="true" className="absolute inset-y-0 left-0 w-1 bg-primary/50" />
+            <div className="flex items-start gap-3">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-control bg-primary-tint text-primary">
+                <FileText aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
+              </span>
+              <div>
+                <h2 className="text-base font-bold text-ink">
+                  <span className="mr-2 text-xs font-bold tabular-nums text-primary">
+                    0{index + 1}
+                  </span>
+                  {section.heading}
+                </h2>
+                <p className="mt-2 text-sm leading-relaxed text-secondary-ink">{section.body}</p>
+              </div>
+            </div>
           </section>
         ))}
       </div>
 
-      <div className="mt-10 rounded-xl bg-canvas p-6 text-sm text-ink/65">
+      <div className="nova-panel mt-8 bg-blush/25 p-6 text-sm text-secondary-ink">
         Questions about this policy?{" "}
-        <Link href="/contact" className="font-medium text-brand hover:underline">
+        <Link
+          href="/contact"
+          className="inline-flex min-h-11 items-center font-bold text-primary hover:text-primary-hover"
+        >
           Contact us
         </Link>
         .

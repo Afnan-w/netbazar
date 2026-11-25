@@ -1,64 +1,119 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 @theme inline {
-  --color-brand: var(--brand);
-  --color-accent: var(--accent);
-  --color-highlight: var(--highlight);
-  --color-gold-ink: var(--gold-ink);
-  --color-support: var(--support);
-  --color-ink: var(--ink);
-  --color-muted: var(--muted);
-  --color-subtle: var(--subtle);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-active: var(--primary-active);
+  --color-primary-tint: var(--primary-tint);
+  --color-page: var(--page);
   --color-surface: var(--surface);
-  --color-canvas: var(--canvas);
-  --color-line: var(--line);
-  --color-mint: var(--mint);
+  --color-surface-raised: var(--surface-raised);
+  --color-image-backdrop: var(--image-backdrop);
+  --color-ink: var(--ink);
+  --color-secondary-ink: var(--secondary-ink);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-sale: var(--sale);
   --color-success: var(--success);
-  --color-discount: var(--discount);
-  --color-dark: var(--dark);
-  --font-sans: var(--font-inter);
+  --color-star: var(--star);
+  --color-blush: var(--blush);
+  --color-sage: var(--sage);
+  --color-peach: var(--peach);
+  --color-lilac: var(--lilac);
+
+  --color-brand: var(--primary);
+  --color-accent: var(--primary);
+  --color-highlight: var(--primary-hover);
+  --color-support: var(--secondary-ink);
+  --color-subtle: var(--muted);
+  --color-canvas: var(--page);
+  --color-line: var(--border);
+  --color-mint: var(--primary-tint);
+  --color-discount: var(--sale);
+  --color-dark: var(--ink);
+
+  --font-sans: var(--font-jakarta), var(--font-inter), ui-sans-serif, system-ui,
+    sans-serif;
+
+  --text-display: 44px;
+  --text-headline: 40px;
+  --text-section: 22px;
+  --text-card-title: 14px;
+  --text-body: 14px;
+  --text-caption: 12px;
+
+  --radius-card: 20px;
+  --radius-panel: 28px;
+  --radius-control: 12px;
+  --radius-badge: 8px;
+
+  --shadow-card: 0 8px 30px rgba(108, 79, 214, 0.08);
+  --shadow-card-hover: 0 12px 36px rgba(108, 79, 214, 0.16);
+  --shadow-soft: 0 4px 18px rgba(30, 27, 46, 0.06);
 }
 
 :root {
   color-scheme: light;
-  --brand: #0b5c48;
-  --accent: #c9a961;
-  --highlight: #e3cf9a;
-  --gold-ink: #8a6b23;
-  --support: #4c8a9a;
-  --ink: #151a17;
-  --muted: #66716b;
-  --subtle: #9aa39d;
+  --primary: #6c4fd6;
+  --primary-hover: #5b3fc4;
+  --primary-active: #4f35ad;
+  --primary-tint: #efeaff;
+  --hero-gradient: linear-gradient(
+    135deg,
+    #8e78f0 0%,
+    #b79cf5 50%,
+    #ff9cc2 100%
+  );
+  --page: #f6f6fb;
   --surface: #ffffff;
-  --canvas: #f8f6f1;
-  --line: #e7e4db;
-  --mint: #f5eedf;
-  --success: #2e8b6b;
-  --discount: #d46a5f;
-  --dark: #083d31;
-  background: var(--canvas);
-  color: var(--ink);
+  --surface-raised: #ffffff;
+  --image-backdrop: #f1f1f4;
+  --ink: #1e1b2e;
+  --secondary-ink: #6b6880;
+  --muted: #a3a1b5;
+  --border: #ecebf3;
+  --sale: #f25c5c;
+  --success: #2fae6b;
+  --star: #f5b335;
+  --pending-bg: #fff3d6;
+  --pending-ink: #9a6b0b;
+  --blush: #fde5e8;
+  --sage: #e6eee1;
+  --peach: #fbe9de;
+  --lilac: #eae4fb;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-    --brand: #128266;
-    --accent: #dcc48a;
-    --highlight: #f0dfb4;
-    --gold-ink: #e4cd94;
-    --support: #74a9b5;
-    --ink: #f7f5ef;
-    --muted: #9aa9a1;
-    --subtle: #73837a;
-    --surface: #16241f;
-    --canvas: #0e1a16;
-    --line: #2a3b34;
-    --mint: #25382f;
-    --success: #4fb994;
-    --discount: #e9877b;
-    --dark: #061c17;
-  }
+[data-theme="dark"] {
+  color-scheme: dark;
+  --primary: #6c4fd6;
+  --primary-hover: #7d64e4;
+  --primary-active: #5b3fc4;
+  --primary-tint: #272041;
+  --hero-gradient: linear-gradient(
+    135deg,
+    #4d3a91 0%,
+    #6c4fd6 50%,
+    #a85588 100%
+  );
+  --page: #0f0e17;
+  --surface: #1a1826;
+  --surface-raised: #211f30;
+  --image-backdrop: #242235;
+  --ink: #f7f5ff;
+  --secondary-ink: #b6b1ca;
+  --muted: #85819a;
+  --border: #2a2840;
+  --sale: #ff7676;
+  --success: #4ec58a;
+  --star: #f7c25a;
+  --pending-bg: #3b301b;
+  --pending-ink: #f5c66b;
+  --blush: #3a2430;
+  --sage: #22342b;
+  --peach: #382a24;
+  --lilac: #2d2541;
 }
 
 html {
@@ -67,19 +122,34 @@ html {
 
 body {
   min-height: 100vh;
-  background: var(--canvas);
+  background: var(--page);
   color: var(--ink);
-  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 :focus-visible {
-  outline: 2px solid var(--brand);
-  outline-offset: 3px;
+  outline: 3px solid color-mix(in srgb, var(--primary) 45%, transparent);
+  outline-offset: 2px;
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  background: color-mix(in srgb, var(--primary) 20%, transparent);
   color: var(--ink);
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  transition:
+    color 200ms ease,
+    background-color 200ms ease,
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    transform 200ms ease;
 }
 
 @layer utilities {
@@ -87,19 +157,69 @@ body {
     text-wrap: balance;
   }
 
+  .hero-gradient {
+    background: var(--hero-gradient);
+  }
+
+  .soft-input {
+    height: 44px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-control);
+    background: var(--surface);
+    color: var(--ink);
+    padding-inline: 14px;
+  }
+
+  .soft-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(108, 79, 214, 0.15);
+  }
+
+  .pressable:active {
+    transform: scale(0.98);
+  }
+
+  .nova-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    background: var(--surface);
+    box-shadow: var(--shadow-card);
+  }
+
+  .nova-panel {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-panel);
+    background: var(--surface);
+    box-shadow: var(--shadow-card);
+  }
+
+  .nova-lift {
+    transition:
+      transform 200ms ease,
+      box-shadow 200ms ease,
+      border-color 200ms ease;
+  }
+
+  .nova-lift:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card-hover);
+    border-color: color-mix(in srgb, var(--primary) 22%, var(--border));
+  }
+
   .skeleton {
     background: linear-gradient(
       90deg,
-      color-mix(in srgb, var(--line) 85%, var(--surface)) 25%,
-      color-mix(in srgb, var(--surface) 90%, var(--line)) 50%,
-      color-mix(in srgb, var(--line) 85%, var(--surface)) 75%
+      var(--border) 25%,
+      color-mix(in srgb, var(--surface) 80%, var(--border)) 50%,
+      var(--border) 75%
     );
     background-size: 200% 100%;
     animation: skeleton-shift 1.4s ease-in-out infinite;
   }
 
   .glass-panel {
-    background: color-mix(in srgb, var(--surface) 90%, transparent);
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
     backdrop-filter: blur(18px);
   }
 
@@ -117,13 +237,33 @@ body {
   }
 
   .premium-card {
-    border: 1px solid var(--line);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
     background: var(--surface);
-    box-shadow: 0 18px 44px -30px rgb(8 61 49 / 0.28);
+    box-shadow: var(--shadow-card);
   }
 
   .accent-rule {
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+  }
+
+  .badge-success {
+    background: color-mix(in srgb, var(--success) 14%, var(--surface));
+    color: var(--success);
+  }
+
+  .badge-pending {
+    background: var(--pending-bg);
+    color: var(--pending-ink);
+  }
+
+  .badge-cancelled {
+    background: color-mix(in srgb, var(--sale) 12%, var(--surface));
+    color: var(--sale);
+  }
+
+  .toast-pop {
+    animation: toast-in 0.25s ease-out both;
   }
 }
 
@@ -218,10 +358,6 @@ body {
     animation: reveal-up 0.65s ease-out both;
   }
 
-  .toast-pop {
-    animation: toast-in 0.25s ease-out both;
-  }
-
   .product-grid > * {
     animation: reveal-up 0.45s ease-out backwards;
   }
@@ -263,7 +399,7 @@ body {
     background: linear-gradient(
       100deg,
       transparent 30%,
-      color-mix(in srgb, var(--highlight) 12%, transparent) 50%,
+      color-mix(in srgb, var(--primary) 10%, transparent) 50%,
       transparent 70%
     );
     transform: translateX(-120%) skewX(-18deg);
@@ -299,10 +435,6 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-
-  .reveal {
-    opacity: 1;
-    transform: none;
+    scroll-behavior: auto !important;
   }
 }

@@ -1,4 +1,4 @@
-import { Mail, MessageCircle } from "lucide-react";
+import { ArrowRight, Mail, MessageCircle, Sparkles } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PaymentNote } from "@/components/store/payment-note";
@@ -18,64 +18,76 @@ export default async function ContactPage() {
   );
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-14 sm:px-6 lg:px-8">
-      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
-        Contact
-      </p>
-      <h1 className="mt-2 text-3xl font-light tracking-tight sm:text-4xl">
-        Talk to us before you order.
-      </h1>
-      <p className="mt-4 max-w-2xl text-sm leading-relaxed text-ink/65">
-        WhatsApp is the fastest way to confirm availability, final price, shipping
-        and delivery time. Email is available for general questions.
-      </p>
+    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+      <div className="nova-panel p-6 sm:p-8">
+        <span className="inline-flex items-center gap-2 rounded-badge bg-primary-tint px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-primary">
+          <Sparkles aria-hidden="true" className="h-3.5 w-3.5" />
+          Contact
+        </span>
+        <h1 className="mt-4 text-balance text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+          Talk to us before you order.
+        </h1>
+        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-secondary-ink">
+          WhatsApp is the fastest way to confirm availability, final price, shipping
+          and delivery time. Email is available for general questions.
+        </p>
+      </div>
 
-      <div className="mt-10 grid gap-4 sm:grid-cols-2">
+      <div className="mt-8 grid gap-4 sm:grid-cols-2">
         <a
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded-xl border border-ink/10 p-6 transition-colors hover:border-brand/40"
+          className="nova-card nova-lift flex flex-col p-6"
         >
-          <MessageCircle aria-hidden="true" className="h-6 w-6 text-brand" />
-          <h2 className="mt-5 text-lg font-medium">WhatsApp</h2>
-          <p className="mt-2 text-sm leading-relaxed text-ink/65">
+          <span className="grid h-11 w-11 place-items-center rounded-control bg-primary-tint text-primary">
+            <MessageCircle aria-hidden="true" className="h-5 w-5" strokeWidth={1.5} />
+          </span>
+          <h2 className="mt-5 text-lg font-bold text-ink">WhatsApp</h2>
+          <p className="mt-2 text-sm leading-relaxed text-secondary-ink">
             Order a listed product, ask a question or follow up on a request.
           </p>
-          <span className="mt-5 inline-flex rounded-full border border-brand px-4 py-2 text-sm font-medium text-brand">
+          <span className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-control bg-primary px-4 text-sm font-bold text-white pressable">
             Open WhatsApp
+            <ArrowRight aria-hidden="true" className="h-4 w-4" />
           </span>
         </a>
 
-        <div className="rounded-xl border border-ink/10 p-6">
-          <Mail aria-hidden="true" className="h-6 w-6 text-brand" />
-          <h2 className="text-lg font-medium">Email</h2>
-          <p className="mt-2 text-sm leading-relaxed text-ink/65">
+        <div className="nova-card nova-lift p-6">
+          <span className="grid h-11 w-11 place-items-center rounded-control bg-lilac text-primary">
+            <Mail aria-hidden="true" className="h-5 w-5" strokeWidth={1.5} />
+          </span>
+          <h2 className="mt-5 text-lg font-bold text-ink">Email</h2>
+          <p className="mt-2 text-sm leading-relaxed text-secondary-ink">
             For general enquiries. Orders and confirmations are handled on WhatsApp.
           </p>
           {settings.contact_email ? (
             <a
               href={`mailto:${settings.contact_email}`}
-              className="mt-5 inline-flex rounded-full border border-ink/20 px-4 py-2 text-sm font-medium hover:border-brand hover:text-brand"
+              className="mt-5 inline-flex min-h-11 items-center rounded-control border border-border bg-surface px-4 text-sm font-semibold text-primary pressable hover:bg-primary-tint"
             >
               {settings.contact_email}
             </a>
           ) : (
-            <p className="mt-5 text-sm text-ink/50">Email will be added soon.</p>
+            <p className="mt-5 text-sm text-muted">Email will be added soon.</p>
           )}
         </div>
       </div>
 
-      <div className="mt-8">
+      <div className="mt-8 rounded-card bg-primary-tint/30 p-1">
         <PaymentNote />
       </div>
 
-      <div className="mt-8 text-sm text-ink/65">
-        Looking for an item that is not listed?{" "}
-        <Link href="/request" className="font-medium text-brand hover:underline">
+      <div className="nova-panel mt-8 flex flex-wrap items-center gap-2 bg-blush/25 p-6 text-sm text-secondary-ink">
+        <span>Looking for an item that is not listed?</span>{" "}
+        <Link
+          href="/request"
+          className="inline-flex min-h-11 items-center gap-1 font-bold text-primary hover:text-primary-hover"
+        >
           Submit a product request
+          <ArrowRight aria-hidden="true" className="h-4 w-4" />
         </Link>
-        .
+        <span>.</span>
       </div>
     </div>
   );

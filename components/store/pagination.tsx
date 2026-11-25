@@ -24,13 +24,13 @@ export function Pagination({
       {page > 1 ? (
         <Link
           href={buildHref(page - 1)}
-          className="inline-flex h-9 items-center gap-1 rounded-full border border-ink/15 px-3 text-sm hover:border-brand hover:text-brand"
+          className="inline-flex min-h-11 items-center gap-1 rounded-full border border-border bg-surface px-4 text-sm text-secondary-ink shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:bg-primary-tint hover:text-primary hover:shadow-card-hover active:translate-y-0 pressable"
         >
           <ChevronLeft aria-hidden="true" className="h-4 w-4" />
           Previous
         </Link>
       ) : (
-        <span className="inline-flex h-9 items-center gap-1 rounded-full border border-ink/10 px-3 text-sm text-ink/30">
+        <span className="inline-flex min-h-11 items-center gap-1 rounded-full border border-border bg-page/60 px-4 text-sm text-muted">
           <ChevronLeft aria-hidden="true" className="h-4 w-4" />
           Previous
         </span>
@@ -39,17 +39,17 @@ export function Pagination({
       {pages.map((candidate, index) => (
         <span key={candidate} className="flex items-center gap-2">
           {index > 0 && pages[index - 1] !== candidate - 1 && (
-            <span aria-hidden="true" className="px-1 text-ink/35">
+            <span aria-hidden="true" className="px-1 text-muted">
               …
             </span>
           )}
           <Link
             href={buildHref(candidate)}
             aria-current={candidate === page ? "page" : undefined}
-            className={`inline-flex h-9 w-9 items-center justify-center rounded-full border text-sm transition-colors ${
+            className={`inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border text-sm transition-all duration-200 hover:-translate-y-0.5 pressable ${
               candidate === page
-                ? "border-brand bg-mint font-medium text-brand"
-                : "border-ink/15 hover:border-brand hover:text-brand"
+                ? "border-primary bg-primary font-medium text-white shadow-card"
+                : "border-border bg-surface text-secondary-ink shadow-card hover:border-primary hover:bg-primary-tint hover:text-primary hover:shadow-card-hover active:translate-y-0"
             }`}
           >
             {candidate}
@@ -60,13 +60,13 @@ export function Pagination({
       {page < totalPages ? (
         <Link
           href={buildHref(page + 1)}
-          className="inline-flex h-9 items-center gap-1 rounded-full border border-ink/15 px-3 text-sm hover:border-brand hover:text-brand"
+          className="inline-flex min-h-11 items-center gap-1 rounded-full border border-border bg-surface px-4 text-sm text-secondary-ink shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:bg-primary-tint hover:text-primary hover:shadow-card-hover active:translate-y-0 pressable"
         >
           Next
           <ChevronRight aria-hidden="true" className="h-4 w-4" />
         </Link>
       ) : (
-        <span className="inline-flex h-9 items-center gap-1 rounded-full border border-ink/10 px-3 text-sm text-ink/30">
+        <span className="inline-flex min-h-11 items-center gap-1 rounded-full border border-border bg-page/60 px-4 text-sm text-muted">
           Next
           <ChevronRight aria-hidden="true" className="h-4 w-4" />
         </span>

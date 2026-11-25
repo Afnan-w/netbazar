@@ -36,7 +36,10 @@ export function Reveal({
     <div
       ref={ref}
       className={`reveal ${visible ? "is-visible" : ""} ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={{
+        transitionDelay: `${delay}ms`,
+        willChange: visible ? "auto" : "opacity, transform",
+      }}
     >
       {children}
     </div>

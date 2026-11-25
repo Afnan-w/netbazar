@@ -2,6 +2,7 @@ import { ArrowUpRight, Inbox, Package, Plus } from "lucide-react";
 import Link from "next/link";
 import { PageHeader } from "@/components/admin/page-header";
 import { StatusBadge } from "@/components/admin/status-badge";
+import { ButtonLink } from "@/components/ui/button";
 import { getAdminOverview, getAdminRequests } from "@/lib/data/admin";
 import { formatBDT } from "@/lib/utils/format";
 
@@ -11,76 +12,114 @@ export default async function AdminOverviewPage() {
     getAdminRequests("new"),
   ]);
 
+  const totalRequests = overview.requestsByStatus.reduce(
+    (sum, item) => sum + item.count,
+    0,
+  );
+
   return (
     <div>
       <PageHeader
         title="Overview"
         description="A quick look at the catalogue and incoming product requests."
         action={
-          <Link
-            href="/admin/products/new"
-            className="inline-flex items-center gap-2 rounded-full border border-brand bg-brand px-4 py-2 text-sm font-medium text-white hover:opacity-90"
-          >
+          <ButtonLink href="/admin/products/new" pill>
             <Plus aria-hidden="true" className="h-4 w-4" />
             Add product
-          </Link>
+          </ButtonLink>
         }
       />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <Link
           href="/admin/products"
-          className="rounded-xl border border-ink/10 bg-surface p-6 transition-colors hover:border-brand/40"
+          className="nova-card nova-lift group p-6"
         >
-          <div className="flex items-center justify-between">
-            <Package aria-hidden="true" className="h-5 w-5 text-brand" />
-            <ArrowUpRight aria-hidden="true" className="h-4 w-4 text-ink/35" />
+          <div className="flex items-start justify-between">
+            <span className="grid h-11 w-11 place-items-center rounded-control bg-primary-tint text-primary">
+              <Package aria-hidden="true" className="h-5 w-5" />
+            </span>
+            <ArrowUpRight
+              aria-hidden="true"
+              className="h-4 w-4 text-muted transition-colors group-hover:text-primary"
+            />
           </div>
-          <p className="mt-5 text-3xl font-light">{overview.productCount}</p>
-          <p className="mt-1 text-sm text-ink/60">Products in the catalogue</p>
+          <p className="mt-6 text-3xl font-bold tracking-tight text-ink">
+            {overview.productCount}
+          </p>
+          <p className="mt-1 text-sm text-secondary-ink">
+            Products in the catalogue
+          </p>
         </Link>
         <Link
           href="/admin/requests?status=new"
-          className="rounded-xl border border-ink/10 bg-surface p-6 transition-colors hover:border-brand/40"
+          className="nova-card nova-lift group p-6"
         >
-          <div className="flex items-center justify-between">
-            <Inbox aria-hidden="true" className="h-5 w-5 text-brand" />
-            <ArrowUpRight aria-hidden="true" className="h-4 w-4 text-ink/35" />
+          <div className="flex items-start justify-between">
+            <span className="grid h-11 w-11 place-items-center rounded-control bg-peach text-primary">
+              <Inbox aria-hidden="true" className="h-5 w-5" />
+            </span>
+            <ArrowUpRight
+              aria-hidden="true"
+              className="h-4 w-4 text-muted transition-colors group-hover:text-primary"
+            />
           </div>
-          <p className="mt-5 text-3xl font-light">{overview.newRequestCount}</p>
-          <p className="mt-1 text-sm text-ink/60">New product requests</p>
+          <p className="mt-6 text-3xl font-bold tracking-tight text-ink">
+            {overview.newRequestCount}
+          </p>
+          <p className="mt-1 text-sm text-secondary-ink">
+            New product requests
+          </p>
         </Link>
       </div>
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-[1.5fr_0.75fr]">
-        <section className="rounded-xl border border-ink/10 bg-surface p-5 sm:p-6">
+      <div className="mt-6 grid gap-6 2xl:grid-cols-[1.5fr_0.9fr]">
+        <section className="nova-panel p-5 sm:p-6">
           <div className="flex items-center justify-between gap-3">
-            <h2 className="text-lg font-medium">Recent requests</h2>
-            <Link href="/admin/requests" className="text-sm text-brand hover:underline">
+            <div>
+              <h2 className="text-base font-bold text-ink">Recent requests</h2>
+              <p className="mt-1 text-xs text-muted">
+                Latest requests waiting for a reply
+              </p>
+            </div>
+            <Link
+              href="/admin/requests"
+              className="rounded-control px-2 py-1 text-sm font-medium text-primary hover:bg-primary-tint"
+            >
               View all
             </Link>
           </div>
+
           {recentRequests.length === 0 ? (
-            <p className="mt-5 text-sm text-ink/55">
-              No new requests yet. Submitted requests will appear here.
-            </p>
+            <div className="mt-5 rounded-card border border-dashed border-border bg-page/60 px-6 py-10 text-center">
+              <Inbox aria-hidden="true" className="mx-auto h-6 w-6 text-muted" />
+              <p className="mt-3 text-sm text-secondary-ink">
+                No new requests yet. Submitted requests will appear here.
+              </p>
+            </div>
           ) : (
-            <ul className="mt-5 divide-y divide-ink/10">
+            <ul className="mt-5 space-y-2">
               {recentRequests.slice(0, 5).map((request) => (
                 <li key={request.id}>
                   <Link
                     href={`/admin/requests/${request.id}`}
-                    className="flex items-center justify-between gap-4 py-3.5 transition-colors hover:text-brand"
+                    className="flex items-center justify-between gap-4 rounded-control border border-border bg-page/50 p-3.5 transition-colors hover:border-primary/30 hover:bg-primary-tint"
                   >
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-medium">{request.name}</p>
-                      <p className="mt-0.5 truncate text-xs text-ink/55">
+                      <p className="truncate text-sm font-semibold text-ink">
+                        {request.name}
+                      </p>
+                      <p className="mt-0.5 truncate text-xs text-muted">
                         {request.description}
                       </p>
                     </div>
                     <div className="shrink-0 text-right">
-                      <p className="text-sm">{formatBDT(request.budget_bdt) || "No budget"}</p>
-                      <p className="mt-0.5 text-xs text-ink/45">Qty {request.quantity}</p>
+                      <p className="text-sm font-semibold text-ink">
+                        {formatBDT(request.budget_bdt) || "No budget"}
+                      </p>
+                      <p className="mt-0.5 text-xs text-muted">
+                        Qty {request.quantity}
+                      </p>
                     </div>
                   </Link>
                 </li>
@@ -89,20 +128,35 @@ export default async function AdminOverviewPage() {
           )}
         </section>
 
-        <section className="rounded-xl border border-ink/10 bg-surface p-5 sm:p-6">
-          <h2 className="text-lg font-medium">Request pipeline</h2>
-          <ul className="mt-5 space-y-2.5">
-            {overview.requestsByStatus.map(({ status, count }) => (
-              <li key={status} className="flex items-center justify-between gap-3">
-                <StatusBadge status={status} />
-                <span className="text-sm text-ink/70">{count}</span>
-              </li>
-            ))}
+        <section className="nova-panel p-5 sm:p-6">
+          <h2 className="text-base font-bold text-ink">Request pipeline</h2>
+          <p className="mt-1 text-xs text-muted">Every request by current stage</p>
+          <ul className="mt-5 space-y-4">
+            {overview.requestsByStatus.map(({ status, count }) => {
+              const percent =
+                totalRequests > 0 ? Math.round((count / totalRequests) * 100) : 0;
+              return (
+                <li key={status}>
+                  <div className="flex items-center justify-between gap-3">
+                    <StatusBadge status={status} />
+                    <span className="text-sm font-semibold text-secondary-ink">
+                      {count}
+                    </span>
+                  </div>
+                  <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-image-backdrop">
+                    <div
+                      className="h-full rounded-full bg-primary"
+                      style={{ width: `${percent}%` }}
+                    />
+                  </div>
+                </li>
+              );
+            })}
           </ul>
-          <div className="mt-6 border-t border-ink/10 pt-5">
+          <div className="mt-6 border-t border-border pt-5">
             <Link
               href="/admin/categories"
-              className="text-sm text-ink/65 hover:text-brand"
+              className="inline-flex min-h-11 items-center rounded-control px-2 text-sm font-medium text-secondary-ink hover:bg-primary-tint hover:text-primary"
             >
               Manage categories →
             </Link>

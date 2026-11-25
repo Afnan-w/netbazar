@@ -11,6 +11,8 @@ import {
   uploadProductImages,
 } from "@/app/admin/(dashboard)/products/actions";
 import { useToast } from "@/components/admin/toast";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { getProductImageUrl } from "@/lib/utils/images";
 import type { ActionResult } from "@/types/actions";
 import type { ProductImage } from "@/types/database";
@@ -87,23 +89,28 @@ export function ImageManager({
   }
 
   return (
-    <section className="rounded-xl border border-ink/10 bg-surface p-5 sm:p-6">
+    <section className="nova-panel p-5 sm:p-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <h2 className="text-lg font-medium">Product images</h2>
-          <p className="mt-1 text-sm text-ink/55">
-            JPG, PNG or WebP up to 5 MB each. The first image is used as the cover
-            photo.
-          </p>
+        <div className="flex items-center gap-3">
+          <span className="grid h-10 w-10 place-items-center rounded-control bg-peach text-primary">
+            <ImagePlus aria-hidden="true" className="h-5 w-5" />
+          </span>
+          <div>
+            <h2 className="text-base font-bold text-ink">Product images</h2>
+            <p className="mt-0.5 text-xs text-muted">
+              JPG, PNG or WebP up to 5 MB each. The first image is used as the
+              cover photo.
+            </p>
+          </div>
         </div>
-        <span className="rounded-full border border-ink/15 px-3 py-1 text-xs text-ink/55">
+        <span className="rounded-full bg-primary-tint px-3 py-1 text-xs font-semibold text-primary">
           {ordered.length} image{ordered.length === 1 ? "" : "s"}
         </span>
       </div>
 
       <form
         onSubmit={handleUpload}
-        className="mt-5 flex flex-wrap items-center gap-3 rounded-2xl border border-dashed border-ink/20 bg-canvas p-4"
+        className="mt-5 flex flex-wrap items-center gap-3 rounded-panel border border-dashed border-primary/35 bg-primary-tint/40 p-4 sm:p-5"
       >
         <input
           type="file"
@@ -112,41 +119,37 @@ export function ImageManager({
           multiple
           required
           aria-label="Choose product images"
-          className="max-w-full text-sm file:mr-3 file:rounded-full file:border file:border-ink/20 file:bg-surface file:px-4 file:py-2 file:text-sm file:font-medium hover:file:border-brand"
+          className="max-w-full text-sm text-secondary-ink file:mr-3 file:min-h-11 file:rounded-control file:border file:border-border file:bg-surface file:px-4 file:text-sm file:font-semibold file:text-secondary-ink hover:file:border-primary hover:file:text-primary"
         />
-        <button
-          type="submit"
-          disabled={pending}
-          className="inline-flex items-center gap-2 rounded-full border border-brand bg-brand px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-60"
-        >
+        <Button type="submit" disabled={pending} pill>
           <ImagePlus aria-hidden="true" className="h-4 w-4" />
           Upload
-        </button>
+        </Button>
       </form>
 
       {ordered.length === 0 ? (
-        <p className="mt-5 text-sm text-ink/50">
+        <div className="mt-5 rounded-card border border-dashed border-border bg-page/50 px-4 py-8 text-center text-sm text-muted">
           No images yet. Upload the first photo above.
-        </p>
+        </div>
       ) : (
-        <ul className="mt-6 space-y-3">
+        <ul className="mt-5 space-y-3">
           {ordered.map((image, index) => {
             const url = getProductImageUrl(image.storage_path);
             return (
               <li
                 key={image.id}
-                className="flex flex-col gap-4 rounded-2xl border border-ink/10 p-4 sm:flex-row sm:items-center"
+                className="flex flex-col gap-4 rounded-card border border-border bg-page/40 p-4 sm:flex-row sm:items-center"
               >
-                <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-ink/10 bg-canvas">
+                <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-control border border-border bg-image-backdrop">
                   {url ? (
                     <Image src={url} alt="" fill sizes="80px" className="object-cover" />
                   ) : (
-                    <span className="flex h-full items-center justify-center text-[10px] text-ink/40">
+                    <span className="flex h-full items-center justify-center text-[10px] text-muted">
                       No preview
                     </span>
                   )}
                   {index === 0 && (
-                    <span className="absolute bottom-1 left-1 rounded-full bg-brand px-2 py-0.5 text-[10px] font-medium text-white">
+                    <span className="absolute bottom-1 left-1 rounded-full bg-primary px-2 py-0.5 text-[10px] font-bold text-white">
                       Cover
                     </span>
                   )}
@@ -155,12 +158,12 @@ export function ImageManager({
                 <div className="min-w-0 flex-1">
                   <label
                     htmlFor={`alt-${image.id}`}
-                    className="text-xs font-medium text-ink/60"
+                    className="mb-2 block text-xs font-semibold text-secondary-ink"
                   >
                     Alt text
                   </label>
-                  <div className="mt-1 flex gap-2">
-                    <input
+                  <div className="flex gap-2">
+                    <Input
                       id={`alt-${image.id}`}
                       value={altOverrides[image.id] ?? image.alt}
                       onChange={(event) =>
@@ -171,16 +174,17 @@ export function ImageManager({
                       }
                       maxLength={200}
                       placeholder="Describe this photo for accessibility"
-                      className="w-full rounded-xl border border-ink/15 bg-surface px-3 py-2 text-sm outline-none focus:border-brand"
                     />
-                    <button
+                    <Button
                       type="button"
+                      variant="secondary"
+                      size="sm"
+                      className="shrink-0"
                       disabled={pending}
                       onClick={() => saveAlt(image)}
-                      className="shrink-0 rounded-xl border border-ink/20 px-3 py-2 text-sm hover:border-brand hover:text-brand disabled:opacity-60"
                     >
                       Save
-                    </button>
+                    </Button>
                   </div>
                 </div>
 
@@ -190,7 +194,7 @@ export function ImageManager({
                     aria-label={`Move image ${index + 1} up`}
                     disabled={pending || index === 0}
                     onClick={() => move(index, -1)}
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-ink/15 hover:border-brand hover:text-brand disabled:opacity-35"
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-control border border-border text-secondary-ink transition-colors hover:bg-primary-tint hover:text-primary disabled:opacity-35"
                   >
                     <ArrowUp aria-hidden="true" className="h-4 w-4" />
                   </button>
@@ -199,7 +203,7 @@ export function ImageManager({
                     aria-label={`Move image ${index + 1} down`}
                     disabled={pending || index === ordered.length - 1}
                     onClick={() => move(index, 1)}
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-ink/15 hover:border-brand hover:text-brand disabled:opacity-35"
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-control border border-border text-secondary-ink transition-colors hover:bg-primary-tint hover:text-primary disabled:opacity-35"
                   >
                     <ArrowDown aria-hidden="true" className="h-4 w-4" />
                   </button>
@@ -208,7 +212,7 @@ export function ImageManager({
                     aria-label={`Delete image ${index + 1}`}
                     disabled={pending}
                     onClick={() => remove(image, index)}
-                    className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-ink/15 text-ink/55 hover:border-red-300 hover:text-red-600 disabled:opacity-35"
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-control border border-border text-secondary-ink transition-colors hover:bg-blush hover:text-sale disabled:opacity-35"
                   >
                     <Trash2 aria-hidden="true" className="h-4 w-4" />
                   </button>

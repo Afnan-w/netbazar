@@ -6,7 +6,7 @@ export default async function NewProductPage() {
   const categories = await getAdminCategories();
 
   return (
-    <div>
+    <div className="mx-auto max-w-4xl">
       <PageHeader
         title="New product"
         description="Add a listing to the catalogue. It starts as a draft until you set it to available."

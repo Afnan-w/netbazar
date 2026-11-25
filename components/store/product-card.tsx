@@ -18,10 +18,10 @@ import {
 } from "@/lib/utils/whatsapp";
 
 const badgeClasses: Record<string, string> = {
-  "Best seller": "bg-[#083D31] text-white ring-1 ring-white/15",
-  Hot: "bg-[#C9A961] text-[#083D31]",
-  New: "bg-[#F5EEDF] text-[#8A6B23] ring-1 ring-[#E5D5AA]",
-  Limited: "bg-[#F1EFE8] text-[#6A5A32]",
+  "Best seller": "bg-primary text-white ring-1 ring-primary/20",
+  Hot: "bg-sale text-white ring-1 ring-sale/20",
+  New: "bg-lilac text-primary ring-1 ring-primary/15",
+  Limited: "bg-peach text-secondary-ink ring-1 ring-border/70",
 };
 
 export function ProductCard({
@@ -49,8 +49,8 @@ export function ProductCard({
   );
 
   return (
-    <article className="card-shine group relative flex h-full flex-col overflow-hidden rounded-2xl premium-card transition-all duration-300 hover:-translate-y-1 hover:border-brand/25 hover:shadow-[0_22px_48px_-30px_rgba(8,61,49,0.5)]">
-      <div className="relative aspect-square overflow-hidden bg-canvas">
+    <article className="nova-card group relative flex h-full flex-col overflow-hidden rounded-card nova-lift">
+      <div className="relative aspect-square overflow-hidden rounded-t-card bg-image-backdrop">
         <Link
           href={`/products/${product.slug}`}
           className="absolute inset-0"
@@ -72,15 +72,24 @@ export function ProductCard({
           )}
         </Link>
 
-        {market.badge && (
-          <span
-            className={`pointer-events-none absolute left-3 top-3 z-10 rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${badgeClasses[market.badge] ?? ""}`}
-          >
-            {market.badge}
-          </span>
-        )}
+        <div className="pointer-events-none absolute left-3 top-3 z-10 flex flex-wrap items-center gap-1.5">
+          {discount > 0 && (
+            <span className="rounded-badge bg-sale px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white shadow-card">
+              -{discount}%
+            </span>
+          )}
+          {market.badge && (
+            <span
+              className={`rounded-badge px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider shadow-card ${
+                badgeClasses[market.badge] ?? ""
+              }`}
+            >
+              {market.badge}
+            </span>
+          )}
+        </div>
         {!available && (
-          <span className="pointer-events-none absolute bottom-3 left-3 z-10 rounded-full bg-surface/90 px-2.5 py-1 text-[10px] font-medium text-muted backdrop-blur">
+          <span className="pointer-events-none absolute bottom-3 left-3 z-10 rounded-badge bg-surface/90 px-2.5 py-1 text-[10px] font-medium text-muted shadow-card ring-1 ring-border/70 backdrop-blur">
             Unavailable
           </span>
         )}
@@ -95,34 +104,35 @@ export function ProductCard({
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute bottom-3 right-3 z-20 inline-flex items-center gap-1.5 rounded-lg bg-brand px-3 py-1.5 text-[11px] font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:bg-[#0a7055]"
+          className="absolute bottom-3 right-3 z-20 inline-flex min-h-11 items-center gap-1.5 rounded-full border border-primary bg-primary px-4 text-[11px] font-semibold text-white shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-hover hover:shadow-card-hover active:translate-y-0 active:bg-primary-active pressable"
         >
           <MessageCircle aria-hidden="true" className="h-3.5 w-3.5" />
           Order
         </a>
       </div>
 
-      <div className="flex flex-1 flex-col p-3.5">
+      <div className="flex flex-1 flex-col p-4">
         <div className="flex items-center justify-between gap-2 text-[11px]">
-          <span className="font-semibold uppercase tracking-[0.14em] text-muted">
+          <span className="truncate font-semibold uppercase tracking-[0.14em] text-muted">
             {product.category?.name ?? "General"}
           </span>
-          <span className="inline-flex items-center gap-1 text-ink/75">
-            <Star aria-hidden="true" className="h-3 w-3 fill-accent text-accent" />
+          <span className="inline-flex shrink-0 items-center gap-1 text-secondary-ink">
+            <Star aria-hidden="true" className="h-3 w-3 fill-star text-star" />
             {market.rating?.toFixed(1)}
             <span className="text-muted">· {market.soldCount} sold</span>
           </span>
         </div>
 
         <Link href={`/products/${product.slug}`} className="mt-2 block">
-          <h3 className="line-clamp-2 min-h-[2.5rem] text-sm font-semibold leading-snug text-ink transition-colors group-hover:text-brand">
+          <h3 className="line-clamp-2 min-h-[2.5rem] text-card-title font-semibold leading-snug text-ink transition-colors duration-200 group-hover:text-primary">
             {product.name}
           </h3>
         </Link>
+        <p className="mt-1 truncate text-[11px] text-muted">{product.sku}</p>
 
         <div className="mt-3 flex flex-wrap items-end justify-between gap-2">
           <div className="flex flex-wrap items-baseline gap-2">
-            <span className="text-lg font-semibold tracking-tight text-ink">
+            <span className="text-[18px] font-bold tracking-tight text-ink">
               {formatBDT(product.price_bdt)}
             </span>
             {product.reference_price_bdt !== null && (
@@ -131,27 +141,22 @@ export function ProductCard({
               </span>
             )}
           </div>
-          {discount > 0 && (
-            <span className="rounded-full bg-mint px-2 py-0.5 text-[10px] font-semibold text-gold-ink ring-1 ring-accent/40">
-              -{discount}%
-            </span>
-          )}
         </div>
 
         <div className="mt-2 flex items-center gap-1.5 text-[11px] text-muted">
-          <Truck aria-hidden="true" className="h-3.5 w-3.5 text-brand" />
+          <Truck aria-hidden="true" className="h-3.5 w-3.5 text-primary" />
           Ships in {market.shippingDays}
         </div>
 
         <Link
           href={`/products/${product.slug}`}
-          className="mt-3 inline-flex items-center justify-between rounded-lg border border-line bg-canvas/40 px-3 py-2 text-xs font-medium text-brand transition-colors hover:border-brand/30 hover:bg-mint"
+          className="mt-auto inline-flex min-h-11 items-center justify-between rounded-control border border-border bg-page/60 px-4 py-2 text-xs font-semibold text-primary transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-primary-tint hover:text-primary hover:shadow-card active:translate-y-0 pressable"
           aria-label={`View ${product.name}`}
         >
           View details
           <ArrowUpRight
             aria-hidden="true"
-            className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
           />
         </Link>
       </div>

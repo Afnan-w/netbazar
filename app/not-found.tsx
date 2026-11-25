@@ -1,30 +1,36 @@
+import { ArrowRight, Compass, LayoutGrid } from "lucide-react";
 import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <main className="flex min-h-screen items-center justify-center px-4 py-16">
-      <div className="max-w-lg text-center">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
+    <main className="flex min-h-screen items-center justify-center bg-gradient-to-b from-lilac/40 to-page px-4 py-16">
+      <div className="nova-panel w-full max-w-lg p-8 text-center sm:p-10">
+        <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-primary-tint text-primary">
+          <Compass aria-hidden="true" className="h-7 w-7" strokeWidth={1.5} />
+        </span>
+        <p className="mt-5 text-xs font-bold uppercase tracking-[0.18em] text-primary">
           404
         </p>
-        <h1 className="mt-3 text-3xl font-light tracking-tight sm:text-4xl">
+        <h1 className="mt-3 text-balance text-3xl font-bold tracking-tight text-ink sm:text-4xl">
           This page could not be found.
         </h1>
-        <p className="mt-4 text-sm leading-relaxed text-ink/60">
+        <p className="mt-4 text-sm leading-relaxed text-secondary-ink">
           The link may be old, or the product may no longer be listed. Browse the
           catalogue or ask us about an item on WhatsApp.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Link
             href="/"
-            className="rounded-full border border-brand bg-brand px-5 py-2.5 text-sm font-medium text-white hover:opacity-90"
+            className="inline-flex min-h-11 items-center gap-2 rounded-control bg-primary px-5 text-sm font-bold text-white pressable hover:bg-primary-hover active:bg-primary-active"
           >
             Go home
+            <ArrowRight aria-hidden="true" className="h-4 w-4" />
           </Link>
           <Link
             href="/products"
-            className="rounded-full border border-ink/20 px-5 py-2.5 text-sm font-medium hover:border-brand hover:text-brand"
+            className="inline-flex min-h-11 items-center gap-2 rounded-control border border-border bg-surface px-5 text-sm font-semibold text-primary pressable hover:bg-primary-tint"
           >
+            <LayoutGrid aria-hidden="true" className="h-4 w-4" />
             Browse products
           </Link>
         </div>

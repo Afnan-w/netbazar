@@ -10,11 +10,11 @@ import {
   Home,
   MessageCircle,
   Search,
-  ShieldCheck,
   Shirt,
   Smartphone,
   Sparkles,
   Star,
+  Tags,
   Truck,
   Wallet,
   WalletCards,
@@ -22,16 +22,23 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { CategoryRow, type CategoryItem, type CategoryTone } from "@/components/ui/category-row";
+import { Hero } from "@/components/ui/hero";
+import { PromoCard } from "@/components/ui/promo-card";
+import { SectionHeader } from "@/components/ui/section-header";
+import { TrustStrip } from "@/components/ui/trust-strip";
 import { ProductCard } from "@/components/store/product-card";
 import { ProductVisual } from "@/components/store/product-visual";
 import { Reveal } from "@/components/store/reveal";
-import { ProductGrid, SectionHeading } from "@/components/store/section-heading";
+import { ProductGrid } from "@/components/store/section-heading";
 import type { ProductListItem } from "@/lib/data/store";
 import { getCategories, getProducts, getSiteSettings } from "@/lib/data/store";
 import { formatBDT } from "@/lib/utils/format";
 import { getProductImageUrl } from "@/lib/utils/images";
 import { marketplaceFor } from "@/lib/utils/marketplace";
 import { buildWhatsAppUrl } from "@/lib/utils/whatsapp";
+
+const sectionClass = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
 
 const categoryIcons: Record<string, LucideIcon> = {
   "phone-accessories": Smartphone,
@@ -44,6 +51,8 @@ const categoryIcons: Record<string, LucideIcon> = {
   everyday: Gift,
 };
 
+const categoryTones: CategoryTone[] = ["lilac", "blush", "sage", "peach", "primary", "lilac"];
+
 const steps = [
   { icon: Search, title: "Browse", text: "Find a product or ask for any item." },
   { icon: MessageCircle, title: "Confirm", text: "Price and delivery on WhatsApp." },
@@ -51,27 +60,34 @@ const steps = [
   { icon: Truck, title: "Receive", text: "Shipped direct to Bangladesh." },
 ];
 
+const stepTones = ["bg-lilac", "bg-blush", "bg-sage", "bg-peach"];
+
 const heroPositions = [
-  "absolute left-0 top-4 rotate-[-5deg] animate-float-soft",
-  "absolute right-2 top-0 rotate-[4deg] animate-float-soft [animation-delay:-2.4s]",
-  "absolute bottom-0 left-24 rotate-[-2deg] animate-float-soft [animation-delay:-4.8s]",
+  "absolute left-0 top-2 rotate-[-5deg] animate-float-soft",
+  "absolute right-0 top-0 rotate-[4deg] animate-float-soft [animation-delay:-2.4s]",
+  "absolute bottom-0 left-20 rotate-[-2deg] animate-float-soft [animation-delay:-4.8s]",
 ];
 
 const trustPoints = [
   {
     icon: BadgeCheck,
     title: "Curated catalogue",
-    text: "Hand-picked products, not a noisy marketplace.",
+    description: "Hand-picked products, not a noisy marketplace.",
   },
   {
     icon: WalletCards,
     title: "Clear BDT pricing",
-    text: "Prices shown in taka with no checkout surprises.",
+    description: "Prices shown in taka with no checkout surprises.",
   },
   {
     icon: Clock3,
     title: "Confirmed first",
-    text: "Shipping and delivery time agreed before payment.",
+    description: "Shipping and delivery time agreed before payment.",
+  },
+  {
+    icon: MessageCircle,
+    title: "WhatsApp support",
+    description: "Ask about any product before you order.",
   },
 ];
 
@@ -82,8 +98,8 @@ function HeroProductCard({ product }: { product: ProductListItem }) {
     : "";
 
   return (
-    <div className="premium-card w-48 overflow-hidden rounded-2xl bg-surface/95 p-2 shadow-[0_22px_50px_-30px_rgba(3,20,16,0.8)] ring-1 ring-white/15 backdrop-blur sm:w-56">
-      <div className="relative aspect-square overflow-hidden rounded-xl bg-canvas">
+    <div className="glass-panel w-44 rounded-card border border-white/60 p-2 shadow-card-hover ring-1 ring-white/20 backdrop-blur sm:w-52">
+      <div className="relative aspect-square overflow-hidden rounded-control bg-image-backdrop">
         {imageUrl ? (
           <Image
             src={imageUrl}
@@ -101,16 +117,16 @@ function HeroProductCard({ product }: { product: ProductListItem }) {
         )}
       </div>
       <div className="px-1 pb-1 pt-2 text-ink">
-        <p className="truncate text-xs font-medium">{product.name}</p>
+        <p className="truncate text-xs font-semibold">{product.name}</p>
         <div className="mt-1 flex items-center justify-between text-[11px]">
-          <span className="font-semibold text-brand">{formatBDT(product.price_bdt)}</span>
-          <span className="inline-flex items-center gap-1 text-muted">
-            <Star aria-hidden="true" className="h-3 w-3 fill-accent text-gold-ink" />
+          <span className="font-bold text-primary">{formatBDT(product.price_bdt)}</span>
+          <span className="inline-flex items-center gap-1 text-secondary-ink">
+            <Star aria-hidden="true" className="h-3 w-3 fill-star text-star" />
             {market.rating?.toFixed(1)}
           </span>
         </div>
         {market.badge && (
-          <span className="mt-2 inline-flex rounded-full bg-mint px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-gold-ink">
+          <span className="mt-2 inline-flex rounded-badge bg-primary-tint px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary">
             {market.badge}
           </span>
         )}
@@ -140,178 +156,123 @@ export default async function HomePage() {
     featured.items[2] ?? all.items[2],
   ].filter((product): product is ProductListItem => Boolean(product));
 
-  const categoryImages = new Map<string, string>();
-  for (const product of all.items) {
-    const slug = product.category?.slug;
-    if (slug && product.images[0] && !categoryImages.has(slug)) {
-      categoryImages.set(slug, getProductImageUrl(product.images[0].storage_path));
-    }
-  }
+  const categoryItems: CategoryItem[] = categories.slice(0, 6).map((category, index) => ({
+    label: category.name,
+    href: `/products?category=${encodeURIComponent(category.slug)}`,
+    icon: categoryIcons[category.slug] ?? Grid2X2,
+    tone: categoryTones[index % categoryTones.length],
+  }));
 
   return (
-    <div>
-      <section className="relative overflow-hidden bg-dark text-white">
-        <div
-          aria-hidden="true"
-          className="animate-glow-soft pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(circle at 16% 18%, rgba(201,169,97,0.24), transparent 42%), radial-gradient(circle at 84% 78%, rgba(18,130,102,0.32), transparent 45%)",
-          }}
-        />
-        <div aria-hidden="true" className="hairline-grid pointer-events-none absolute inset-0 opacity-20" />
-
-        <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-          <div className="grid items-center gap-12 lg:grid-cols-[1fr_0.9fr]">
-            <div className="hero-enter">
-              <div className="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/80">
-                <span className="relative flex h-1.5 w-1.5">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-highlight opacity-60" />
-                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-highlight" />
-                </span>
-                Discover the world of smart shopping
+    <div className="space-y-8 pb-12 sm:space-y-10">
+      <section className={`${sectionClass} pt-6 sm:pt-8`}>
+        <Hero
+          eyebrow="DISCOVER THE WORLD OF SMART SHOPPING"
+          title={
+            <>
+              Everything You Want.{" "}
+              <span className="text-white/85">One Marketplace.</span>
+            </>
+          }
+          description="Discover quality products sourced from China and delivered to Bangladesh."
+          primaryAction={{ href: "/products", label: "Explore Products" }}
+          secondaryAction={{ href: "/#categories", label: "Browse Categories" }}
+        >
+          <div className="relative hidden min-h-[400px] lg:block">
+            <div
+              aria-hidden="true"
+              className="absolute left-6 top-2 h-[340px] w-[340px] rounded-full border border-white/25"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute right-0 top-14 h-[300px] w-[300px] rounded-full border border-white/25"
+            />
+            {heroProducts.map((product, index) => (
+              <div key={product.id} className={heroPositions[index]}>
+                <HeroProductCard product={product} />
               </div>
-
-              <h1 className="mt-6 max-w-2xl text-balance text-4xl font-semibold leading-[1.08] tracking-tight sm:text-6xl">
-                Everything You Want.
-                <span className="text-highlight"> One Marketplace.</span>
-              </h1>
-              <p className="mt-5 max-w-lg text-sm leading-relaxed text-white/70 sm:text-base">
-                Discover quality products sourced from China and delivered to Bangladesh.
-              </p>
-
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Link
-                  href="/products"
-                  className="inline-flex items-center gap-2 rounded-xl bg-highlight px-6 py-3 text-sm font-semibold text-dark shadow-[0_14px_30px_-18px_rgba(227,207,154,0.9)] transition-all hover:-translate-y-0.5 hover:bg-white"
-                >
-                  Explore Products
-                  <ArrowRight aria-hidden="true" className="h-4 w-4" />
-                </Link>
-                <Link
-                  href="/#categories"
-                  className="inline-flex items-center gap-2 rounded-xl border border-white/30 px-6 py-3 text-sm font-medium text-white transition-all hover:-translate-y-0.5 hover:border-highlight hover:text-highlight"
-                >
-                  Browse Categories
-                </Link>
-              </div>
-
-              <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/15 pt-6 text-xs text-white/70">
-                <span className="inline-flex items-center gap-2">
-                  <ShieldCheck aria-hidden="true" className="h-4 w-4 text-highlight" />
-                  Verified suppliers
-                </span>
-                <span className="inline-flex items-center gap-2">
-                  <WalletCards aria-hidden="true" className="h-4 w-4 text-highlight" />
-                  BDT pricing
-                </span>
-                <span className="inline-flex items-center gap-2">
-                  <MessageCircle aria-hidden="true" className="h-4 w-4 text-highlight" />
-                  WhatsApp support
-                </span>
-              </div>
-            </div>
-
-            <div className="hero-enter relative hidden min-h-[440px] lg:block [animation-delay:0.12s]">
-              <div
-                aria-hidden="true"
-                className="absolute left-8 top-4 h-[380px] w-[380px] rounded-full border border-white/10"
-              />
-              <div
-                aria-hidden="true"
-                className="absolute right-0 top-16 h-[340px] w-[340px] rounded-full border border-white/10"
-              />
-              {heroProducts.map((product, index) => (
-                <div key={product.id} className={heroPositions[index]}>
-                  <HeroProductCard product={product} />
-                </div>
-              ))}
-            </div>
+            ))}
           </div>
-        </div>
+        </Hero>
       </section>
 
       <Reveal>
-        <section id="categories" className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-          <SectionHeading
-          eyebrow="Explore"
-          title="Shop by category"
-          action={{ href: "/products", label: "View all" }}
-        />
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {categories.map((category) => {
-            const Icon = categoryIcons[category.slug] ?? Grid2X2;
-            const image = categoryImages.get(category.slug);
-            return (
-              <Link
-                key={category.id}
-                href={`/products?category=${encodeURIComponent(category.slug)}`}
-                className="group relative aspect-[4/3] overflow-hidden rounded-xl border border-line premium-card transition-all duration-300 hover:-translate-y-1 hover:border-brand/25 hover:shadow-lg"
-              >
-                {image ? (
-                  <Image
-                    src={image}
-                    alt={`${category.name} products`}
-                    fill
-                    sizes="(max-width: 640px) 50vw, 25vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                ) : (
-                  <div className="absolute inset-0">
-                    <ProductVisual
-                      categorySlug={category.slug}
-                      name={category.name}
-                      iconClassName="h-10 w-10"
-                    />
-                  </div>
-                )}
-                <span
-                  aria-hidden="true"
-                  className="absolute inset-0"
-                  style={{
-                    background:
-                      "linear-gradient(to top, rgba(8,61,49,0.86), rgba(8,61,49,0.12), transparent)",
-                  }}
-                />
-                <span className="absolute inset-x-0 bottom-0 flex items-center justify-between p-3 text-white">
-                  <span className="flex items-center gap-2 text-sm font-medium">
-                    <Icon aria-hidden="true" className="h-4 w-4 text-highlight" />
-                    {category.name}
-                  </span>
-                  <ArrowRight aria-hidden="true" className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </span>
-              </Link>
-            );
-          })}
-        </div>
+        <section id="categories" className={sectionClass}>
+          <SectionHeader
+            eyebrow="Explore"
+            title="Shop by category"
+            action={{ href: "/products", label: "View all" }}
+          />
+          {categoryItems.length > 0 ? (
+            <CategoryRow items={categoryItems} />
+          ) : (
+            <div className="nova-card p-8 text-center text-sm text-secondary-ink">
+              Categories are being prepared.
+            </div>
+          )}
+        </section>
+      </Reveal>
+
+      <Reveal>
+        <section className={sectionClass}>
+          <SectionHeader eyebrow="This week" title="Offers worth a look" />
+          <div className="grid gap-4 md:grid-cols-3">
+            <PromoCard
+              tone="blush"
+              eyebrow="Flash sale"
+              title="Fresh finds"
+              subtitle="New picks from our suppliers."
+              href="/products?sort=newest"
+              countdown="23:59:59"
+            >
+              <Sparkles aria-hidden="true" className="h-20 w-20 text-primary/25" />
+            </PromoCard>
+            <PromoCard
+              tone="sage"
+              eyebrow="Everyday"
+              title="Home & essentials"
+              subtitle="Simple things for every day."
+              href="/products"
+            >
+              <Tags aria-hidden="true" className="h-20 w-20 text-primary/25" />
+            </PromoCard>
+            <PromoCard
+              tone="peach"
+              eyebrow="Most loved"
+              title="Favourite picks"
+              subtitle="The products customers ask for most."
+              href="/products?featured=1"
+            >
+              <Gift aria-hidden="true" className="h-20 w-20 text-primary/25" />
+            </PromoCard>
+          </div>
         </section>
       </Reveal>
 
       {featured.items.length > 0 && (
         <Reveal>
-        <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="Curated for you"
-            title="Featured picks"
-            action={{ href: "/products", label: "View all" }}
-          />
-          <ProductGrid>
-            {featured.items.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                whatsappNumber={settings.whatsapp_number}
-              />
-            ))}
-          </ProductGrid>
-        </section>
+          <section className={sectionClass}>
+            <SectionHeader
+              eyebrow="Curated for you"
+              title="Featured picks"
+              action={{ href: "/products", label: "View all" }}
+            />
+            <ProductGrid>
+              {featured.items.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  whatsappNumber={settings.whatsapp_number}
+                />
+              ))}
+            </ProductGrid>
+          </section>
         </Reveal>
       )}
 
       <Reveal delay={60}>
-      <section className="border-y border-line bg-surface/70 py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
+        <section className={`${sectionClass} rounded-panel bg-surface/60 py-8 sm:py-10`}>
+          <SectionHeader
             eyebrow="Just landed"
             title="New arrivals"
             action={{ href: "/products?sort=newest", label: "See all" }}
@@ -325,120 +286,104 @@ export default async function HomePage() {
               />
             ))}
           </ProductGrid>
-        </div>
-      </section>
+        </section>
       </Reveal>
 
       {popular.items.length > 0 && (
         <Reveal>
-        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="Trending"
-            title="Best sellers"
-            action={{ href: "/products", label: "Browse" }}
-          />
-          <ProductGrid>
-            {popular.items.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                whatsappNumber={settings.whatsapp_number}
-              />
-            ))}
-          </ProductGrid>
-        </section>
+          <section className={sectionClass}>
+            <SectionHeader
+              eyebrow="Trending"
+              title="Best sellers"
+              action={{ href: "/products", label: "Browse" }}
+            />
+            <ProductGrid>
+              {popular.items.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  whatsappNumber={settings.whatsapp_number}
+                />
+              ))}
+            </ProductGrid>
+          </section>
         </Reveal>
       )}
 
       <Reveal>
-      <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-2xl bg-dark px-6 py-12 text-white sm:px-10">
-          <div
-            aria-hidden="true"
-            className="animate-glow-soft absolute right-0 top-0 h-full w-1/2"
-            style={{
-              background:
-                "radial-gradient(circle at 70% 40%, rgba(227,207,154,0.3), transparent 62%)",
-            }}
-          />
-          <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-highlight">
-                Can’t find it?
-              </p>
-              <h2 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
-                Request any product from China.
-              </h2>
-              <p className="mt-2 max-w-lg text-sm text-white/70">
-                Send us the item, link or photo. We confirm availability, price and delivery on WhatsApp.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href="/request"
-                className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-dark transition-all hover:-translate-y-0.5 hover:bg-highlight"
-              >
-                Request any product
-                <ArrowRight aria-hidden="true" className="h-4 w-4" />
-              </Link>
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl border border-white/30 px-5 py-3 text-sm font-medium text-white transition-all hover:-translate-y-0.5 hover:border-highlight hover:text-highlight"
-              >
-                <MessageCircle aria-hidden="true" className="h-4 w-4" />
-                WhatsApp
-              </a>
+        <section className={sectionClass}>
+          <div className="nova-panel relative overflow-hidden bg-lilac/50 p-6 sm:p-10">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -right-10 -top-16 h-56 w-56 rounded-full bg-primary/10 blur-3xl"
+            />
+            <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+              <div className="max-w-xl">
+                <span className="inline-flex items-center gap-2 rounded-badge bg-surface/80 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-primary shadow-soft">
+                  <Sparkles aria-hidden="true" className="h-3.5 w-3.5" />
+                  Can’t find it?
+                </span>
+                <h2 className="mt-4 text-balance text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+                  Request any product from China.
+                </h2>
+                <p className="mt-2 text-sm leading-relaxed text-secondary-ink">
+                  Send us the item, link or photo. We confirm availability, price and delivery on WhatsApp.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  href="/request"
+                  className="inline-flex min-h-12 items-center gap-2 rounded-full bg-primary px-6 text-sm font-bold text-white shadow-card pressable hover:bg-primary-hover active:bg-primary-active"
+                >
+                  Request any product
+                  <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                </Link>
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-12 items-center gap-2 rounded-full border border-border bg-surface/70 px-6 text-sm font-semibold text-primary pressable hover:bg-primary-tint"
+                >
+                  <MessageCircle aria-hidden="true" className="h-4 w-4" />
+                  WhatsApp
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
       </Reveal>
 
       <Reveal delay={60}>
-      <section className="border-y border-line bg-surface/70 py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="Simple flow"
-            title="Browse. Confirm. Receive."
-          />
+        <section className={`${sectionClass} rounded-panel bg-surface/60 py-8 sm:py-10`}>
+          <SectionHeader eyebrow="How it works" title="Browse. Confirm. Receive." />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((step, index) => (
-              <div key={step.title} className="relative overflow-hidden premium-card rounded-xl p-5 transition-all duration-300 hover:-translate-y-1 hover:border-brand/25 hover:shadow-lg">
-                <span aria-hidden="true" className="absolute inset-x-0 top-0 h-0.5 bg-accent/70" />
+              <div
+                key={step.title}
+                className="nova-card nova-lift relative overflow-hidden rounded-card p-5"
+              >
+                <span aria-hidden="true" className="absolute inset-x-0 top-0 h-0.5 bg-primary/60" />
                 <div className="flex items-center justify-between">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-mint text-gold-ink">
-                    <step.icon aria-hidden="true" className="h-4 w-4" />
+                  <span
+                    className={`grid h-11 w-11 place-items-center rounded-control text-primary ${stepTones[index]}`}
+                  >
+                    <step.icon aria-hidden="true" className="h-5 w-5" strokeWidth={1.5} />
                   </span>
-                  <span className="text-xs font-semibold text-gold-ink">0{index + 1}</span>
+                  <span className="text-xs font-bold tabular-nums text-primary">0{index + 1}</span>
                 </div>
-                <h3 className="mt-4 text-sm font-medium">{step.title}</h3>
-                <p className="mt-1 text-sm text-muted">{step.text}</p>
+                <h3 className="mt-4 text-sm font-bold text-ink">{step.title}</h3>
+                <p className="mt-1 text-sm leading-relaxed text-secondary-ink">{step.text}</p>
               </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
       </Reveal>
 
       <Reveal>
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <SectionHeading eyebrow="Why Netbazar" title="Sourcing with clarity" />
-        <div className="grid gap-4 md:grid-cols-3">
-          {trustPoints.map((point) => (
-            <div key={point.title} className="flex gap-4 rounded-xl border border-line bg-canvas/50 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-brand/25 hover:bg-surface hover:shadow-lg">
-              <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-mint text-brand shadow-sm">
-                <point.icon aria-hidden="true" className="h-4 w-4" />
-              </span>
-              <div>
-                <h3 className="text-sm font-medium">{point.title}</h3>
-                <p className="mt-1 text-sm text-muted">{point.text}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+        <section className={sectionClass}>
+          <SectionHeader eyebrow="Why Netbazar" title="Sourcing with clarity" />
+          <TrustStrip items={trustPoints} />
+        </section>
       </Reveal>
     </div>
   );

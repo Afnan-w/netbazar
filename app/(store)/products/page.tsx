@@ -113,51 +113,53 @@ export default async function ProductsPage({
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <header className="mb-8 flex flex-col gap-4 border-b border-line pb-8 sm:flex-row sm:items-end sm:justify-between">
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+      <header className="nova-panel mb-8 flex flex-col gap-5 p-6 sm:p-8 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold-ink">
+          <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary">
             {featuredOnly ? "Curated selection" : "Catalogue"}
           </p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h1 className="mt-2 text-balance text-3xl font-bold tracking-tight text-ink sm:text-4xl">
             {featuredOnly ? "Featured products" : "All products"}
           </h1>
-          <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted">
+          <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-secondary-ink">
             <span className="inline-flex items-center gap-1.5">
-              <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5 text-gold-ink" />
+              <ShieldCheck aria-hidden="true" className="h-4 w-4 text-primary" />
               Verified suppliers
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <Truck aria-hidden="true" className="h-3.5 w-3.5 text-support" />
+              <Truck aria-hidden="true" className="h-4 w-4 text-primary" />
               Delivery confirmed before payment
             </span>
           </div>
         </div>
-        <p className="max-w-sm text-sm text-muted">
+        <p className="max-w-sm rounded-card bg-primary-tint/60 px-4 py-3 text-sm leading-relaxed text-secondary-ink">
           Price and delivery are confirmed on WhatsApp before you pay.
         </p>
       </header>
 
-      <div className="grid gap-8 lg:grid-cols-[260px_1fr]">
-        <ProductFilters values={values} categories={categories} />
+      <div className="grid gap-6 lg:grid-cols-[260px_1fr] lg:gap-8">
+        <div className="rounded-panel bg-primary-tint/20 p-2 lg:p-3">
+          <ProductFilters values={values} categories={categories} />
+        </div>
 
         <div>
-          <div className="mb-5 flex flex-wrap items-center justify-between gap-4 border-b border-line pb-4">
-            <p className="text-sm text-muted">
+          <div className="nova-card mb-5 flex flex-wrap items-center justify-between gap-4 p-3 sm:px-4">
+            <p className="text-sm text-secondary-ink">
               {result.total === 0
                 ? "No products found"
                 : `${result.total} product${result.total === 1 ? "" : "s"}`}
-              <span className="ml-2 text-ink/35">· Page {page} of {totalPages}</span>
+              <span className="ml-2 text-muted">· Page {page} of {totalPages}</span>
             </p>
-            <div className="inline-flex items-center gap-1 rounded-lg border border-line bg-canvas/60 p-1">
+            <div className="inline-flex items-center gap-1 rounded-control bg-primary-tint/50 p-1">
               <Link
                 href={buildHref(page, "grid")}
                 aria-label="Grid view"
                 aria-current={values.view === "grid" ? "page" : undefined}
-                className={`inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
+                className={`inline-flex h-11 w-11 items-center justify-center rounded-control transition-colors pressable ${
                   values.view === "grid"
-                    ? "bg-brand text-white"
-                    : "text-muted hover:text-brand"
+                    ? "bg-primary text-white shadow-card"
+                    : "text-secondary-ink hover:bg-surface hover:text-primary"
                 }`}
               >
                 <LayoutGrid aria-hidden="true" className="h-4 w-4" />
@@ -166,10 +168,10 @@ export default async function ProductsPage({
                 href={buildHref(page, "list")}
                 aria-label="List view"
                 aria-current={values.view === "list" ? "page" : undefined}
-                className={`inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
+                className={`inline-flex h-11 w-11 items-center justify-center rounded-control transition-colors pressable ${
                   values.view === "list"
-                    ? "bg-brand text-white"
-                    : "text-muted hover:text-brand"
+                    ? "bg-primary text-white shadow-card"
+                    : "text-secondary-ink hover:bg-surface hover:text-primary"
                 }`}
               >
                 <List aria-hidden="true" className="h-4 w-4" />
@@ -179,7 +181,7 @@ export default async function ProductsPage({
 
           {result.items.length > 0 ? (
             values.view === "grid" ? (
-              <div className="product-grid grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4">
+              <div className="product-grid grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
                 {result.items.map((product) => (
                   <ProductCard
                     key={product.id}
@@ -200,15 +202,17 @@ export default async function ProductsPage({
               </div>
             )
           ) : (
-            <div className="rounded-xl border border-dashed border-line bg-canvas/60 px-6 py-16 text-center">
-              <PackageSearch aria-hidden="true" className="mx-auto h-8 w-8 text-brand" />
-              <h2 className="mt-4 text-lg font-medium">No products found</h2>
-              <p className="mt-2 text-sm text-muted">
+            <div className="nova-panel border border-dashed border-border bg-blush/25 px-6 py-16 text-center">
+              <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-primary-tint text-primary shadow-card">
+                <PackageSearch aria-hidden="true" className="h-8 w-8" strokeWidth={1.5} />
+              </span>
+              <h2 className="mt-5 text-lg font-bold text-ink">No products found</h2>
+              <p className="mx-auto mt-2 max-w-sm text-sm text-secondary-ink">
                 Try different filters or request the item directly.
               </p>
               <Link
                 href="/request"
-                className="mt-6 inline-flex rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#0a7055]"
+                className="mt-6 inline-flex min-h-11 items-center justify-center rounded-control bg-primary px-5 text-sm font-bold text-white pressable hover:bg-primary-hover active:bg-primary-active"
               >
                 Request a product
               </Link>

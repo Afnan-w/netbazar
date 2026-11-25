@@ -32,7 +32,7 @@ function readFormValues(form: HTMLFormElement) {
 function FieldError({ id, error }: { id: string; error?: string }) {
   if (!error) return null;
   return (
-    <p id={id} className="mt-1.5 text-xs text-red-600">
+    <p id={id} className="mt-1.5 text-xs text-sale">
       {error}
     </p>
   );
@@ -44,7 +44,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="inline-flex items-center gap-2 rounded-full border border-brand bg-brand px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+      className="inline-flex min-h-11 items-center gap-2 rounded-full border border-primary bg-primary px-5 text-sm font-medium text-white shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-hover hover:shadow-card-hover active:translate-y-0 active:bg-primary-active disabled:cursor-not-allowed disabled:opacity-60 pressable"
     >
       {pending ? "Sending…" : "Send request"}
       {!pending && <ArrowRight aria-hidden="true" className="h-4 w-4" />}
@@ -53,7 +53,9 @@ function SubmitButton() {
 }
 
 const inputClass =
-  "mt-1.5 w-full rounded-xl border border-ink/15 bg-surface px-3.5 py-2.5 text-sm outline-none transition-colors focus:border-brand";
+  "mt-1.5 min-h-11 w-full rounded-control border border-border bg-surface px-3.5 py-2.5 text-sm text-ink outline-none transition-colors duration-200 placeholder:text-muted hover:border-primary/30 focus:border-primary focus:ring-2 focus:ring-primary/15";
+
+const labelClass = "text-sm font-medium text-ink";
 
 export function RequestForm() {
   const [state, formAction] = useActionState(
@@ -75,20 +77,22 @@ export function RequestForm() {
 
   if (state.status === "success") {
     return (
-      <div className="rounded-xl border border-brand/25 bg-mint/50 p-6 sm:p-8">
-        <CheckCircle2 aria-hidden="true" className="h-10 w-10 text-brand" />
-        <h2 className="mt-5 text-2xl font-light tracking-tight">Request received</h2>
-        <p className="mt-2 text-sm leading-relaxed text-ink/70">{state.message}</p>
+      <div className="rounded-card border border-primary/15 bg-primary-tint p-6 shadow-card sm:p-8">
+        <span className="flex h-12 w-12 items-center justify-center rounded-control bg-surface text-primary shadow-card">
+          <CheckCircle2 aria-hidden="true" className="h-8 w-8" />
+        </span>
+        <h2 className="mt-5 text-2xl font-semibold tracking-tight text-ink">Request received</h2>
+        <p className="mt-2 text-sm leading-relaxed text-secondary-ink">{state.message}</p>
         {state.success && (
           <>
-            <p className="mt-4 text-sm text-ink/65">
+            <p className="mt-4 text-sm text-secondary-ink">
               {state.success.description} · Quantity {state.success.quantity}
             </p>
             <a
               href={state.success.whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 inline-flex items-center gap-2 rounded-full border border-brand bg-brand px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
+              className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-full border border-primary bg-primary px-5 text-sm font-medium text-white shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-hover hover:shadow-card-hover active:translate-y-0 active:bg-primary-active pressable"
             >
               <MessageCircle aria-hidden="true" className="h-4 w-4" />
               Continue on WhatsApp
@@ -96,7 +100,10 @@ export function RequestForm() {
           </>
         )}
         <div className="mt-6">
-          <Link href="/request" className="text-sm text-ink/60 underline hover:text-brand">
+          <Link
+            href="/request"
+            className="inline-flex min-h-11 items-center text-sm text-secondary-ink underline underline-offset-4 transition-colors duration-200 hover:text-primary"
+          >
             Submit another request
           </Link>
         </div>
@@ -109,11 +116,11 @@ export function RequestForm() {
       action={formAction}
       onSubmit={handleSubmit}
       noValidate
-      className="rounded-xl border border-ink/10 bg-surface p-6 sm:p-8"
+      className="rounded-card border border-border bg-surface p-6 shadow-card sm:p-8"
     >
       <div className="grid gap-6 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <label htmlFor="description" className="text-sm font-medium">
+          <label htmlFor="description" className={labelClass}>
             What are you looking for? <span aria-hidden="true">*</span>
           </label>
           <textarea
@@ -130,8 +137,8 @@ export function RequestForm() {
         </div>
 
         <div className="sm:col-span-2">
-          <label htmlFor="product_link" className="text-sm font-medium">
-            Product link <span className="font-normal text-ink/45">(optional)</span>
+          <label htmlFor="product_link" className={labelClass}>
+            Product link <span className="font-normal text-muted">(optional)</span>
           </label>
           <input
             id="product_link"
@@ -146,7 +153,7 @@ export function RequestForm() {
         </div>
 
         <div>
-          <label htmlFor="quantity" className="text-sm font-medium">
+          <label htmlFor="quantity" className={labelClass}>
             Quantity <span aria-hidden="true">*</span>
           </label>
           <input
@@ -165,8 +172,8 @@ export function RequestForm() {
         </div>
 
         <div>
-          <label htmlFor="budget_bdt" className="text-sm font-medium">
-            Budget in BDT <span className="font-normal text-ink/45">(optional)</span>
+          <label htmlFor="budget_bdt" className={labelClass}>
+            Budget in BDT <span className="font-normal text-muted">(optional)</span>
           </label>
           <input
             id="budget_bdt"
@@ -183,7 +190,7 @@ export function RequestForm() {
         </div>
 
         <div>
-          <label htmlFor="name" className="text-sm font-medium">
+          <label htmlFor="name" className={labelClass}>
             Your name <span aria-hidden="true">*</span>
           </label>
           <input
@@ -200,7 +207,7 @@ export function RequestForm() {
         </div>
 
         <div>
-          <label htmlFor="phone" className="text-sm font-medium">
+          <label htmlFor="phone" className={labelClass}>
             Phone / WhatsApp number <span aria-hidden="true">*</span>
           </label>
           <input
@@ -218,7 +225,7 @@ export function RequestForm() {
         </div>
 
         <div className="sm:col-span-2">
-          <label htmlFor="address" className="text-sm font-medium">
+          <label htmlFor="address" className={labelClass}>
             Delivery address in Bangladesh <span aria-hidden="true">*</span>
           </label>
           <textarea
@@ -241,14 +248,14 @@ export function RequestForm() {
       </div>
 
       {state.status === "error" && state.message && (
-        <p role="alert" className="mt-6 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
+        <p role="alert" className="mt-6 rounded-control bg-sale/10 px-4 py-3 text-sm text-sale ring-1 ring-sale/20">
           {state.message}
         </p>
       )}
 
       <div className="mt-7 flex flex-wrap items-center gap-4">
         <SubmitButton />
-        <p className="text-xs text-ink/50">We usually reply on WhatsApp.</p>
+        <p className="text-xs text-muted">We usually reply on WhatsApp.</p>
       </div>
     </form>
   );

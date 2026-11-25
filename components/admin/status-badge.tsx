@@ -1,16 +1,16 @@
 import type { ProductRequestStatus, ProductStatus } from "@/types/database";
 
 const tones: Record<string, string> = {
-  available: "border-brand/30 bg-mint text-brand",
-  new: "border-brand/30 bg-mint text-brand",
-  draft: "border-ink/15 bg-canvas text-ink/60",
-  contacted: "border-ink/15 bg-canvas text-ink/60",
-  quoted: "border-ink/15 bg-canvas text-ink/60",
-  paid: "border-brand/30 bg-mint text-brand",
-  shipped: "border-brand/30 bg-mint text-brand",
-  closed: "border-ink/15 bg-canvas text-ink/60",
-  unavailable: "border-amber-300 bg-amber-50 text-amber-700",
-  cancelled: "border-red-200 bg-red-50 text-red-700",
+  available: "badge-success",
+  paid: "badge-success",
+  shipped: "badge-success",
+  closed: "badge-success",
+  new: "badge-pending",
+  contacted: "badge-pending",
+  quoted: "badge-pending",
+  draft: "bg-image-backdrop text-secondary-ink",
+  unavailable: "bg-image-backdrop text-secondary-ink",
+  cancelled: "badge-cancelled",
 };
 
 export function StatusBadge({
@@ -20,7 +20,9 @@ export function StatusBadge({
 }) {
   return (
     <span
-      className={`inline-flex rounded-full border px-2.5 py-1 text-[11px] font-medium capitalize ${tones[status] ?? "border-ink/15 text-ink/60"}`}
+      className={`inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold capitalize ring-1 ring-border ${
+        tones[status] ?? "bg-image-backdrop text-secondary-ink"
+      }`}
     >
       {status}
     </span>
