@@ -61,7 +61,17 @@ async function getClient(): Promise<StoreClient | null> {
   try {
     return await createClient();
   } catch (error) {
-    console.error("Could not create the Supabase client:", error);
+    // During prerender Next.js raises this for cookie access; the route becomes
+    // dynamic automatically, so it is not a real failure.
+    const isDynamicUsage =
+      typeof error === "object" &&
+      error !== null &&
+      "digest" in error &&
+      typeof error.digest === "string" &&
+      error.digest.startsWith("DYNAMIC_SERVER_USAGE");
+    if (!isDynamicUsage) {
+      console.error("Could not create the Supabase client:", error);
+    }
     return null;
   }
 }
