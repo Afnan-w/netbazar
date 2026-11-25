@@ -4,6 +4,7 @@
   --color-brand: var(--brand);
   --color-accent: var(--accent);
   --color-highlight: var(--highlight);
+  --color-gold-ink: var(--gold-ink);
   --color-support: var(--support);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
@@ -20,20 +21,21 @@
 
 :root {
   color-scheme: light;
-  --brand: #171c2c;
-  --accent: #8a70e8;
-  --highlight: #a997ff;
-  --support: #4d8dca;
-  --ink: #202436;
-  --muted: #73798b;
-  --subtle: #a1a6b4;
+  --brand: #0b5c48;
+  --accent: #c9a961;
+  --highlight: #e3cf9a;
+  --gold-ink: #8a6b23;
+  --support: #4c8a9a;
+  --ink: #151a17;
+  --muted: #66716b;
+  --subtle: #9aa39d;
   --surface: #ffffff;
-  --canvas: #f5f6fa;
-  --line: #e8eaf1;
-  --mint: #f1edff;
-  --success: #269b71;
-  --discount: #e76c68;
-  --dark: #171c2c;
+  --canvas: #f8f6f1;
+  --line: #e7e4db;
+  --mint: #f5eedf;
+  --success: #2e8b6b;
+  --discount: #d46a5f;
+  --dark: #083d31;
   background: var(--canvas);
   color: var(--ink);
 }
@@ -41,20 +43,21 @@
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    --brand: #171c2c;
-    --accent: #a997ff;
-    --highlight: #c4b8ff;
-    --support: #74a9dc;
-    --ink: #f5f6fa;
-    --muted: #a1a6b4;
-    --subtle: #73798b;
-    --surface: #20263a;
-    --canvas: #151a2b;
-    --line: #303850;
-    --mint: #2c2748;
-    --success: #3fb98a;
-    --discount: #ef8581;
-    --dark: #0e1220;
+    --brand: #128266;
+    --accent: #dcc48a;
+    --highlight: #f0dfb4;
+    --gold-ink: #e4cd94;
+    --support: #74a9b5;
+    --ink: #f7f5ef;
+    --muted: #9aa9a1;
+    --subtle: #73837a;
+    --surface: #16241f;
+    --canvas: #0e1a16;
+    --line: #2a3b34;
+    --mint: #25382f;
+    --success: #4fb994;
+    --discount: #e9877b;
+    --dark: #061c17;
   }
 }
 
@@ -70,7 +73,7 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--brand);
   outline-offset: 3px;
 }
 
@@ -82,6 +85,17 @@ body {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--line) 85%, var(--surface)) 25%,
+      color-mix(in srgb, var(--surface) 90%, var(--line)) 50%,
+      color-mix(in srgb, var(--line) 85%, var(--surface)) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shift 1.4s ease-in-out infinite;
   }
 
   .glass-panel {
@@ -105,7 +119,7 @@ body {
   .premium-card {
     border: 1px solid var(--line);
     background: var(--surface);
-    box-shadow: 0 18px 44px -30px rgb(23 28 44 / 0.35);
+    box-shadow: 0 18px 44px -30px rgb(8 61 49 / 0.28);
   }
 
   .accent-rule {
@@ -173,6 +187,15 @@ body {
   to {
     opacity: 1;
     translate: 0 0;
+  }
+}
+
+@keyframes skeleton-shift {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
   }
 }
 

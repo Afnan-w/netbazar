@@ -86,8 +86,8 @@ function SearchForm({
           }
         }}
       >
-        <div className="flex items-center gap-2 rounded-xl border border-line bg-canvas/70 px-3.5 py-2.5 transition-colors focus-within:border-accent focus-within:bg-surface focus-within:ring-2 focus-within:ring-accent/15">
-          <Search aria-hidden="true" className="h-4 w-4 shrink-0 text-subtle" />
+        <div className="flex items-center gap-2 rounded-xl border border-line bg-canvas/70 px-3.5 py-3 transition-colors focus-within:border-brand focus-within:bg-surface focus-within:ring-2 focus-within:ring-brand/15">
+          <Search aria-hidden="true" className="h-4 w-4 shrink-0 text-brand" />
           <input
             id={compact ? "mobile-search" : "header-search"}
             name="q"
@@ -150,8 +150,8 @@ function SearchForm({
                 }}
                 className={`flex items-center gap-2 rounded-lg px-2 py-2 text-sm transition-colors ${
                   activeIndex === index
-                    ? "bg-canvas text-accent"
-                    : "text-ink/75 hover:bg-canvas hover:text-accent"
+                    ? "bg-mint text-brand"
+                    : "text-ink/75 hover:bg-canvas hover:text-brand"
                 }`}
               >
                 <Search aria-hidden="true" className="h-3.5 w-3.5 text-subtle" />
@@ -164,7 +164,7 @@ function SearchForm({
             {query && (
               <button
                 type="submit"
-                className="mt-1 flex w-full items-center justify-between rounded-lg bg-mint px-3 py-2 text-left text-xs font-medium text-accent"
+                className="mt-1 flex w-full items-center justify-between rounded-lg bg-mint px-3 py-2 text-left text-xs font-semibold text-brand"
               >
                 See all results for “{query}”
                 <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
@@ -192,7 +192,7 @@ function MegaMenu({ categories }: { categories: HeaderCategory[] }) {
         aria-controls="mega-menu"
         onClick={() => setOpen((value) => !value)}
         onFocus={() => setOpen(true)}
-        className="inline-flex items-center gap-1 text-sm text-ink/70 transition-colors hover:text-accent"
+        className="inline-flex items-center gap-1 text-sm text-ink/70 transition-colors hover:text-brand"
       >
         Categories
         <ChevronDown
@@ -213,7 +213,7 @@ function MegaMenu({ categories }: { categories: HeaderCategory[] }) {
             <Link
               href="/products"
               onClick={() => setOpen(false)}
-              className="inline-flex items-center gap-1 text-xs font-medium text-accent"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-brand"
             >
               View all
               <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
@@ -227,12 +227,12 @@ function MegaMenu({ categories }: { categories: HeaderCategory[] }) {
                   key={category.slug}
                   href={`/products?category=${encodeURIComponent(category.slug)}`}
                   onClick={() => setOpen(false)}
-                  className="group/card flex flex-col gap-3 rounded-xl border border-line bg-canvas/50 p-3 transition-colors hover:border-accent/40 hover:bg-mint/60"
+                  className="group/card flex flex-col gap-3 rounded-xl border border-line bg-canvas/50 p-3 transition-all hover:-translate-y-0.5 hover:border-brand/25 hover:bg-mint/60 hover:shadow-sm"
                 >
-                  <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-surface text-accent shadow-sm">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-surface text-brand shadow-sm">
                     <Icon aria-hidden="true" className="h-4 w-4" />
                   </span>
-                  <span className="text-sm font-medium text-ink group-hover/card:text-accent">
+                  <span className="text-sm font-medium text-ink group-hover/card:text-brand">
                     {category.name}
                   </span>
                 </Link>
@@ -269,7 +269,7 @@ export function SiteHeader({
     <header
       className={`sticky top-0 z-40 border-b backdrop-blur-xl transition-shadow duration-300 ${
         scrolled
-          ? "border-line/70 bg-surface/90 shadow-[0_14px_36px_-28px_rgba(23,28,44,0.65)]"
+          ? "border-line/70 bg-surface/90 shadow-[0_14px_36px_-28px_rgba(8,61,49,0.55)]"
           : "border-line bg-surface/95"
       }`}
     >
@@ -279,7 +279,7 @@ export function SiteHeader({
           className="shrink-0 text-xl font-semibold tracking-tight"
           onClick={() => setMenuOpen(false)}
         >
-          Net<span className="text-accent">bazar</span>
+          Net<span className="text-gold-ink">bazar</span>
         </Link>
 
         <nav aria-label="Main navigation" className="hidden items-center gap-5 lg:flex">
@@ -288,9 +288,9 @@ export function SiteHeader({
             <Link
               key={link.href}
               href={link.href}
-              className={`relative inline-flex text-sm transition-colors after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-accent after:transition-transform after:duration-300 hover:text-accent hover:after:scale-x-100 ${
+              className={`relative inline-flex text-sm transition-colors after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-brand after:transition-transform after:duration-300 hover:text-brand hover:after:scale-x-100 ${
                 pathname === link.href
-                  ? "font-medium text-accent after:scale-x-100"
+                  ? "font-medium text-brand after:scale-x-100"
                   : "text-ink/70"
               }`}
             >
@@ -299,7 +299,7 @@ export function SiteHeader({
           ))}
         </nav>
 
-        <div className="mx-auto hidden w-full max-w-xl md:block">
+        <div className="mx-auto hidden w-full max-w-2xl md:block">
           <SearchForm suggestions={suggestions} />
         </div>
 
@@ -307,7 +307,7 @@ export function SiteHeader({
           <Link
             href="/admin/login"
             aria-label="Account"
-            className="hidden h-10 w-10 items-center justify-center rounded-full border border-line text-ink/70 transition-colors hover:border-accent hover:text-accent sm:inline-flex"
+            className="hidden h-10 w-10 items-center justify-center rounded-full border border-line text-ink/70 transition-colors hover:border-brand hover:text-brand sm:inline-flex"
           >
             <UserRound aria-hidden="true" className="h-4 w-4" />
           </Link>
@@ -318,7 +318,7 @@ export function SiteHeader({
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-accent px-4 py-2 text-sm font-medium text-white shadow-[0_12px_28px_-16px_rgba(138,112,232,0.9)] transition-all hover:-translate-y-0.5 hover:bg-highlight hover:shadow-[0_16px_32px_-14px_rgba(138,112,232,0.95)]"
+            className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white shadow-[0_12px_28px_-16px_rgba(8,61,49,0.85)] transition-all hover:-translate-y-0.5 hover:bg-[#0a7055] hover:shadow-[0_16px_32px_-14px_rgba(8,61,49,0.9)]"
           >
             <MessageCircle aria-hidden="true" className="h-4 w-4" />
             <span className="hidden sm:inline">Order on WhatsApp</span>
@@ -345,7 +345,7 @@ export function SiteHeader({
         <div className="mx-auto flex h-11 max-w-7xl items-center gap-1 overflow-x-auto px-4 sm:px-6 lg:px-8">
           <Link
             href="/products"
-            className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-semibold text-accent hover:bg-mint"
+            className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-semibold text-gold-ink hover:bg-mint"
           >
             All Categories
           </Link>
@@ -355,7 +355,7 @@ export function SiteHeader({
               <Link
                 key={category.slug}
                 href={`/products?category=${encodeURIComponent(category.slug)}`}
-                className="inline-flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs text-ink/65 transition-colors hover:bg-canvas hover:text-accent"
+                className="inline-flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs text-ink/65 transition-colors hover:bg-canvas hover:text-brand"
               >
                 <Icon aria-hidden="true" className="h-3.5 w-3.5 text-subtle" />
                 {category.name}
@@ -365,13 +365,13 @@ export function SiteHeader({
           <span aria-hidden="true" className="mx-2 h-4 w-px shrink-0 bg-line" />
           <Link
             href="/products?featured=1"
-            className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium text-ink/65 hover:bg-canvas hover:text-accent"
+            className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium text-ink/65 hover:bg-canvas hover:text-brand"
           >
             Featured Products
           </Link>
           <Link
             href="/products?sort=newest"
-            className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium text-ink/65 hover:bg-canvas hover:text-accent"
+            className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium text-ink/65 hover:bg-canvas hover:text-brand"
           >
             New Arrivals
           </Link>
@@ -391,7 +391,7 @@ export function SiteHeader({
                   key={link.href}
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className="rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-accent hover:text-accent"
+                  className="rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-brand hover:text-brand"
                 >
                   {link.label}
                 </Link>
@@ -399,14 +399,14 @@ export function SiteHeader({
               <Link
                 href="/wishlist"
                 onClick={() => setMenuOpen(false)}
-                className="rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-accent hover:text-accent"
+                className="rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-brand hover:text-brand"
               >
                 Wishlist
               </Link>
               <Link
                 href="/admin/login"
                 onClick={() => setMenuOpen(false)}
-                className="rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-accent hover:text-accent"
+                className="rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-brand hover:text-brand"
               >
                 Account
               </Link>
@@ -423,9 +423,9 @@ export function SiteHeader({
                       key={category.slug}
                       href={`/products?category=${encodeURIComponent(category.slug)}`}
                       onClick={() => setMenuOpen(false)}
-                      className="inline-flex items-center gap-2 rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-accent hover:text-accent"
+                      className="inline-flex items-center gap-2 rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-brand hover:text-brand"
                     >
-                      <Icon aria-hidden="true" className="h-4 w-4 text-accent" />
+                      <Icon aria-hidden="true" className="h-4 w-4 text-brand" />
                       {category.name}
                     </Link>
                   );
@@ -434,11 +434,11 @@ export function SiteHeader({
             </div>
             <div className="flex items-center gap-4 border-t border-line pt-4 text-[11px] text-muted">
               <span className="inline-flex items-center gap-1">
-                <BadgeCheck aria-hidden="true" className="h-3.5 w-3.5 text-accent" />
+                <BadgeCheck aria-hidden="true" className="h-3.5 w-3.5 text-gold-ink" />
                 Verified suppliers
               </span>
               <span className="inline-flex items-center gap-1">
-                <WalletCards aria-hidden="true" className="h-3.5 w-3.5 text-accent" />
+                <WalletCards aria-hidden="true" className="h-3.5 w-3.5 text-gold-ink" />
                 BDT pricing
               </span>
             </div>

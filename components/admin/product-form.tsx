@@ -171,7 +171,7 @@ export function ProductForm({
                 type="checkbox"
                 name="is_featured"
                 defaultChecked={product?.is_featured ?? false}
-                className="h-4 w-4 accent-[#8A70E8]"
+                className="h-4 w-4 accent-[#0B5C48]"
               />
               Featured
             </label>
@@ -180,7 +180,7 @@ export function ProductForm({
                 type="checkbox"
                 name="is_popular"
                 defaultChecked={product?.is_popular ?? false}
-                className="h-4 w-4 accent-[#8A70E8]"
+                className="h-4 w-4 accent-[#0B5C48]"
               />
               Popular
             </label>

@@ -21,7 +21,7 @@ export type ProductFilterValues = {
 };
 
 const fieldClass =
-  "w-full rounded-lg border border-line bg-canvas/60 px-3 py-2 text-sm outline-none transition-colors focus:border-accent focus:bg-surface focus:ring-2 focus:ring-accent/15";
+  "w-full rounded-lg border border-line bg-canvas/60 px-3 py-2 text-sm outline-none transition-colors focus:border-brand focus:bg-surface focus:ring-2 focus:ring-brand/15";
 
 const labelClass =
   "mb-2 block text-[11px] font-semibold uppercase tracking-widest text-muted";
@@ -147,7 +147,7 @@ function FilterFields({
       <div className="flex items-center gap-3 pt-1">
         <button
           type="submit"
-          className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-highlight"
+          className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#0a7055]"
         >
           Apply filters
         </button>
@@ -180,7 +180,7 @@ export function ProductFilters({
       </details>
 
       <aside aria-label="Product filters" className="hidden lg:sticky lg:top-32 lg:block lg:self-start">
-        <form action="/products" method="get" className="rounded-xl premium-card p-5">
+        <form action="/products" method="get" className="rounded-2xl premium-card p-5 shadow-[0_20px_50px_-42px_rgba(8,61,49,0.5)]">
           <div className="mb-5 flex items-center gap-2 border-b border-line pb-4 text-sm font-medium">
             <SlidersHorizontal aria-hidden="true" className="h-4 w-4 text-brand" />
             Filters

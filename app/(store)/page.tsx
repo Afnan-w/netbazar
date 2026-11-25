@@ -82,7 +82,7 @@ function HeroProductCard({ product }: { product: ProductListItem }) {
     : "";
 
   return (
-    <div className="premium-card w-48 overflow-hidden rounded-xl bg-surface p-2 shadow-lg sm:w-56">
+    <div className="premium-card w-48 overflow-hidden rounded-2xl bg-surface/95 p-2 shadow-[0_22px_50px_-30px_rgba(3,20,16,0.8)] ring-1 ring-white/15 backdrop-blur sm:w-56">
       <div className="relative aspect-square overflow-hidden rounded-xl bg-canvas">
         {imageUrl ? (
           <Image
@@ -105,10 +105,15 @@ function HeroProductCard({ product }: { product: ProductListItem }) {
         <div className="mt-1 flex items-center justify-between text-[11px]">
           <span className="font-semibold text-brand">{formatBDT(product.price_bdt)}</span>
           <span className="inline-flex items-center gap-1 text-muted">
-            <Star aria-hidden="true" className="h-3 w-3 fill-accent text-accent" />
+            <Star aria-hidden="true" className="h-3 w-3 fill-accent text-gold-ink" />
             {market.rating?.toFixed(1)}
           </span>
         </div>
+        {market.badge && (
+          <span className="mt-2 inline-flex rounded-full bg-mint px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-gold-ink">
+            {market.badge}
+          </span>
+        )}
       </div>
     </div>
   );
@@ -151,7 +156,7 @@ export default async function HomePage() {
           className="animate-glow-soft pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(circle at 16% 18%, rgba(138,112,232,0.28), transparent 42%), radial-gradient(circle at 84% 78%, rgba(77,141,202,0.18), transparent 45%)",
+              "radial-gradient(circle at 16% 18%, rgba(201,169,97,0.24), transparent 42%), radial-gradient(circle at 84% 78%, rgba(18,130,102,0.32), transparent 45%)",
           }}
         />
         <div aria-hidden="true" className="hairline-grid pointer-events-none absolute inset-0 opacity-20" />
@@ -178,14 +183,14 @@ export default async function HomePage() {
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
                   href="/products"
-                  className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-dark transition-colors hover:bg-highlight"
+                  className="inline-flex items-center gap-2 rounded-xl bg-highlight px-6 py-3 text-sm font-semibold text-dark shadow-[0_14px_30px_-18px_rgba(227,207,154,0.9)] transition-all hover:-translate-y-0.5 hover:bg-white"
                 >
                   Explore Products
                   <ArrowRight aria-hidden="true" className="h-4 w-4" />
                 </Link>
                 <Link
                   href="/#categories"
-                  className="inline-flex items-center gap-2 rounded-xl border border-white/30 px-6 py-3 text-sm font-medium text-white transition-colors hover:border-highlight hover:text-highlight"
+                  className="inline-flex items-center gap-2 rounded-xl border border-white/30 px-6 py-3 text-sm font-medium text-white transition-all hover:-translate-y-0.5 hover:border-highlight hover:text-highlight"
                 >
                   Browse Categories
                 </Link>
@@ -241,7 +246,7 @@ export default async function HomePage() {
               <Link
                 key={category.id}
                 href={`/products?category=${encodeURIComponent(category.slug)}`}
-                className="group relative aspect-[4/3] overflow-hidden rounded-xl border border-line premium-card transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg"
+                className="group relative aspect-[4/3] overflow-hidden rounded-xl border border-line premium-card transition-all duration-300 hover:-translate-y-1 hover:border-brand/25 hover:shadow-lg"
               >
                 {image ? (
                   <Image
@@ -265,7 +270,7 @@ export default async function HomePage() {
                   className="absolute inset-0"
                   style={{
                     background:
-                      "linear-gradient(to top, rgba(23,28,44,0.82), rgba(23,28,44,0.12), transparent)",
+                      "linear-gradient(to top, rgba(8,61,49,0.86), rgba(8,61,49,0.12), transparent)",
                   }}
                 />
                 <span className="absolute inset-x-0 bottom-0 flex items-center justify-between p-3 text-white">
@@ -353,7 +358,7 @@ export default async function HomePage() {
             className="animate-glow-soft absolute right-0 top-0 h-full w-1/2"
             style={{
               background:
-                "radial-gradient(circle at 70% 40%, rgba(138,112,232,0.32), transparent 62%)",
+                "radial-gradient(circle at 70% 40%, rgba(227,207,154,0.3), transparent 62%)",
             }}
           />
           <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
@@ -400,12 +405,13 @@ export default async function HomePage() {
           />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((step, index) => (
-              <div key={step.title} className="premium-card rounded-xl p-5 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg">
+              <div key={step.title} className="relative overflow-hidden premium-card rounded-xl p-5 transition-all duration-300 hover:-translate-y-1 hover:border-brand/25 hover:shadow-lg">
+                <span aria-hidden="true" className="absolute inset-x-0 top-0 h-0.5 bg-accent/70" />
                 <div className="flex items-center justify-between">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-mint text-accent">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-mint text-gold-ink">
                     <step.icon aria-hidden="true" className="h-4 w-4" />
                   </span>
-                  <span className="text-xs font-medium text-muted">0{index + 1}</span>
+                  <span className="text-xs font-semibold text-gold-ink">0{index + 1}</span>
                 </div>
                 <h3 className="mt-4 text-sm font-medium">{step.title}</h3>
                 <p className="mt-1 text-sm text-muted">{step.text}</p>
@@ -421,8 +427,8 @@ export default async function HomePage() {
         <SectionHeading eyebrow="Why Netbazar" title="Sourcing with clarity" />
         <div className="grid gap-4 md:grid-cols-3">
           {trustPoints.map((point) => (
-            <div key={point.title} className="flex gap-4 rounded-xl border border-line bg-canvas/50 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:bg-surface hover:shadow-lg">
-              <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-surface text-accent shadow-sm">
+            <div key={point.title} className="flex gap-4 rounded-xl border border-line bg-canvas/50 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-brand/25 hover:bg-surface hover:shadow-lg">
+              <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-mint text-brand shadow-sm">
                 <point.icon aria-hidden="true" className="h-4 w-4" />
               </span>
               <div>

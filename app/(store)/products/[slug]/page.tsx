@@ -25,10 +25,10 @@ import { buildWhatsAppUrl, productOrderMessage } from "@/lib/utils/whatsapp";
 type ProductPageProps = { params: Promise<{ slug: string }> };
 
 const badgeClasses: Record<string, string> = {
-  "Best seller": "bg-[#171C2C] text-white",
-  Hot: "bg-[#4D8DCA] text-white",
-  New: "bg-mint text-accent",
-  Limited: "bg-[#E8F1FA] text-[#3C6FA3]",
+  "Best seller": "bg-[#083D31] text-white",
+  Hot: "bg-[#C9A961] text-[#083D31]",
+  New: "bg-mint text-gold-ink ring-1 ring-[#E5D5AA]",
+  Limited: "bg-[#F1EFE8] text-[#6A5A32]",
 };
 
 const assurances = [
@@ -117,7 +117,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           categorySlug={product.category?.slug ?? "everyday"}
         />
 
-        <aside className="premium-card h-fit rounded-xl p-6 lg:sticky lg:top-32">
+        <aside className="premium-card h-fit rounded-2xl p-6 shadow-[0_24px_60px_-40px_rgba(8,61,49,0.45)] lg:sticky lg:top-32">
           <div className="flex flex-wrap items-center gap-2">
             {product.category && (
               <Link
@@ -142,7 +142,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted">
             <span>SKU {product.sku}</span>
             <span className="inline-flex items-center gap-1 text-ink/70">
-              <Star aria-hidden="true" className="h-3.5 w-3.5 fill-accent text-accent" />
+              <Star aria-hidden="true" className="h-3.5 w-3.5 fill-accent text-gold-ink" />
               {market.rating?.toFixed(1)} · {market.soldCount} sold
             </span>
           </div>
@@ -155,7 +155,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </span>
             )}
             {discount > 0 && (
-              <span className="rounded-full bg-discount px-2.5 py-1 text-xs font-semibold text-white">
+              <span className="rounded-full bg-mint px-2.5 py-1 text-xs font-semibold text-gold-ink ring-1 ring-accent/40">
                 Save {discount}%
               </span>
             )}
@@ -165,7 +165,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             <span
               className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs ${
                 available
-                  ? "border-accent/30 bg-mint text-accent"
+                  ? "border-accent/30 bg-mint text-gold-ink"
                   : "border-line text-muted"
               }`}
             >
@@ -188,7 +188,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-highlight"
+              className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-brand px-6 py-3.5 text-sm font-semibold text-white shadow-[0_14px_30px_-18px_rgba(8,61,49,0.9)] transition-all hover:-translate-y-0.5 hover:bg-[#0a7055]"
             >
               <MessageCircle aria-hidden="true" className="h-4 w-4" />
               Order on WhatsApp
@@ -202,7 +202,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <ul className="mt-5 space-y-2 border-t border-line pt-5 text-xs text-muted">
             {assurances.map((item) => (
               <li key={item} className="flex items-center gap-2">
-                <Check aria-hidden="true" className="h-3.5 w-3.5 text-accent" />
+                <Check aria-hidden="true" className="h-3.5 w-3.5 text-brand" />
                 {item}
               </li>
             ))}

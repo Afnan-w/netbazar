@@ -25,7 +25,7 @@ export function ProductGallery({
   return (
     <div className="space-y-3">
       <div
-        className="group relative aspect-square cursor-zoom-in overflow-hidden rounded-xl border border-line bg-canvas premium-card"
+        className="group relative aspect-square cursor-zoom-in overflow-hidden rounded-2xl border border-line bg-canvas premium-card shadow-[0_24px_60px_-44px_rgba(8,61,49,0.5)]"
         onMouseMove={(event) => {
           const bounds = event.currentTarget.getBoundingClientRect();
           const x = ((event.clientX - bounds.left) / bounds.width) * 100;
@@ -74,8 +74,8 @@ export function ProductGallery({
               aria-pressed={index === activeIndex}
               className={`relative h-20 w-20 overflow-hidden rounded-lg border bg-canvas transition-all hover:-translate-y-0.5 hover:scale-105 ${
                 index === activeIndex
-                  ? "border-accent ring-2 ring-accent/20"
-                  : "border-line hover:border-accent/50"
+                  ? "border-brand ring-2 ring-brand/20"
+                  : "border-line hover:border-brand/50"
               }`}
             >
               {image.url ? (
