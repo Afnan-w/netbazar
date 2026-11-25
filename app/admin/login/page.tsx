@@ -24,9 +24,9 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
     <div className="flex min-h-screen items-center justify-center px-4 py-12">
       <div className="w-full max-w-md">
         <Link href="/" className="block text-center text-2xl font-semibold tracking-tight">
-          net<span className="text-brand">bazar</span>
+          Net<span className="text-accent">bazar</span>
         </Link>
-        <div className="mt-8 rounded-3xl border border-ink/10 bg-surface p-6 sm:p-8">
+        <div className="mt-8 rounded-xl border border-ink/10 bg-surface p-6 sm:p-8">
           <h1 className="text-2xl font-light tracking-tight">Admin sign in</h1>
           <p className="mt-2 text-sm leading-relaxed text-ink/60">
             This area is for the Netbazar owner only.

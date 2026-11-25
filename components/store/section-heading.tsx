@@ -16,17 +16,19 @@ export function SectionHeading({
     <div className="mb-8 flex items-end justify-between gap-4">
       <div>
         {eyebrow && (
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent">
             {eyebrow}
           </p>
         )}
-        <h2 className="mt-1.5 text-2xl font-light tracking-tight sm:text-3xl">{title}</h2>
-        {description && <p className="mt-2 max-w-xl text-sm text-ink/55">{description}</p>}
+        <h2 className="mt-1.5 text-2xl font-semibold tracking-tight sm:text-3xl">
+          {title}
+        </h2>
+        {description && <p className="mt-2 max-w-xl text-sm text-muted">{description}</p>}
       </div>
       {action && (
         <Link
           href={action.href}
-          className="shrink-0 text-sm font-medium text-ink/55 transition-colors hover:text-brand"
+          className="shrink-0 text-sm font-medium text-muted transition-colors hover:text-accent"
         >
           {action.label} →
         </Link>

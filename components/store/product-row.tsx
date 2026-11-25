@@ -37,10 +37,10 @@ export function ProductRow({
   );
 
   return (
-    <article className="group flex flex-col gap-4 rounded-[20px] premium-card p-4 transition-colors hover:border-brand/40 sm:flex-row sm:items-center">
+    <article className="group flex flex-col gap-4 rounded-xl premium-card p-4 transition-colors hover:border-accent/40 sm:flex-row sm:items-center">
       <Link
         href={`/products/${product.slug}`}
-        className="relative h-32 w-full shrink-0 overflow-hidden rounded-2xl bg-canvas sm:h-28 sm:w-32"
+        className="relative h-32 w-full shrink-0 overflow-hidden rounded-xl bg-canvas sm:h-28 sm:w-32"
         aria-label={`View ${product.name}`}
       >
         {imageUrl ? (
@@ -66,12 +66,12 @@ export function ProductRow({
           {market.badge && (
             <>
               <span aria-hidden="true">·</span>
-              <span className="text-brand">{market.badge}</span>
+              <span className="text-accent">{market.badge}</span>
             </>
           )}
         </div>
         <Link href={`/products/${product.slug}`}>
-          <h3 className="mt-1 truncate text-sm font-medium text-ink group-hover:text-brand">
+          <h3 className="mt-1 truncate text-sm font-medium text-ink group-hover:text-accent">
             {product.name}
           </h3>
         </Link>
@@ -81,7 +81,7 @@ export function ProductRow({
             {market.rating?.toFixed(1)} · {market.soldCount} sold
           </span>
           <span className="inline-flex items-center gap-1">
-            <Truck aria-hidden="true" className="h-3.5 w-3.5" />
+            <Truck aria-hidden="true" className="h-3.5 w-3.5 text-support" />
             Ships in {market.shippingDays}
           </span>
         </div>
@@ -98,7 +98,7 @@ export function ProductRow({
               <span className="line-through">
                 {formatBDT(product.reference_price_bdt)}
               </span>{" "}
-              <span className="text-accent">-{discount}%</span>
+              <span className="text-discount">-{discount}%</span>
             </p>
           )}
         </div>
@@ -106,7 +106,7 @@ export function ProductRow({
           <Link
             href={`/products/${product.slug}`}
             aria-label={`View ${product.name}`}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink/60 hover:border-brand hover:text-brand"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line text-ink/60 hover:border-accent hover:text-accent"
           >
             <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
           </Link>
@@ -114,7 +114,7 @@ export function ProductRow({
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-full bg-brand px-3.5 py-2 text-xs font-medium text-white transition-colors hover:brightness-110"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-xs font-medium text-white transition-colors hover:bg-highlight"
           >
             <MessageCircle aria-hidden="true" className="h-3.5 w-3.5" />
             Order

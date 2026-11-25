@@ -75,7 +75,7 @@ export function RequestForm() {
 
   if (state.status === "success") {
     return (
-      <div className="rounded-3xl border border-brand/25 bg-mint/50 p-6 sm:p-8">
+      <div className="rounded-xl border border-brand/25 bg-mint/50 p-6 sm:p-8">
         <CheckCircle2 aria-hidden="true" className="h-10 w-10 text-brand" />
         <h2 className="mt-5 text-2xl font-light tracking-tight">Request received</h2>
         <p className="mt-2 text-sm leading-relaxed text-ink/70">{state.message}</p>
@@ -109,7 +109,7 @@ export function RequestForm() {
       action={formAction}
       onSubmit={handleSubmit}
       noValidate
-      className="rounded-3xl border border-ink/10 bg-surface p-6 sm:p-8"
+      className="rounded-xl border border-ink/10 bg-surface p-6 sm:p-8"
     >
       <div className="grid gap-6 sm:grid-cols-2">
         <div className="sm:col-span-2">

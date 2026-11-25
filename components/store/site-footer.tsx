@@ -18,21 +18,18 @@ const policyLinks = [
 
 export function SiteFooter({ settings }: { settings: SiteSettings }) {
   return (
-    <footer
-      className="mt-20 text-white"
-      style={{ background: "linear-gradient(135deg, #0B211A, #061710)" }}
-    >
+    <footer className="mt-20 bg-dark text-white">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-4">
           <div>
             <Link href="/" className="text-xl font-semibold tracking-tight">
-              net<span className="text-accent">bazar</span>
+              Net<span className="text-highlight">bazar</span>
             </Link>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/65">
               China to Bangladesh sourcing. Curated products, BDT pricing and WhatsApp ordering.
             </p>
             <p className="mt-4 inline-flex items-center gap-2 text-xs text-white/55">
-              <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5 text-accent" />
+              <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5 text-highlight" />
               Price, shipping and delivery confirmed first.
             </p>
           </div>
@@ -42,7 +39,7 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
             <ul className="mt-4 space-y-2 text-sm text-white/65">
               {shopLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="group inline-flex items-center gap-1 hover:text-accent">
+                  <Link href={link.href} className="group inline-flex items-center gap-1 hover:text-highlight">
                     {link.label}
                     <ArrowUpRight aria-hidden="true" className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100" />
                   </Link>
@@ -56,7 +53,7 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
             <ul className="mt-4 space-y-2 text-sm text-white/65">
               {policyLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="hover:text-accent">
+                  <Link href={link.href} className="hover:text-highlight">
                     {link.label}
                   </Link>
                 </li>
@@ -71,7 +68,7 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
                 href={buildWhatsAppUrl(settings.whatsapp_number, "Hello Netbazar")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 hover:text-accent"
+                className="inline-flex items-center gap-2 hover:text-highlight"
               >
                 <MessageCircle aria-hidden="true" className="h-4 w-4" />
                 WhatsApp
@@ -79,7 +76,7 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
               {settings.contact_email && (
                 <a
                   href={`mailto:${settings.contact_email}`}
-                  className="inline-flex items-center gap-2 hover:text-accent"
+                  className="inline-flex items-center gap-2 hover:text-highlight"
                 >
                   <Mail aria-hidden="true" className="h-4 w-4" />
                   {settings.contact_email}
@@ -90,7 +87,7 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
                   href={settings.facebook_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block hover:text-accent"
+                  className="block hover:text-highlight"
                 >
                   Facebook
                 </a>
@@ -100,7 +97,7 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
                   href={settings.instagram_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block hover:text-accent"
+                  className="block hover:text-highlight"
                 >
                   Instagram
                 </a>

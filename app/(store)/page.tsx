@@ -81,7 +81,7 @@ function HeroProductCard({ product }: { product: ProductListItem }) {
     : "";
 
   return (
-    <div className="premium-card w-48 overflow-hidden rounded-2xl bg-white/95 p-2 shadow-2xl sm:w-56">
+    <div className="premium-card w-48 overflow-hidden rounded-xl bg-surface p-2 shadow-lg sm:w-56">
       <div className="relative aspect-square overflow-hidden rounded-xl bg-canvas">
         {imageUrl ? (
           <Image
@@ -144,19 +144,13 @@ export default async function HomePage() {
 
   return (
     <div>
-      <section
-        className="relative overflow-hidden text-white"
-        style={{
-          background:
-            "linear-gradient(135deg, #073B2D 0%, #0D5C45 55%, #061A16 100%)",
-        }}
-      >
+      <section className="relative overflow-hidden bg-dark text-white">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 opacity-20"
+          className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(circle at 18% 20%, rgba(201,162,39,0.45), transparent 42%), radial-gradient(circle at 82% 80%, rgba(255,255,255,0.12), transparent 45%)",
+              "radial-gradient(circle at 16% 18%, rgba(138,112,232,0.28), transparent 42%), radial-gradient(circle at 84% 78%, rgba(77,141,202,0.18), transparent 45%)",
           }}
         />
         <div aria-hidden="true" className="hairline-grid pointer-events-none absolute inset-0 opacity-20" />
@@ -164,47 +158,46 @@ export default async function HomePage() {
         <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
           <div className="grid items-center gap-12 lg:grid-cols-[1fr_0.9fr]">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.18em] text-white/80">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                China → Bangladesh sourcing
+              <div className="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/80">
+                <span className="h-1.5 w-1.5 rounded-full bg-highlight" />
+                Discover the world of smart shopping
               </div>
 
-              <h1 className="mt-6 max-w-2xl text-balance text-4xl font-light leading-[1.08] tracking-tight sm:text-6xl">
-                Premium finds from China,
-                <span className="text-accent"> delivered to Bangladesh.</span>
+              <h1 className="mt-6 max-w-2xl text-balance text-4xl font-semibold leading-[1.08] tracking-tight sm:text-6xl">
+                Everything You Want.
+                <span className="text-highlight"> One Marketplace.</span>
               </h1>
               <p className="mt-5 max-w-lg text-sm leading-relaxed text-white/70 sm:text-base">
-                Curated products, BDT prices and WhatsApp ordering. No cart, no confusion — just a
-                clear path from browsing to delivery.
+                Discover quality products sourced from China and delivered to Bangladesh.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
                   href="/products"
-                  className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand transition-colors hover:bg-accent hover:text-white"
+                  className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-dark transition-colors hover:bg-highlight"
                 >
-                  Browse products
+                  Explore Products
                   <ArrowRight aria-hidden="true" className="h-4 w-4" />
                 </Link>
                 <Link
-                  href="/request"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3 text-sm font-medium text-white transition-colors hover:border-accent hover:text-accent"
+                  href="/#categories"
+                  className="inline-flex items-center gap-2 rounded-xl border border-white/30 px-6 py-3 text-sm font-medium text-white transition-colors hover:border-highlight hover:text-highlight"
                 >
-                  Request any product
+                  Browse Categories
                 </Link>
               </div>
 
               <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/15 pt-6 text-xs text-white/70">
                 <span className="inline-flex items-center gap-2">
-                  <ShieldCheck aria-hidden="true" className="h-4 w-4 text-accent" />
+                  <ShieldCheck aria-hidden="true" className="h-4 w-4 text-highlight" />
                   Verified suppliers
                 </span>
                 <span className="inline-flex items-center gap-2">
-                  <WalletCards aria-hidden="true" className="h-4 w-4 text-accent" />
+                  <WalletCards aria-hidden="true" className="h-4 w-4 text-highlight" />
                   BDT pricing
                 </span>
                 <span className="inline-flex items-center gap-2">
-                  <MessageCircle aria-hidden="true" className="h-4 w-4 text-accent" />
+                  <MessageCircle aria-hidden="true" className="h-4 w-4 text-highlight" />
                   WhatsApp support
                 </span>
               </div>
@@ -229,7 +222,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+      <section id="categories" className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Explore"
           title="Shop by category"
@@ -243,7 +236,7 @@ export default async function HomePage() {
               <Link
                 key={category.id}
                 href={`/products?category=${encodeURIComponent(category.slug)}`}
-                className="group relative aspect-[4/3] overflow-hidden rounded-[20px] border border-line premium-card"
+                className="group relative aspect-[4/3] overflow-hidden rounded-xl border border-line premium-card"
               >
                 {image ? (
                   <Image
@@ -267,12 +260,12 @@ export default async function HomePage() {
                   className="absolute inset-0"
                   style={{
                     background:
-                      "linear-gradient(to top, rgba(6,23,16,0.78), rgba(6,23,16,0.12), transparent)",
+                      "linear-gradient(to top, rgba(23,28,44,0.82), rgba(23,28,44,0.12), transparent)",
                   }}
                 />
                 <span className="absolute inset-x-0 bottom-0 flex items-center justify-between p-3 text-white">
                   <span className="flex items-center gap-2 text-sm font-medium">
-                    <Icon aria-hidden="true" className="h-4 w-4 text-accent" />
+                    <Icon aria-hidden="true" className="h-4 w-4 text-highlight" />
                     {category.name}
                   </span>
                   <ArrowRight aria-hidden="true" className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -341,24 +334,21 @@ export default async function HomePage() {
       )}
 
       <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
-        <div
-          className="relative overflow-hidden rounded-[32px] px-6 py-12 text-white sm:px-10"
-          style={{ background: "linear-gradient(120deg, #0D5C45, #073B2D)" }}
-        >
+        <div className="relative overflow-hidden rounded-2xl bg-dark px-6 py-12 text-white sm:px-10">
           <div
             aria-hidden="true"
-            className="absolute right-0 top-0 h-full w-1/2 opacity-30"
+            className="absolute right-0 top-0 h-full w-1/2"
             style={{
               background:
-                "radial-gradient(circle at 70% 40%, rgba(201,162,39,0.6), transparent 60%)",
+                "radial-gradient(circle at 70% 40%, rgba(138,112,232,0.32), transparent 62%)",
             }}
           />
           <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-highlight">
                 Can’t find it?
               </p>
-              <h2 className="mt-2 text-2xl font-light tracking-tight sm:text-3xl">
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
                 Request any product from China.
               </h2>
               <p className="mt-2 max-w-lg text-sm text-white/70">
@@ -368,7 +358,7 @@ export default async function HomePage() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/request"
-                className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-brand hover:bg-accent hover:text-white"
+                className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-dark hover:bg-highlight"
               >
                 Request any product
                 <ArrowRight aria-hidden="true" className="h-4 w-4" />
@@ -377,7 +367,7 @@ export default async function HomePage() {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-white/30 px-5 py-3 text-sm font-medium text-white hover:border-accent hover:text-accent"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/30 px-5 py-3 text-sm font-medium text-white hover:border-highlight hover:text-highlight"
               >
                 <MessageCircle aria-hidden="true" className="h-4 w-4" />
                 WhatsApp
@@ -395,9 +385,9 @@ export default async function HomePage() {
           />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((step, index) => (
-              <div key={step.title} className="premium-card rounded-[20px] p-5">
+              <div key={step.title} className="premium-card rounded-xl p-5">
                 <div className="flex items-center justify-between">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-mint text-brand">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-mint text-accent">
                     <step.icon aria-hidden="true" className="h-4 w-4" />
                   </span>
                   <span className="text-xs font-medium text-muted">0{index + 1}</span>
@@ -414,8 +404,8 @@ export default async function HomePage() {
         <SectionHeading eyebrow="Why Netbazar" title="Sourcing with clarity" />
         <div className="grid gap-4 md:grid-cols-3">
           {trustPoints.map((point) => (
-            <div key={point.title} className="flex gap-4 rounded-[20px] border border-line bg-canvas/50 p-5">
-              <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-surface text-brand shadow-sm">
+            <div key={point.title} className="flex gap-4 rounded-xl border border-line bg-canvas/50 p-5">
+              <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-surface text-accent shadow-sm">
                 <point.icon aria-hidden="true" className="h-4 w-4" />
               </span>
               <div>

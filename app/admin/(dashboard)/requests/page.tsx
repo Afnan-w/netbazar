@@ -56,7 +56,7 @@ export default async function AdminRequestsPage({ searchParams }: RequestsPagePr
         ))}
       </nav>
 
-      <div className="overflow-x-auto rounded-3xl border border-ink/10 bg-surface">
+      <div className="overflow-x-auto rounded-xl border border-ink/10 bg-surface">
         {requests.length === 0 ? (
           <p className="p-8 text-center text-sm text-ink/55">
             No requests with this status yet.

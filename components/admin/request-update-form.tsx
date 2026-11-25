@@ -31,7 +31,7 @@ export function RequestUpdateForm({ request }: { request: ProductRequest }) {
   return (
     <form
       action={formAction}
-      className="rounded-3xl border border-ink/10 bg-surface p-5 sm:p-6"
+      className="rounded-xl border border-ink/10 bg-surface p-5 sm:p-6"
     >
       <h2 className="text-lg font-medium">Update request</h2>
       <input type="hidden" name="id" value={request.id} />

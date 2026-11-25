@@ -28,59 +28,59 @@ type Palette = {
 const palettes: Record<string, Palette> = {
   "phone-accessories": {
     icon: Smartphone,
-    from: "#EAF8F1",
-    to: "#D8F0E6",
-    glow: "#B9E8D4",
-    line: "#CBE9DD",
+    from: "#EEF0FC",
+    to: "#E3E8FA",
+    glow: "#CBD5F5",
+    line: "#D9E0F3",
   },
   "home-and-kitchen": {
     icon: Home,
-    from: "#F5F3EE",
-    to: "#EAE7DE",
-    glow: "#DCD5C6",
-    line: "#DED8CC",
+    from: "#F1F3F8",
+    to: "#E5E9F2",
+    glow: "#CFD8E8",
+    line: "#DDE3EE",
   },
   fashion: {
     icon: Shirt,
-    from: "#F4F1F7",
-    to: "#E7E1EF",
-    glow: "#D8CEE6",
-    line: "#DDD5E7",
+    from: "#F3EFFC",
+    to: "#E9E2F8",
+    glow: "#D8CFF2",
+    line: "#E1D9F2",
   },
   electronics: {
     icon: Cpu,
-    from: "#EEF3F7",
-    to: "#DDE8F0",
-    glow: "#C8DDEA",
-    line: "#D5E2EB",
+    from: "#EAF2FA",
+    to: "#DDEAF6",
+    glow: "#C6DDF2",
+    line: "#D4E4F2",
   },
   "toys-and-games": {
     icon: Gamepad2,
-    from: "#FDF3EA",
-    to: "#F7E6D5",
-    glow: "#F2D3B3",
-    line: "#EFDCC8",
+    from: "#FDF1F0",
+    to: "#F8E4E2",
+    glow: "#F2CFCC",
+    line: "#F0DAD7",
   },
   "beauty-and-care": {
     icon: Sparkles,
-    from: "#FDF1F3",
-    to: "#F7E2E7",
-    glow: "#F0CBD4",
-    line: "#EED7DD",
+    from: "#F8EEFB",
+    to: "#F2E1F6",
+    glow: "#E7CDEF",
+    line: "#EBD8F0",
   },
   "outdoor-and-travel": {
     icon: Compass,
-    from: "#EDF6F4",
-    to: "#DDEDE9",
-    glow: "#C6E3DC",
-    line: "#D3E7E1",
+    from: "#EAF5F8",
+    to: "#DEEDF3",
+    glow: "#C9E1EA",
+    line: "#D6E8EF",
   },
   everyday: {
     icon: Grid2X2,
-    from: "#F1F4F4",
-    to: "#E2E9E8",
-    glow: "#CBDAD8",
-    line: "#D8E3E1",
+    from: "#F0F1F7",
+    to: "#E5E8F1",
+    glow: "#D1D7E8",
+    line: "#DDE1EC",
   },
 };
 
@@ -160,7 +160,7 @@ export function ProductVisual({
       />
       <div
         aria-hidden="true"
-        className={`absolute grid h-[58%] w-[58%] place-items-center rounded-[28px] border border-white/70 bg-white/65 shadow-[0_22px_60px_-28px_rgba(24,35,45,0.45)] backdrop-blur-sm ${
+        className={`absolute grid h-[58%] w-[58%] place-items-center rounded-xl border border-white/70 bg-white/65 shadow-[0_18px_40px_-28px_rgba(23,28,44,0.4)] backdrop-blur-sm ${
           offset === 0 ? "rotate-[5deg]" : offset === 1 ? "-rotate-[5deg]" : "rotate-0"
         }`}
         style={{

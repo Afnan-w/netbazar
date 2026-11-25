@@ -30,7 +30,7 @@ export default async function AdminOverviewPage() {
       <div className="grid gap-4 sm:grid-cols-2">
         <Link
           href="/admin/products"
-          className="rounded-3xl border border-ink/10 bg-surface p-6 transition-colors hover:border-brand/40"
+          className="rounded-xl border border-ink/10 bg-surface p-6 transition-colors hover:border-brand/40"
         >
           <div className="flex items-center justify-between">
             <Package aria-hidden="true" className="h-5 w-5 text-brand" />
@@ -41,7 +41,7 @@ export default async function AdminOverviewPage() {
         </Link>
         <Link
           href="/admin/requests?status=new"
-          className="rounded-3xl border border-ink/10 bg-surface p-6 transition-colors hover:border-brand/40"
+          className="rounded-xl border border-ink/10 bg-surface p-6 transition-colors hover:border-brand/40"
         >
           <div className="flex items-center justify-between">
             <Inbox aria-hidden="true" className="h-5 w-5 text-brand" />
@@ -53,7 +53,7 @@ export default async function AdminOverviewPage() {
       </div>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[1.5fr_0.75fr]">
-        <section className="rounded-3xl border border-ink/10 bg-surface p-5 sm:p-6">
+        <section className="rounded-xl border border-ink/10 bg-surface p-5 sm:p-6">
           <div className="flex items-center justify-between gap-3">
             <h2 className="text-lg font-medium">Recent requests</h2>
             <Link href="/admin/requests" className="text-sm text-brand hover:underline">
@@ -89,7 +89,7 @@ export default async function AdminOverviewPage() {
           )}
         </section>
 
-        <section className="rounded-3xl border border-ink/10 bg-surface p-5 sm:p-6">
+        <section className="rounded-xl border border-ink/10 bg-surface p-5 sm:p-6">
           <h2 className="text-lg font-medium">Request pipeline</h2>
           <ul className="mt-5 space-y-2.5">
             {overview.requestsByStatus.map(({ status, count }) => (

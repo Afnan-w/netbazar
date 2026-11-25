@@ -20,7 +20,7 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
 
   return (
     <form action={formAction} className="space-y-6">
-      <section className="rounded-3xl border border-ink/10 bg-surface p-5 sm:p-6">
+      <section className="rounded-xl border border-ink/10 bg-surface p-5 sm:p-6">
         <h2 className="text-lg font-medium">Contact and ordering</h2>
         <div className="mt-5 grid gap-5 sm:grid-cols-2">
           <div>
@@ -67,7 +67,7 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
         </div>
       </section>
 
-      <section className="rounded-3xl border border-ink/10 bg-surface p-5 sm:p-6">
+      <section className="rounded-xl border border-ink/10 bg-surface p-5 sm:p-6">
         <h2 className="text-lg font-medium">Social links</h2>
         <p className="mt-1 text-sm text-ink/55">Leave blank to hide a link.</p>
         <div className="mt-5 grid gap-5 sm:grid-cols-2">

@@ -102,7 +102,7 @@ export default async function PolicyPage({ params }: PolicyPageProps) {
         ))}
       </div>
 
-      <div className="mt-10 rounded-3xl bg-canvas p-6 text-sm text-ink/65">
+      <div className="mt-10 rounded-xl bg-canvas p-6 text-sm text-ink/65">
         Questions about this policy?{" "}
         <Link href="/contact" className="font-medium text-brand hover:underline">
           Contact us

@@ -59,7 +59,7 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <section className="rounded-3xl border border-ink/10 bg-surface p-5 sm:p-6">
+        <section className="rounded-xl border border-ink/10 bg-surface p-5 sm:p-6">
           <div className="flex items-center gap-3">
             <h2 className="text-lg font-medium">Customer submission</h2>
             <StatusBadge status={request.status} />

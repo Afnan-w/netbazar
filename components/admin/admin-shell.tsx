@@ -40,7 +40,7 @@ export function AdminShell({
         <header className="border-b border-ink/10 bg-surface lg:hidden">
           <div className="flex h-16 items-center gap-3 px-4">
             <Link href="/admin" className="font-semibold tracking-tight">
-              net<span className="text-brand">bazar</span> admin
+              Net<span className="text-accent">bazar</span> admin
             </Link>
             <button
               type="button"
@@ -79,7 +79,7 @@ export function AdminShell({
         <div className="mx-auto flex max-w-[1600px]">
           <aside className="sticky top-0 hidden h-screen w-60 shrink-0 border-r border-ink/10 bg-surface px-4 py-6 lg:block">
             <Link href="/admin" className="px-2 text-lg font-semibold tracking-tight">
-              net<span className="text-brand">bazar</span>
+              Net<span className="text-accent">bazar</span>
               <span className="ml-2 text-xs font-normal text-ink/40">admin</span>
             </Link>
             <nav aria-label="Admin navigation" className="mt-8 space-y-1">

@@ -67,7 +67,7 @@ export default async function FaqPage() {
         request form.
       </p>
 
-      <div className="mt-10 divide-y divide-ink/10 rounded-3xl border border-ink/10 bg-surface px-5">
+      <div className="mt-10 divide-y divide-ink/10 rounded-xl border border-ink/10 bg-surface px-5">
         {faqs.map((faq) => (
           <details key={faq.question} className="group py-5">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-medium [&::-webkit-details-marker]:hidden">
@@ -81,7 +81,7 @@ export default async function FaqPage() {
         ))}
       </div>
 
-      <div className="mt-8 flex flex-col gap-3 rounded-3xl bg-canvas p-6 text-sm text-ink/70 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-8 flex flex-col gap-3 rounded-xl bg-canvas p-6 text-sm text-ink/70 sm:flex-row sm:items-center sm:justify-between">
         <p>Still need help? We are happy to answer on WhatsApp.</p>
         <div className="flex flex-wrap gap-3">
           <Link

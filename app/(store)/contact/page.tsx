@@ -35,7 +35,7 @@ export default async function ContactPage() {
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded-3xl border border-ink/10 p-6 transition-colors hover:border-brand/40"
+          className="rounded-xl border border-ink/10 p-6 transition-colors hover:border-brand/40"
         >
           <MessageCircle aria-hidden="true" className="h-6 w-6 text-brand" />
           <h2 className="mt-5 text-lg font-medium">WhatsApp</h2>
@@ -47,7 +47,7 @@ export default async function ContactPage() {
           </span>
         </a>
 
-        <div className="rounded-3xl border border-ink/10 p-6">
+        <div className="rounded-xl border border-ink/10 p-6">
           <Mail aria-hidden="true" className="h-6 w-6 text-brand" />
           <h2 className="text-lg font-medium">Email</h2>
           <p className="mt-2 text-sm leading-relaxed text-ink/65">

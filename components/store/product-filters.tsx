@@ -21,7 +21,7 @@ export type ProductFilterValues = {
 };
 
 const fieldClass =
-  "w-full rounded-xl border border-line bg-canvas/60 px-3 py-2 text-sm outline-none transition-colors focus:border-brand focus:bg-surface";
+  "w-full rounded-lg border border-line bg-canvas/60 px-3 py-2 text-sm outline-none transition-colors focus:border-accent focus:bg-surface focus:ring-2 focus:ring-accent/15";
 
 const labelClass =
   "mb-2 block text-[11px] font-semibold uppercase tracking-widest text-muted";
@@ -147,7 +147,7 @@ function FilterFields({
       <div className="flex items-center gap-3 pt-1">
         <button
           type="submit"
-          className="rounded-full bg-brand px-4 py-2 text-sm font-medium text-white transition-colors hover:brightness-110"
+          className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-highlight"
         >
           Apply filters
         </button>
@@ -168,7 +168,7 @@ export function ProductFilters({
 }) {
   return (
     <>
-      <details className="mb-6 rounded-[20px] premium-card lg:hidden">
+      <details className="mb-6 rounded-xl premium-card lg:hidden">
         <summary className="flex cursor-pointer list-none items-center gap-2 px-5 py-4 text-sm font-medium [&::-webkit-details-marker]:hidden">
           <SlidersHorizontal aria-hidden="true" className="h-4 w-4 text-brand" />
           Filters
@@ -180,7 +180,7 @@ export function ProductFilters({
       </details>
 
       <aside aria-label="Product filters" className="hidden lg:sticky lg:top-32 lg:block lg:self-start">
-        <form action="/products" method="get" className="rounded-[24px] premium-card p-5">
+        <form action="/products" method="get" className="rounded-xl premium-card p-5">
           <div className="mb-5 flex items-center gap-2 border-b border-line pb-4 text-sm font-medium">
             <SlidersHorizontal aria-hidden="true" className="h-4 w-4 text-brand" />
             Filters

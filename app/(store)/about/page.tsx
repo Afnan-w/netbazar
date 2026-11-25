@@ -42,14 +42,14 @@ export default function AboutPage() {
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2">
         {points.map((point) => (
-          <div key={point.title} className="rounded-3xl border border-ink/10 p-6">
+          <div key={point.title} className="rounded-xl border border-ink/10 p-6">
             <h2 className="text-base font-medium">{point.title}</h2>
             <p className="mt-2 text-sm leading-relaxed text-ink/65">{point.text}</p>
           </div>
         ))}
       </div>
 
-      <div className="mt-10 rounded-3xl bg-canvas p-6">
+      <div className="mt-10 rounded-xl bg-canvas p-6">
         <h2 className="text-lg font-medium">Ready to start?</h2>
         <p className="mt-2 text-sm leading-relaxed text-ink/65">
           Browse the catalogue or tell us what you need. We will confirm the details

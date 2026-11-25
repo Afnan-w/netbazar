@@ -18,10 +18,10 @@ import {
 } from "@/lib/utils/whatsapp";
 
 const badgeClasses: Record<string, string> = {
-  "Best seller": "bg-[#0F172A] text-white",
-  Hot: "bg-[#0D5C45] text-white",
-  New: "bg-mint text-brand",
-  Limited: "bg-[#F8ECCB] text-[#73570E]",
+  "Best seller": "bg-[#171C2C] text-white",
+  Hot: "bg-[#4D8DCA] text-white",
+  New: "bg-mint text-accent",
+  Limited: "bg-[#E8F1FA] text-[#3C6FA3]",
 };
 
 export function ProductCard({
@@ -49,7 +49,7 @@ export function ProductCard({
   );
 
   return (
-    <article className="group relative flex h-full flex-col overflow-hidden rounded-[22px] premium-card transition-all duration-300 hover:-translate-y-1 hover:border-brand/40 hover:shadow-[0_30px_70px_-44px_rgba(13,92,69,0.55)]">
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-xl premium-card transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_18px_40px_-28px_rgba(23,28,44,0.4)]">
       <div className="relative aspect-square overflow-hidden bg-canvas">
         <Link
           href={`/products/${product.slug}`}
@@ -80,12 +80,12 @@ export function ProductCard({
           </span>
         )}
         {discount > 0 && (
-          <span className="pointer-events-none absolute left-3 top-11 z-10 rounded-full bg-accent px-2 py-0.5 text-[10px] font-semibold text-white">
+          <span className="pointer-events-none absolute left-3 top-11 z-10 rounded-full bg-discount px-2 py-0.5 text-[10px] font-semibold text-white">
             -{discount}%
           </span>
         )}
         {!available && (
-          <span className="pointer-events-none absolute bottom-3 left-3 z-10 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-medium text-ink/70 backdrop-blur">
+          <span className="pointer-events-none absolute bottom-3 left-3 z-10 rounded-full bg-surface/90 px-2.5 py-1 text-[10px] font-medium text-muted backdrop-blur">
             Unavailable
           </span>
         )}
@@ -100,7 +100,7 @@ export function ProductCard({
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute bottom-3 right-3 z-20 inline-flex translate-y-1 items-center gap-1.5 rounded-full bg-brand px-3 py-1.5 text-[11px] font-medium text-white opacity-100 shadow-lg transition-all hover:brightness-110 md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 md:group-focus-within:translate-y-0 md:group-focus-within:opacity-100"
+          className="absolute bottom-3 right-3 z-20 inline-flex translate-y-1 items-center gap-1.5 rounded-lg bg-accent px-3 py-1.5 text-[11px] font-medium text-white opacity-100 shadow-lg transition-all hover:bg-highlight md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 md:group-focus-within:translate-y-0 md:group-focus-within:opacity-100"
         >
           <MessageCircle aria-hidden="true" className="h-3.5 w-3.5" />
           Order
@@ -120,7 +120,7 @@ export function ProductCard({
         </div>
 
         <Link href={`/products/${product.slug}`} className="mt-2 block">
-          <h3 className="line-clamp-2 min-h-[2.5rem] text-sm font-medium leading-snug text-ink transition-colors group-hover:text-brand">
+          <h3 className="line-clamp-2 min-h-[2.5rem] text-sm font-medium leading-snug text-ink transition-colors group-hover:text-accent">
             {product.name}
           </h3>
         </Link>
@@ -137,13 +137,13 @@ export function ProductCard({
         </div>
 
         <div className="mt-2 flex items-center gap-1.5 text-[11px] text-muted">
-          <Truck aria-hidden="true" className="h-3.5 w-3.5" />
+          <Truck aria-hidden="true" className="h-3.5 w-3.5 text-support" />
           Ships in {market.shippingDays}
         </div>
 
         <Link
           href={`/products/${product.slug}`}
-          className="mt-4 inline-flex items-center justify-center gap-1.5 rounded-full border border-line py-2 text-xs font-medium text-ink/75 transition-colors hover:border-brand hover:bg-brand hover:text-white"
+          className="mt-4 inline-flex items-center justify-center gap-1.5 rounded-lg border border-line py-2 text-xs font-medium text-ink/75 transition-colors hover:border-accent hover:bg-accent hover:text-white"
           aria-label={`View ${product.name}`}
         >
           View details

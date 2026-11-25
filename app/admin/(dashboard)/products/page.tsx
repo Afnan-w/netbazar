@@ -53,7 +53,7 @@ export default async function AdminProductsPage({ searchParams }: ProductsPagePr
         </button>
       </form>
 
-      <div className="overflow-x-auto rounded-3xl border border-ink/10 bg-surface">
+      <div className="overflow-x-auto rounded-xl border border-ink/10 bg-surface">
         {products.length === 0 ? (
           <p className="p-8 text-center text-sm text-ink/55">
             {query ? "No products matched your search." : "No products yet. Add your first product."}

@@ -15,7 +15,7 @@ export default async function AdminCategoriesPage() {
         description="Group products for browsing. Sort order controls how categories appear on the site."
       />
 
-      <section className="rounded-3xl border border-ink/10 bg-surface p-5 sm:p-6">
+      <section className="rounded-xl border border-ink/10 bg-surface p-5 sm:p-6">
         <h2 className="text-lg font-medium">Add a category</h2>
         <div className="mt-5">
           <CategoryForm />
@@ -25,7 +25,7 @@ export default async function AdminCategoriesPage() {
       <section className="mt-8">
         <h2 className="mb-4 text-lg font-medium">Existing categories</h2>
         {categories.length === 0 ? (
-          <p className="rounded-3xl border border-dashed border-ink/20 bg-surface p-8 text-center text-sm text-ink/55">
+          <p className="rounded-xl border border-dashed border-ink/20 bg-surface p-8 text-center text-sm text-ink/55">
             No categories yet.
           </p>
         ) : (
@@ -33,7 +33,7 @@ export default async function AdminCategoriesPage() {
             {categories.map((category) => (
               <li
                 key={category.id}
-                className="rounded-3xl border border-ink/10 bg-surface p-5 sm:p-6"
+                className="rounded-xl border border-ink/10 bg-surface p-5 sm:p-6"
               >
                 <div className="flex items-center justify-between gap-4">
                   <div>

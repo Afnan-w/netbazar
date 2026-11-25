@@ -17,6 +17,7 @@ import {
   Shirt,
   Smartphone,
   Sparkles,
+  UserRound,
   WalletCards,
   X,
   type LucideIcon,
@@ -44,6 +45,12 @@ const primaryLinks = [
   { href: "/products", label: "Shop" },
   { href: "/request", label: "Request" },
   { href: "/faq", label: "FAQ" },
+];
+
+const utilityLinks = [
+  { href: "/contact", label: "Customer support" },
+  { href: "/about", label: "About Netbazar" },
+  { href: "/policies/payment", label: "Order information" },
 ];
 
 function SearchForm({
@@ -80,8 +87,8 @@ function SearchForm({
           if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false);
         }}
       >
-        <div className="flex items-center gap-2 rounded-full border border-line bg-canvas/70 px-3.5 py-2 transition-colors focus-within:border-brand focus-within:bg-surface">
-          <Search aria-hidden="true" className="h-4 w-4 shrink-0 text-muted" />
+        <div className="flex items-center gap-2 rounded-xl border border-line bg-canvas/70 px-3.5 py-2.5 transition-colors focus-within:border-accent focus-within:bg-surface focus-within:ring-2 focus-within:ring-accent/15">
+          <Search aria-hidden="true" className="h-4 w-4 shrink-0 text-subtle" />
           <input
             id={compact ? "mobile-search" : "header-search"}
             name="q"
@@ -91,15 +98,15 @@ function SearchForm({
               setOpen(true);
             }}
             onFocus={() => setOpen(true)}
-            placeholder="Search products or categories"
+            placeholder="Search products, brands and categories..."
             autoComplete="off"
-            className="w-full bg-transparent text-sm outline-none placeholder:text-muted"
+            className="w-full bg-transparent text-sm outline-none placeholder:text-subtle"
           />
         </div>
 
         {open && matches.length > 0 && (
-          <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-50 overflow-hidden rounded-2xl premium-card p-2">
-            <p className="px-2 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted">
+          <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-50 overflow-hidden rounded-xl premium-card p-2">
+            <p className="px-2 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-subtle">
               {query ? "Suggestions" : "Popular searches"}
             </p>
             {matches.map((item) => (
@@ -107,9 +114,9 @@ function SearchForm({
                 key={item.slug}
                 href={`/products?q=${encodeURIComponent(item.name)}`}
                 onClick={() => setOpen(false)}
-                className="flex items-center gap-2 rounded-xl px-2 py-2 text-sm text-ink/75 hover:bg-canvas hover:text-brand"
+                className="flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-ink/75 hover:bg-canvas hover:text-accent"
               >
-                <Search aria-hidden="true" className="h-3.5 w-3.5 text-muted" />
+                <Search aria-hidden="true" className="h-3.5 w-3.5 text-subtle" />
                 <span className="truncate">{item.name}</span>
                 {item.category && (
                   <span className="ml-auto text-[11px] text-muted">{item.category}</span>
@@ -119,7 +126,7 @@ function SearchForm({
             {query && (
               <button
                 type="submit"
-                className="mt-1 flex w-full items-center justify-between rounded-xl bg-mint px-3 py-2 text-left text-xs font-medium text-brand"
+                className="mt-1 flex w-full items-center justify-between rounded-lg bg-mint px-3 py-2 text-left text-xs font-medium text-accent"
               >
                 See all results for “{query}”
                 <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
@@ -147,7 +154,7 @@ function MegaMenu({ categories }: { categories: HeaderCategory[] }) {
         aria-controls="mega-menu"
         onClick={() => setOpen((value) => !value)}
         onFocus={() => setOpen(true)}
-        className="inline-flex items-center gap-1 text-sm text-ink/70 transition-colors hover:text-brand"
+        className="inline-flex items-center gap-1 text-sm text-ink/70 transition-colors hover:text-accent"
       >
         Categories
         <ChevronDown
@@ -159,7 +166,7 @@ function MegaMenu({ categories }: { categories: HeaderCategory[] }) {
       {open && (
         <div
           id="mega-menu"
-          className="absolute left-0 top-[calc(100%+1rem)] z-50 w-[min(860px,calc(100vw-2rem))] rounded-[26px] premium-card p-4"
+          className="absolute left-0 top-[calc(100%+1rem)] z-50 w-[min(860px,calc(100vw-2rem))] rounded-2xl premium-card p-4"
         >
           <div className="mb-3 flex items-center justify-between px-1">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
@@ -168,7 +175,7 @@ function MegaMenu({ categories }: { categories: HeaderCategory[] }) {
             <Link
               href="/products"
               onClick={() => setOpen(false)}
-              className="inline-flex items-center gap-1 text-xs font-medium text-brand"
+              className="inline-flex items-center gap-1 text-xs font-medium text-accent"
             >
               View all
               <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
@@ -182,12 +189,12 @@ function MegaMenu({ categories }: { categories: HeaderCategory[] }) {
                   key={category.slug}
                   href={`/products?category=${encodeURIComponent(category.slug)}`}
                   onClick={() => setOpen(false)}
-                  className="group/card flex flex-col gap-3 rounded-2xl border border-line bg-canvas/50 p-3 transition-colors hover:border-brand/40 hover:bg-mint"
+                  className="group/card flex flex-col gap-3 rounded-xl border border-line bg-canvas/50 p-3 transition-colors hover:border-accent/40 hover:bg-mint/60"
                 >
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-surface text-brand shadow-sm">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-surface text-accent shadow-sm">
                     <Icon aria-hidden="true" className="h-4 w-4" />
                   </span>
-                  <span className="text-sm font-medium text-ink group-hover/card:text-brand">
+                  <span className="text-sm font-medium text-ink group-hover/card:text-accent">
                     {category.name}
                   </span>
                 </Link>
@@ -215,13 +222,18 @@ export function SiteHeader({
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-surface/95 backdrop-blur-xl">
       <div className="bg-brand text-white">
-        <div className="mx-auto flex h-8 max-w-7xl items-center justify-center gap-2 px-4 text-[11px] tracking-wide sm:px-6 lg:px-8">
-          <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5 text-accent" />
-          <span>China → Bangladesh</span>
-          <span className="text-white/40">·</span>
-          <span className="hidden sm:inline">Verified suppliers</span>
-          <span className="hidden text-white/40 sm:inline">·</span>
-          <span>BDT pricing</span>
+        <div className="mx-auto flex h-8 max-w-7xl items-center justify-between gap-4 px-4 text-[11px] sm:px-6 lg:px-8">
+          <span className="inline-flex items-center gap-2">
+            <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5 text-highlight" />
+            China to Bangladesh sourcing
+          </span>
+          <nav aria-label="Utility" className="hidden items-center gap-5 text-white/70 sm:flex">
+            {utilityLinks.map((link) => (
+              <Link key={link.href} href={link.href} className="hover:text-highlight">
+                {link.label}
+              </Link>
+            ))}
+          </nav>
         </div>
       </div>
 
@@ -231,8 +243,7 @@ export function SiteHeader({
           className="shrink-0 text-xl font-semibold tracking-tight"
           onClick={() => setMenuOpen(false)}
         >
-          net<span className="text-brand">bazar</span>
-          <span className="ml-1 inline-block h-1.5 w-1.5 rounded-full bg-accent align-top" />
+          Net<span className="text-accent">bazar</span>
         </Link>
 
         <nav aria-label="Main navigation" className="hidden items-center gap-5 lg:flex">
@@ -241,8 +252,8 @@ export function SiteHeader({
             <Link
               key={link.href}
               href={link.href}
-              className={`text-sm transition-colors hover:text-brand ${
-                pathname === link.href ? "font-medium text-brand" : "text-ink/70"
+              className={`text-sm transition-colors hover:text-accent ${
+                pathname === link.href ? "font-medium text-accent" : "text-ink/70"
               }`}
             >
               {link.label}
@@ -250,11 +261,18 @@ export function SiteHeader({
           ))}
         </nav>
 
-        <div className="mx-auto hidden w-full max-w-sm md:block">
+        <div className="mx-auto hidden w-full max-w-xl md:block">
           <SearchForm suggestions={suggestions} />
         </div>
 
         <div className="ml-auto flex items-center gap-2 md:ml-0">
+          <Link
+            href="/admin/login"
+            aria-label="Account"
+            className="hidden h-10 w-10 items-center justify-center rounded-full border border-line text-ink/70 transition-colors hover:border-accent hover:text-accent sm:inline-flex"
+          >
+            <UserRound aria-hidden="true" className="h-4 w-4" />
+          </Link>
           <div className="hidden md:block">
             <WishlistLink />
           </div>
@@ -262,7 +280,7 @@ export function SiteHeader({
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex shrink-0 items-center gap-2 rounded-full bg-brand px-4 py-2 text-sm font-medium text-white shadow-[0_12px_28px_-16px_rgba(13,92,69,0.9)] transition-colors hover:brightness-110"
+            className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-accent px-4 py-2 text-sm font-medium text-white shadow-[0_12px_28px_-16px_rgba(138,112,232,0.9)] transition-colors hover:bg-highlight"
           >
             <MessageCircle aria-hidden="true" className="h-4 w-4" />
             <span className="hidden sm:inline">Order on WhatsApp</span>
@@ -285,6 +303,43 @@ export function SiteHeader({
         </div>
       </div>
 
+      <nav aria-label="Category navigation" className="hidden border-t border-line bg-surface lg:block">
+        <div className="mx-auto flex h-11 max-w-7xl items-center gap-1 overflow-x-auto px-4 sm:px-6 lg:px-8">
+          <Link
+            href="/products"
+            className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-semibold text-accent hover:bg-mint"
+          >
+            All Categories
+          </Link>
+          {categories.map((category) => {
+            const Icon = categoryIcons[category.slug] ?? Grid2X2;
+            return (
+              <Link
+                key={category.slug}
+                href={`/products?category=${encodeURIComponent(category.slug)}`}
+                className="inline-flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs text-ink/65 transition-colors hover:bg-canvas hover:text-accent"
+              >
+                <Icon aria-hidden="true" className="h-3.5 w-3.5 text-subtle" />
+                {category.name}
+              </Link>
+            );
+          })}
+          <span aria-hidden="true" className="mx-2 h-4 w-px shrink-0 bg-line" />
+          <Link
+            href="/products?featured=1"
+            className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium text-ink/65 hover:bg-canvas hover:text-accent"
+          >
+            Featured Products
+          </Link>
+          <Link
+            href="/products?sort=newest"
+            className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium text-ink/65 hover:bg-canvas hover:text-accent"
+          >
+            New Arrivals
+          </Link>
+        </div>
+      </nav>
+
       {menuOpen && (
         <div id="mobile-menu" className="border-t border-line bg-surface lg:hidden">
           <div className="space-y-5 px-4 py-5 sm:px-6">
@@ -295,7 +350,7 @@ export function SiteHeader({
                   key={link.href}
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className="rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-brand hover:text-brand"
+                  className="rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-accent hover:text-accent"
                 >
                   {link.label}
                 </Link>
@@ -303,9 +358,16 @@ export function SiteHeader({
               <Link
                 href="/wishlist"
                 onClick={() => setMenuOpen(false)}
-                className="rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-brand hover:text-brand"
+                className="rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-accent hover:text-accent"
               >
                 Wishlist
+              </Link>
+              <Link
+                href="/admin/login"
+                onClick={() => setMenuOpen(false)}
+                className="rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-accent hover:text-accent"
+              >
+                Account
               </Link>
             </nav>
             <div>
@@ -320,9 +382,9 @@ export function SiteHeader({
                       key={category.slug}
                       href={`/products?category=${encodeURIComponent(category.slug)}`}
                       onClick={() => setMenuOpen(false)}
-                      className="inline-flex items-center gap-2 rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-brand hover:text-brand"
+                      className="inline-flex items-center gap-2 rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-accent hover:text-accent"
                     >
-                      <Icon aria-hidden="true" className="h-4 w-4 text-brand" />
+                      <Icon aria-hidden="true" className="h-4 w-4 text-accent" />
                       {category.name}
                     </Link>
                   );
@@ -331,11 +393,11 @@ export function SiteHeader({
             </div>
             <div className="flex items-center gap-4 border-t border-line pt-4 text-[11px] text-muted">
               <span className="inline-flex items-center gap-1">
-                <BadgeCheck aria-hidden="true" className="h-3.5 w-3.5 text-brand" />
+                <BadgeCheck aria-hidden="true" className="h-3.5 w-3.5 text-accent" />
                 Verified suppliers
               </span>
               <span className="inline-flex items-center gap-1">
-                <WalletCards aria-hidden="true" className="h-3.5 w-3.5 text-brand" />
+                <WalletCards aria-hidden="true" className="h-3.5 w-3.5 text-accent" />
                 BDT pricing
               </span>
             </div>
