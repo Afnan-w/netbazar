@@ -2,6 +2,10 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import {
+  resetPointerMedia,
+  updatePointerMedia,
+} from "@/components/store/product-media";
 import { ProductVisual } from "@/components/store/product-visual";
 
 export type GalleryImage = {
@@ -19,42 +23,43 @@ export function ProductGallery({
   categorySlug: string;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [origin, setOrigin] = useState("50% 50%");
   const active = images[activeIndex];
 
   return (
     <div className="space-y-3">
       <div
-        className="group relative aspect-square cursor-zoom-in overflow-hidden rounded-panel border border-border bg-image-backdrop shadow-card"
-        onMouseMove={(event) => {
-          const bounds = event.currentTarget.getBoundingClientRect();
-          const x = ((event.clientX - bounds.left) / bounds.width) * 100;
-          const y = ((event.clientY - bounds.top) / bounds.height) * 100;
-          setOrigin(`${x}% ${y}%`);
+        className="product-media group relative aspect-square cursor-crosshair overflow-hidden rounded-panel border border-border bg-image-backdrop shadow-card"
+        onPointerMove={(event) => {
+          if (event.pointerType === "touch") return;
+          updatePointerMedia(
+            event.currentTarget,
+            event.clientX,
+            event.clientY,
+          );
         }}
-        onMouseLeave={() => setOrigin("50% 50%")}
+        onPointerLeave={(event) => resetPointerMedia(event.currentTarget)}
+        onBlur={(event) => resetPointerMedia(event.currentTarget)}
       >
-        {active?.url ? (
-          <Image
-            key={active.url}
-            src={active.url}
-            alt={active.alt || `${productName} product photo`}
-            fill
-            priority
-            sizes="(max-width: 1024px) 100vw, 55vw"
-            style={{ transformOrigin: origin }}
-            className="object-contain p-5 transition-transform duration-200 group-hover:scale-150"
-          />
-        ) : (
-          <ProductVisual
-            categorySlug={categorySlug}
-            name={productName}
-            iconClassName="h-24 w-24"
-          />
-        )}
-        <span className="pointer-events-none absolute bottom-3 right-3 rounded-badge bg-surface/85 px-2.5 py-1 text-[10px] font-medium text-muted shadow-card backdrop-blur">
-          Hover to zoom
-        </span>
+        <div className="product-media-layer">
+          {active?.url ? (
+            <Image
+              key={active.url}
+              src={active.url}
+              alt={active.alt || `${productName} product photo`}
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 55vw"
+              className="gallery-image object-contain p-5"
+            />
+          ) : (
+            <ProductVisual
+              categorySlug={categorySlug}
+              name={productName}
+              iconClassName="h-24 w-24"
+            />
+          )}
+        </div>
+        <span aria-hidden="true" className="product-media-glow" />
       </div>
 
       {!active?.url && (
@@ -91,6 +96,12 @@ export function ProductGallery({
                   categorySlug={categorySlug}
                   name={`${productName} ${index + 1}`}
                   iconClassName="h-7 w-7"
+                />
+              )}
+              {index === activeIndex && (
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-0 bottom-0 h-0.5 bg-primary"
                 />
               )}
             </button>

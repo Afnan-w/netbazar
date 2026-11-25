@@ -1,7 +1,6 @@
 import { ArrowUpRight, MessageCircle, Star, Truck } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
-import { ProductVisual } from "@/components/store/product-visual";
+import { ProductMediaLink } from "@/components/store/product-media";
 import { WishlistButton } from "@/components/store/wishlist-button";
 import type { ProductListItem } from "@/lib/data/store";
 import { formatBDT } from "@/lib/utils/format";
@@ -37,33 +36,23 @@ export function ProductRow({
   );
 
   return (
-    <article className="nova-card group flex flex-col gap-4 rounded-card p-4 nova-lift sm:flex-row sm:items-center">
-      <Link
-        href={`/products/${product.slug}`}
-        className="relative h-32 w-full shrink-0 overflow-hidden rounded-control bg-image-backdrop sm:h-28 sm:w-32"
-        aria-label={`View ${product.name}`}
-      >
-        {imageUrl ? (
-          <Image
-            src={imageUrl}
-            alt={product.images[0].alt || product.name}
-            fill
-            sizes="(max-width: 640px) 100vw, 128px"
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        ) : (
-          <ProductVisual
-            categorySlug={product.category?.slug ?? "everyday"}
-            name={product.name}
-            iconClassName="h-9 w-9"
-          />
-        )}
+    <article className="product-card nova-card group flex flex-col gap-4 overflow-hidden rounded-card p-4 nova-lift sm:flex-row sm:items-center">
+      <div className="relative h-32 w-full shrink-0 overflow-hidden rounded-control bg-image-backdrop sm:h-28 sm:w-32">
+        <ProductMediaLink
+          href={`/products/${product.slug}`}
+          name={product.name}
+          imageUrl={imageUrl}
+          alt={product.images[0].alt || product.name}
+          sizes="(max-width: 640px) 100vw, 128px"
+          categorySlug={product.category?.slug ?? "everyday"}
+          iconClassName="h-9 w-9"
+        />
         {market.badge && (
-          <span className="pointer-events-none absolute left-2 top-2 rounded-badge bg-surface px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary shadow-card ring-1 ring-border/70">
+          <span className="pointer-events-none absolute left-2 top-2 z-10 rounded-badge bg-surface px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary shadow-card ring-1 ring-border/70">
             {market.badge}
           </span>
         )}
-      </Link>
+      </div>
 
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-wider text-muted">

@@ -1,7 +1,6 @@
 import { ArrowUpRight, MessageCircle, Star, Truck } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
-import { ProductVisual } from "@/components/store/product-visual";
+import { ProductMediaLink } from "@/components/store/product-media";
 import { WishlistButton } from "@/components/store/wishlist-button";
 import type { ProductListItem } from "@/lib/data/store";
 import { formatBDT } from "@/lib/utils/format";
@@ -49,28 +48,16 @@ export function ProductCard({
   );
 
   return (
-    <article className="nova-card group relative flex h-full flex-col overflow-hidden rounded-card nova-lift">
+    <article className="product-card nova-card group relative flex h-full flex-col overflow-hidden rounded-card nova-lift">
       <div className="relative aspect-square overflow-hidden rounded-t-card bg-image-backdrop">
-        <Link
+        <ProductMediaLink
           href={`/products/${product.slug}`}
-          className="absolute inset-0"
-          aria-label={`View ${product.name}`}
-        >
-          {imageUrl ? (
-            <Image
-              src={imageUrl}
-              alt={product.images[0].alt || product.name}
-              fill
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-              className="object-cover transition-transform duration-500 group-hover:scale-[1.06]"
-            />
-          ) : (
-            <ProductVisual
-              categorySlug={product.category?.slug ?? "everyday"}
-              name={product.name}
-            />
-          )}
-        </Link>
+          name={product.name}
+          imageUrl={imageUrl}
+          alt={product.images[0].alt || product.name}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          categorySlug={product.category?.slug ?? "everyday"}
+        />
 
         <div className="pointer-events-none absolute left-3 top-3 z-10 flex flex-wrap items-center gap-1.5">
           {discount > 0 && (
