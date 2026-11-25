@@ -13,26 +13,22 @@ export function SectionHeading({
   action?: { href: string; label: string };
 }) {
   return (
-    <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-      <div className="max-w-2xl">
+    <div className="mb-8 flex items-end justify-between gap-4">
+      <div>
         {eyebrow && (
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand">
             {eyebrow}
           </p>
         )}
-        <h2 className="mt-2 text-2xl font-light tracking-tight sm:text-3xl">
-          {title}
-        </h2>
-        {description && (
-          <p className="mt-2 text-sm leading-relaxed text-ink/60">{description}</p>
-        )}
+        <h2 className="mt-1.5 text-2xl font-light tracking-tight sm:text-3xl">{title}</h2>
+        {description && <p className="mt-2 max-w-xl text-sm text-ink/55">{description}</p>}
       </div>
       {action && (
         <Link
           href={action.href}
-          className="inline-flex w-fit items-center rounded-full border border-ink/20 px-4 py-2 text-sm font-medium transition-colors hover:border-brand hover:text-brand"
+          className="shrink-0 text-sm font-medium text-ink/55 transition-colors hover:text-brand"
         >
-          {action.label}
+          {action.label} →
         </Link>
       )}
     </div>

@@ -1,6 +1,7 @@
 import { getOptionalSupabaseEnv } from "@/lib/supabase/env";
 
 export function getProductImageUrl(storagePath: string): string {
+  if (/^https?:\/\//i.test(storagePath)) return storagePath;
   const base = getOptionalSupabaseEnv()?.url;
   if (!base) return "";
 

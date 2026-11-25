@@ -2,7 +2,7 @@ import { ArrowLeft, MessageCircle, PackageCheck } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PaymentNote } from "@/components/store/payment-note";
+// import { PaymentNote } from "@/components/store/payment-note";
 import { ProductCard } from "@/components/store/product-card";
 import { ProductGallery } from "@/components/store/product-gallery";
 import { SectionHeading } from "@/components/store/section-heading";
@@ -111,14 +111,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </Link>
             )}
             {product.is_featured && (
-              <span className="rounded-full border border-brand/40 px-3 py-1 text-xs text-brand">
-                Featured
-              </span>
-            )}
-            {product.sku.startsWith("SAMPLE-") && (
-              <span className="rounded-full bg-ink px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-white/90">
-                Sample data
-              </span>
+              <span className="rounded-full border border-brand/40 px-3 py-1 text-xs text-brand">Featured</span>
             )}
           </div>
 
@@ -151,26 +144,21 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </span>
           </div>
 
-          <p className="mt-6 text-sm leading-relaxed text-ink/70">
-            {product.description || "Description will be added soon."}
+          <p className="mt-6 max-w-prose text-sm leading-relaxed text-ink/60">
+            {product.description?.replace(/^(?:SAMPLE DATA|DEMO) — .*?\.\s*/, "") || "Details confirmed on WhatsApp."}
           </p>
 
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full border border-brand bg-brand px-6 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90 sm:w-auto"
-          >
-            <MessageCircle aria-hidden="true" className="h-4 w-4" />
-            Order on WhatsApp
-          </a>
-          <p className="mt-3 text-xs leading-relaxed text-ink/50">
-            The message includes this product, SKU, price and page link so we can
-            confirm availability, final price, shipping and delivery time.
-          </p>
-
-          <div className="mt-8">
-            <PaymentNote />
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-medium text-white shadow-[0_14px_30px_-16px_rgba(22,168,120,0.8)] transition-opacity hover:opacity-90"
+            >
+              <MessageCircle aria-hidden="true" className="h-4 w-4" />
+              Order on WhatsApp
+            </a>
+            <span className="text-xs text-ink/40">Price & delivery confirmed before payment</span>
           </div>
 
           <section className="mt-10 border-t border-ink/10 pt-8">

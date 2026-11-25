@@ -6,6 +6,7 @@ import type {
   ProductImage,
   SiteSettings,
 } from "@/types/database";
+import { demoCategories, demoProducts, getDemoProductBySlug, getDemoRelated } from "./demo-catalogue";
 
 type StoreClient = Awaited<ReturnType<typeof createClient>>;
 type ProductImageData = Pick<
@@ -158,9 +159,30 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   return data ?? fallbackSettings;
 }
 
+function filterDemo(query: ProductQuery = {}): { items: ProductListItem[]; total: number } {
+  let items = [...demoProducts];
+  if (query.categorySlug) items = items.filter((p) => p.category?.slug === query.categorySlug);
+  if (query.search) {
+    const q = query.search.toLowerCase();
+    items = items.filter((p) => p.name.toLowerCase().includes(q) || p.sku.toLowerCase().includes(q));
+  }
+  if (query.availability === "available") items = items.filter((p) => p.status === "available");
+  else if (query.availability === "unavailable") items = items.filter((p) => p.status === "unavailable");
+  if (query.featured) items = items.filter((p) => p.is_featured);
+  if (query.popular) items = items.filter((p) => p.is_popular);
+  if (query.excludeProductId) items = items.filter((p) => p.id !== query.excludeProductId);
+  if (query.sort === "price-asc") items.sort((a, b) => a.price_bdt - b.price_bdt);
+  else if (query.sort === "price-desc") items.sort((a, b) => b.price_bdt - a.price_bdt);
+  const total = items.length;
+  const page = Math.max(1, Math.floor(query.page ?? 1));
+  const pageSize = Math.max(1, Math.min(48, Math.floor(query.pageSize ?? 12)));
+  const from = (page - 1) * pageSize;
+  return { items: items.slice(from, from + pageSize), total };
+}
+
 export async function getCategories(): Promise<Category[]> {
   const supabase = await getClient();
-  if (!supabase) return [];
+  if (!supabase) return demoCategories;
 
   const { data, error } = await supabase
     .from("categories")
@@ -168,19 +190,19 @@ export async function getCategories(): Promise<Category[]> {
     .order("sort_order", { ascending: true })
     .order("name", { ascending: true });
 
-  if (error) {
-    console.error("Could not load categories:", error.message);
-    return [];
+  if (error || !data?.length) {
+    if (error) console.error("Could not load categories:", error.message);
+    return demoCategories;
   }
 
-  return data ?? [];
+  return data;
 }
 
 export async function getProducts(
   query: ProductQuery = {},
 ): Promise<{ items: ProductListItem[]; total: number }> {
   const supabase = await getClient();
-  if (!supabase) return { items: [], total: 0 };
+  if (!supabase) return filterDemo(query);
 
   const page = Math.max(1, Math.floor(query.page ?? 1));
   const pageSize = Math.max(1, Math.min(48, Math.floor(query.pageSize ?? 12)));
@@ -235,18 +257,18 @@ export async function getProducts(
 
   if (error) {
     console.error("Could not load products:", error.message);
-    return { items: [], total: 0 };
+    return filterDemo(query);
   }
 
-  return {
-    items: await attachRelations(supabase, data ?? []),
-    total: count ?? data?.length ?? 0,
-  };
+  const items = await attachRelations(supabase, data ?? []);
+  const onlySamples = items.length > 0 && items.every((p) => p.sku.startsWith("SAMPLE-"));
+  if ((items.length === 0 && (count ?? 0) === 0) || onlySamples) return filterDemo(query);
+  return { items, total: count ?? items.length };
 }
 
 export async function getProductBySlug(slug: string): Promise<ProductDetail | null> {
   const supabase = await getClient();
-  if (!supabase) return null;
+  if (!supabase) return getDemoProductBySlug(slug);
 
   const { data, error } = await supabase
     .from("products")
@@ -257,11 +279,12 @@ export async function getProductBySlug(slug: string): Promise<ProductDetail | nu
 
   if (error) {
     console.error("Could not load product:", error.message);
-    return null;
+    return getDemoProductBySlug(slug);
   }
-  if (!data) return null;
+  if (!data) return getDemoProductBySlug(slug);
 
   const [withRelations] = await attachRelations(supabase, [data]);
+  if (withRelations?.sku.startsWith("SAMPLE-")) return getDemoProductBySlug(slug) ?? withRelations;
   return withRelations ?? null;
 }
 
@@ -269,6 +292,7 @@ export async function getRelatedProducts(
   product: ProductDetail,
   limit = 4,
 ): Promise<ProductListItem[]> {
+  if (product.sku.startsWith("DEMO-")) return getDemoRelated(product, limit);
   if (!product.category) {
     const { items } = await getProducts({
       availability: "available",
@@ -293,5 +317,5 @@ export async function getRelatedProducts(
     excludeProductId: product.id,
     pageSize: limit,
   });
-  return fallback.items;
+  return fallback.items.length > 0 ? fallback.items : getDemoRelated(product, limit);
 }

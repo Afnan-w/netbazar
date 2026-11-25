@@ -70,32 +70,14 @@ export default async function ProductsPage({
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <header className="relative mb-8 overflow-hidden rounded-[32px] border border-ink/10 bg-canvas/70 px-6 py-8 sm:px-8 sm:py-10">
-        <div
-          aria-hidden="true"
-          className="hairline-grid pointer-events-none absolute inset-0 opacity-40"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-brand/10 blur-3xl"
-        />
-        <div className="relative max-w-2xl">
-          <div className="flex flex-wrap items-center gap-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
-              Catalogue
-            </p>
-            <span className="rounded-full border border-ink/15 px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.12em] text-ink/45">
-              Preview data
-            </span>
-          </div>
-          <h1 className="mt-3 text-balance text-3xl font-light tracking-tight sm:text-4xl">
-            All products
-          </h1>
-          <p className="mt-3 text-sm leading-relaxed text-ink/60">
-            Browse hand-picked listings. Confirm availability, final price, shipping
-            and delivery time on WhatsApp before payment.
-          </p>
+      <header className="mb-8 flex flex-col gap-4 border-b border-ink/8 pb-8 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand">Catalogue</p>
+          <h1 className="mt-2 text-3xl font-light tracking-tight sm:text-4xl">All products</h1>
         </div>
+        <p className="max-w-sm text-sm text-ink/50">
+          Curated from trusted suppliers. Confirm details on WhatsApp before payment.
+        </p>
       </header>
 
       <div className="grid gap-8 lg:grid-cols-[240px_1fr]">
@@ -114,23 +96,17 @@ export default async function ProductsPage({
           </div>
 
           {result.items.length > 0 ? (
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid grid-cols-2 gap-4 xl:grid-cols-3">
               {result.items.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
           ) : (
-            <div className="flex flex-col items-center rounded-3xl border border-dashed border-ink/20 bg-canvas/60 px-6 py-16 text-center">
-              <PackageSearch aria-hidden="true" className="h-10 w-10 text-brand" />
-              <h2 className="mt-5 text-xl font-light">Nothing matched your search</h2>
-              <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/60">
-                Try different filters, or tell us what you need and we will check
-                whether we can source it.
-              </p>
-              <Link
-                href="/request"
-                className="mt-6 rounded-full border border-brand px-5 py-2.5 text-sm font-medium text-brand transition-colors hover:bg-mint"
-              >
+            <div className="rounded-3xl border border-dashed border-ink/15 bg-canvas/40 px-6 py-14 text-center">
+              <PackageSearch aria-hidden="true" className="mx-auto h-8 w-8 text-ink/30" />
+              <h2 className="mt-4 text-lg font-light">No products found</h2>
+              <p className="mt-2 text-sm text-ink/50">Try different filters or request the item.</p>
+              <Link href="/request" className="mt-5 inline-flex rounded-full border border-brand px-4 py-2 text-sm font-medium text-brand hover:bg-mint">
                 Request a product
               </Link>
             </div>

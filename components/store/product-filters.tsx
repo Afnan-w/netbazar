@@ -23,7 +23,7 @@ function FilterFields({
   idPrefix: string;
 }) {
   return (
-    <div className="space-y-5 rounded-3xl border border-ink/10 bg-canvas/80 p-5 shadow-[0_18px_50px_-40px_rgba(24,35,45,0.45)] backdrop-blur">
+    <div className="space-y-5">
       <div>
         <label
           htmlFor={`${idPrefix}-search`}
@@ -102,15 +102,10 @@ function FilterFields({
       </div>
 
       <div className="flex items-center gap-3 pt-1">
-        <button
-          type="submit"
-          className="rounded-full border border-brand bg-brand px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
-        >
-          Apply filters
+        <button type="submit" className="rounded-full bg-brand px-4 py-2 text-sm font-medium text-white hover:opacity-90">
+          Apply
         </button>
-        <Link href="/products" className="text-sm text-ink/55 hover:text-brand">
-          Clear
-        </Link>
+        <Link href="/products" className="text-sm text-ink/45 hover:text-brand">Clear</Link>
       </div>
     </div>
   );
@@ -136,19 +131,13 @@ export function ProductFilters({
         </form>
       </details>
 
-      <aside
-        aria-label="Product filters"
-        className="hidden lg:sticky lg:top-44 lg:block lg:h-fit"
-      >
-        <div className="rounded-3xl border border-ink/10 bg-canvas p-5">
-          <div className="mb-5 flex items-center gap-2">
-            <SlidersHorizontal aria-hidden="true" className="h-4 w-4 text-brand" />
-            <h2 className="text-sm font-semibold">Filters</h2>
+      <aside aria-label="Product filters" className="hidden lg:sticky lg:top-28 lg:block lg:self-start">
+        <form action="/products" method="get" className="rounded-3xl border border-ink/8 bg-canvas/40 p-5">
+          <div className="mb-5 flex items-center gap-2 text-sm font-medium text-ink/70">
+            <SlidersHorizontal aria-hidden="true" className="h-4 w-4" /> Filters
           </div>
-          <form action="/products" method="get">
-            <FilterFields values={values} categories={categories} idPrefix="desktop" />
-          </form>
-        </div>
+          <FilterFields values={values} categories={categories} idPrefix="desktop" />
+        </form>
       </aside>
     </>
   );
