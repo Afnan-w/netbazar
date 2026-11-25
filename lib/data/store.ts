@@ -1,3 +1,4 @@
+import { getOptionalSupabaseEnv } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/server";
 import type {
   Category,
@@ -51,10 +52,7 @@ const fallbackSettings: SiteSettings = {
 
 async function getClient(): Promise<StoreClient | null> {
   // A build without environment variables should still produce a usable shell.
-  if (
-    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  ) {
+  if (!getOptionalSupabaseEnv()) {
     return null;
   }
 

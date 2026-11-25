@@ -95,14 +95,13 @@ The build also works without Supabase environment variables: the storefront show
 ## Deploy to Vercel
 
 1. Push the repository to your Git provider and import it in Vercel. Vercel detects Next.js automatically; no `vercel.json` is required.
-2. Add these environment variables for Production:
-   - `NEXT_PUBLIC_SUPABASE_URL` — project URL
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` — publishable/anon key
-   - `NEXT_PUBLIC_SITE_URL` — your public origin, e.g. `https://netbazar.example.com` (no trailing slash)
-   - `SUPABASE_SERVICE_ROLE_KEY` — service role key, server-only
-3. In Supabase, set **Authentication → URL Configuration → Site URL** to the same origin and add it to **Redirect URLs**.
-4. Deploy, then sign in at `/admin/login` with the admin user created earlier.
-5. After the first deploy, delete the `SAMPLE-` products and replace the policy placeholder text.
+2. Connect Supabase using either option:
+   - **Vercel Marketplace:** open the project → **Integrations** → **Browse Marketplace** → **Supabase** → **Add Integration**. Choose **Connect Account** and select your existing Supabase project (the plain **Install** button creates a new one). Vercel injects `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_URL` and `SUPABASE_SECRET_KEY`; this app accepts all of those names automatically.
+   - **Manual variables:** add `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` and server-only `SUPABASE_SERVICE_ROLE_KEY`.
+3. Always add `NEXT_PUBLIC_SITE_URL` — your public origin, e.g. `https://netbazar.example.com` (no trailing slash). The integration does not set this.
+4. In Supabase, set **Authentication → URL Configuration → Site URL** to the same origin and add it to **Redirect URLs**.
+5. Redeploy after adding or connecting variables — existing deployments do not receive new variables. Then sign in at `/admin/login`.
+6. After the first deploy, delete the `SAMPLE-` products and replace the policy placeholder text.
 
 ## Production checklist
 

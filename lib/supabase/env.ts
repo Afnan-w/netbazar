@@ -1,23 +1,40 @@
-export function getSupabaseEnv() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+/**
+ * Supports both manually added variables and the names synced by the
+ * official Vercel → Supabase integration.
+ */
+function publicEnv() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL;
+  const anonKey =
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
+    process.env.SUPABASE_ANON_KEY ??
+    process.env.SUPABASE_PUBLISHABLE_KEY;
 
-  if (!url || !anonKey) {
+  return url && anonKey ? { url, anonKey } : null;
+}
+
+export function getOptionalSupabaseEnv() {
+  return publicEnv();
+}
+
+export function getSupabaseEnv() {
+  const env = publicEnv();
+  if (!env) {
     throw new Error(
-      "Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY. Copy .env.example to .env.local and fill in your Supabase project values.",
+      "Missing Supabase URL or publishable key. Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY, or connect the Vercel Supabase integration.",
     );
   }
-
-  return { url, anonKey };
+  return env;
 }
 
 export function getSupabaseAdminEnv() {
   const { url } = getSupabaseEnv();
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const serviceRoleKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.SUPABASE_SECRET_KEY;
 
   if (!serviceRoleKey) {
     throw new Error(
-      "Missing SUPABASE_SERVICE_ROLE_KEY. Add it to your server-only environment variables.",
+      "Missing server-only Supabase secret key. Add SUPABASE_SERVICE_ROLE_KEY (or connect the Vercel Supabase integration).",
     );
   }
 

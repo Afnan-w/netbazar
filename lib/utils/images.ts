@@ -1,5 +1,7 @@
+import { getOptionalSupabaseEnv } from "@/lib/supabase/env";
+
 export function getProductImageUrl(storagePath: string): string {
-  const base = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const base = getOptionalSupabaseEnv()?.url;
   if (!base) return "";
 
   const encodedPath = storagePath

@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import type { MetadataRoute } from "next";
+import { getOptionalSupabaseEnv } from "@/lib/supabase/env";
 import type { Database } from "@/types/database";
 
 export const dynamic = "force-dynamic";
@@ -23,11 +24,10 @@ const staticPages: MetadataRoute.Sitemap = [
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !anonKey) return staticPages;
+  const env = getOptionalSupabaseEnv();
+  if (!env) return staticPages;
 
-  const supabase = createClient<Database>(url, anonKey);
+  const supabase = createClient<Database>(env.url, env.anonKey);
   const { data: products } = await supabase
     .from("products")
     .select("slug, updated_at")
