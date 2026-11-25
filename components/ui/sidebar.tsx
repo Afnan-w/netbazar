@@ -5,7 +5,6 @@ import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
-import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 export type SidebarItem = {
   label: string;
@@ -132,10 +131,6 @@ export function Sidebar({
             <p className="text-xs font-bold text-ink">Need Help?</p>
             <p className="text-[11px] text-secondary-ink">24/7 Support</p>
           </div>
-        </div>
-
-        <div className="flex justify-center lg:justify-start">
-          <ThemeToggle labelClassName={mobile ? "" : "hidden lg:inline"} />
         </div>
       </div>
     </div>

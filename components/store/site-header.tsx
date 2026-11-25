@@ -24,7 +24,6 @@ import {
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { WishlistLink } from "@/components/store/wishlist-link";
 
 type HeaderCategory = { name: string; slug: string };
@@ -305,9 +304,6 @@ export function SiteHeader({
         </div>
 
         <div className="ml-auto flex items-center gap-2 md:ml-0">
-          <div className="hidden md:block">
-            <ThemeToggle compact />
-          </div>
           <Link
             href="/admin/login"
             aria-label="Account"
@@ -439,13 +435,6 @@ export function SiteHeader({
                   );
                 })}
               </div>
-            </div>
-            <div className="flex items-center justify-between gap-4 rounded-card border border-border bg-page/60 p-3">
-              <div>
-                <p className="text-sm font-medium text-ink">Appearance</p>
-                <p className="text-xs text-muted">Switch between light and dark</p>
-              </div>
-              <ThemeToggle />
             </div>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-border pt-4 text-[11px] text-muted">
               <span className="inline-flex items-center gap-1">

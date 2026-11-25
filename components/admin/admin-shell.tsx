@@ -23,7 +23,6 @@ import { usePathname } from "next/navigation";
 import { useState, type ReactNode } from "react";
 import { signOut } from "@/app/admin/actions";
 import { ToastProvider } from "@/components/admin/toast";
-import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { buttonClass } from "@/components/ui/button";
 import { Navbar } from "@/components/ui/navbar";
 import { Sidebar, type SidebarItem } from "@/components/ui/sidebar";
@@ -163,10 +162,6 @@ function RightRail() {
             );
           })}
         </nav>
-        <div className="mt-4 flex items-center justify-between gap-3 border-t border-border pt-4">
-          <span className="text-xs font-medium text-secondary-ink">Appearance</span>
-          <ThemeToggle />
-        </div>
       </section>
     </aside>
   );

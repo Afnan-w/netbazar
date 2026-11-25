@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
-
 @theme inline {
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
@@ -32,7 +30,6 @@
   --color-line: var(--border);
   --color-mint: var(--primary-tint);
   --color-discount: var(--sale);
-  --color-dark: var(--ink);
 
   --font-sans: var(--font-jakarta), var(--font-inter), ui-sans-serif, system-ui,
     sans-serif;
@@ -83,37 +80,6 @@
   --sage: #e6eee1;
   --peach: #fbe9de;
   --lilac: #eae4fb;
-}
-
-[data-theme="dark"] {
-  color-scheme: dark;
-  --primary: #6c4fd6;
-  --primary-hover: #7d64e4;
-  --primary-active: #5b3fc4;
-  --primary-tint: #272041;
-  --hero-gradient: linear-gradient(
-    135deg,
-    #4d3a91 0%,
-    #6c4fd6 50%,
-    #a85588 100%
-  );
-  --page: #0f0e17;
-  --surface: #1a1826;
-  --surface-raised: #211f30;
-  --image-backdrop: #242235;
-  --ink: #f7f5ff;
-  --secondary-ink: #b6b1ca;
-  --muted: #85819a;
-  --border: #2a2840;
-  --sale: #ff7676;
-  --success: #4ec58a;
-  --star: #f7c25a;
-  --pending-bg: #3b301b;
-  --pending-ink: #f5c66b;
-  --blush: #3a2430;
-  --sage: #22342b;
-  --peach: #382a24;
-  --lilac: #2d2541;
 }
 
 html {
