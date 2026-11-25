@@ -288,19 +288,15 @@ export function SiteHeader({
           >
             All Categories
           </Link>
-          {categories.map((category) => {
-            const Icon = categoryIcons[category.slug] ?? Grid2X2;
-            return (
-              <Link
-                key={category.slug}
-                href={`/products?category=${encodeURIComponent(category.slug)}`}
-                className="inline-flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs text-ink/65 transition-colors hover:bg-canvas hover:text-accent"
-              >
-                <Icon aria-hidden="true" className="h-3.5 w-3.5 text-subtle" />
-                {category.name}
-              </Link>
-            );
-          })}
+          {categories.map((category) => (
+            <Link
+              key={category.slug}
+              href={`/products?category=${encodeURIComponent(category.slug)}`}
+              className="shrink-0 rounded-lg px-3 py-1.5 text-xs text-ink/65 transition-colors hover:bg-canvas hover:text-accent"
+            >
+              {category.name}
+            </Link>
+          ))}
           <span aria-hidden="true" className="mx-2 h-4 w-px shrink-0 bg-line" />
           <Link
             href="/products?featured=1"

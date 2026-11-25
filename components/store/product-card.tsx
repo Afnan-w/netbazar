@@ -1,4 +1,4 @@
-import { ArrowUpRight, MessageCircle, Star, Truck } from "lucide-react";
+import { MessageCircle, Star, Truck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { ProductVisual } from "@/components/store/product-visual";
@@ -79,11 +79,6 @@ export function ProductCard({
             {market.badge}
           </span>
         )}
-        {discount > 0 && (
-          <span className="pointer-events-none absolute left-3 top-11 z-10 rounded-full bg-discount px-2 py-0.5 text-[10px] font-semibold text-white">
-            -{discount}%
-          </span>
-        )}
         {!available && (
           <span className="pointer-events-none absolute bottom-3 left-3 z-10 rounded-full bg-surface/90 px-2.5 py-1 text-[10px] font-medium text-muted backdrop-blur">
             Unavailable
@@ -115,7 +110,7 @@ export function ProductCard({
           <span className="inline-flex items-center gap-1 text-ink/70">
             <Star aria-hidden="true" className="h-3 w-3 fill-accent text-accent" />
             {market.rating?.toFixed(1)}
-            <span className="text-muted">({market.soldCount})</span>
+            <span className="text-muted">· {market.soldCount} sold</span>
           </span>
         </div>
 
@@ -134,21 +129,15 @@ export function ProductCard({
               {formatBDT(product.reference_price_bdt)}
             </span>
           )}
+          {discount > 0 && (
+            <span className="text-xs font-semibold text-discount">-{discount}%</span>
+          )}
         </div>
 
         <div className="mt-2 flex items-center gap-1.5 text-[11px] text-muted">
           <Truck aria-hidden="true" className="h-3.5 w-3.5 text-support" />
           Ships in {market.shippingDays}
         </div>
-
-        <Link
-          href={`/products/${product.slug}`}
-          className="mt-4 inline-flex items-center justify-center gap-1.5 rounded-lg border border-line py-2 text-xs font-medium text-ink/75 transition-colors hover:border-accent hover:bg-accent hover:text-white"
-          aria-label={`View ${product.name}`}
-        >
-          View details
-          <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
-        </Link>
       </div>
     </article>
   );
