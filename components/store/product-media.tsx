@@ -16,15 +16,11 @@ export function updatePointerMedia(
   const x = Math.min(1, Math.max(0, (clientX - bounds.left) / bounds.width));
   const y = Math.min(1, Math.max(0, (clientY - bounds.top) / bounds.height));
 
-  element.style.setProperty("--pointer-x", `${x * 100}%`);
-  element.style.setProperty("--pointer-y", `${y * 100}%`);
   element.style.setProperty("--media-x", `${(x - 0.5) * 12}px`);
   element.style.setProperty("--media-y", `${(y - 0.5) * 12}px`);
 }
 
 export function resetPointerMedia(element: HTMLElement) {
-  element.style.setProperty("--pointer-x", "50%");
-  element.style.setProperty("--pointer-y", "50%");
   element.style.setProperty("--media-x", "0px");
   element.style.setProperty("--media-y", "0px");
 }
@@ -81,7 +77,6 @@ export function ProductMediaLink({
           />
         )}
       </span>
-      <span aria-hidden="true" className="product-media-glow" />
     </Link>
   );
 }

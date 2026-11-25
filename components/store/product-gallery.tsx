@@ -59,7 +59,6 @@ export function ProductGallery({
             />
           )}
         </div>
-        <span aria-hidden="true" className="product-media-glow" />
       </div>
 
       {!active?.url && (
