@@ -26,7 +26,7 @@ The build is delivered in four phases:
 
 1. Create a project at <https://supabase.com/dashboard>. Choose a region close to your users and set a database password.
 2. Open **Project Settings → API** and copy the Project URL, anon key and service role key into `.env.local`.
-3. Open **SQL Editor → New query**, paste the contents of `supabase/migrations/0001_initial.sql` and run it. Then run `supabase/migrations/0002_sample_data.sql` for eight clearly labelled sample products. Delete or replace the sample rows before launch.
+3. Open **SQL Editor → New query**, paste the contents of `supabase/migrations/0001_initial.sql` and run it. Then run `supabase/migrations/0002_sample_data.sql` for eight clearly labelled sample products. Delete or replace the sample rows before launch. If you already ran these migrations, also run `supabase/migrations/0003_whatsapp_number.sql` to set the live WhatsApp number.
 4. Open **Authentication → Providers** and enable Email. Add your own domain to **Authentication → URL Configuration → Site URL / Redirect URLs** before deploying.
 5. In **Authentication → Users → Add user**, create the first admin with an email and password. Then run this in the SQL Editor, replacing the email with that user's address:
 
@@ -107,7 +107,7 @@ The build also works without Supabase environment variables: the storefront show
 ## Production checklist
 
 - Replace sample products and add real photos with meaningful alt text.
-- Set the real WhatsApp number, announcement and contact details in `/admin/settings`.
+- Confirm the WhatsApp number (+880 1627 293330), announcement and contact details in `/admin/settings`.
 - Replace all three policy pages with final wording.
 - Confirm every category, price and availability status.
 - Verify `/sitemap.xml` and `/robots.txt` use the final domain.

@@ -4,6 +4,11 @@ function emptyToUndefined(value: unknown): unknown {
   return typeof value === "string" && value.trim() === "" ? undefined : value;
 }
 
+function normalizeWhatsappNumber(value: string): string {
+  const digits = value.replace(/\D/g, "");
+  return digits.startsWith("880") ? digits : `88${digits.replace(/^0/, "")}`;
+}
+
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export const productSchema = z.object({
@@ -47,7 +52,11 @@ export const settingsSchema = z.object({
   whatsapp_number: z
     .string()
     .trim()
-    .regex(/^\d{8,15}$/, "Enter the WhatsApp number with country code and no spaces."),
+    .regex(
+      /^\+?(?:880\d{10}|0\d{9,10}|\d{9,10})$/,
+      "Enter a valid Bangladesh number, e.g. +8801627293330.",
+    )
+    .transform(normalizeWhatsappNumber),
   announcement_text: z.string().max(300),
   contact_email: z.union([z.literal(""), z.string().trim().email("Enter a valid email.")]),
   facebook_url: z.union([

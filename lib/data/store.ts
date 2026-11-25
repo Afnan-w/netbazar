@@ -40,7 +40,7 @@ export type ProductQuery = {
 
 const fallbackSettings: SiteSettings = {
   id: 1,
-  whatsapp_number: "8801700000000",
+  whatsapp_number: "8801627293330",
   announcement_text:
     "Payment is upfront. We confirm the final price, shipping and delivery time on WhatsApp before you pay.",
   contact_email: "hello@netbazar.example",

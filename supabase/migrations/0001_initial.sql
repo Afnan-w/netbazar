@@ -83,7 +83,7 @@ create table public.admins (
 insert into public.site_settings (id, whatsapp_number, announcement_text, contact_email)
 values (
   1,
-  '8801700000000',
+  '8801627293330',
   'Payment is upfront. We confirm the final price, shipping and delivery time on WhatsApp before you pay.',
   'hello@netbazar.example'
 );

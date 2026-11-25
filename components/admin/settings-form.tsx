@@ -32,11 +32,11 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
               name="whatsapp_number"
               defaultValue={settings.whatsapp_number}
               required
-              placeholder="88017XXXXXXXX"
+              placeholder="+88016XXXXXXXX or 016XXXXXXXX"
               className={inputClass}
             />
             <p className="mt-1.5 text-xs text-ink/50">
-              Country code and number, digits only.
+              We save it as 88016XXXXXXXX for WhatsApp links.
             </p>
           </div>
           <div>

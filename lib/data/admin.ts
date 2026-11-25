@@ -174,7 +174,7 @@ export async function getAdminSettings(): Promise<SiteSettings> {
   return (
     data ?? {
       id: 1,
-      whatsapp_number: "8801700000000",
+      whatsapp_number: "8801627293330",
       announcement_text: "",
       contact_email: "",
       facebook_url: "",
