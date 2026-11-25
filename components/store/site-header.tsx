@@ -22,8 +22,8 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useMemo, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import { WishlistLink } from "@/components/store/wishlist-link";
 
 type HeaderCategory = { name: string; slug: string };
@@ -55,6 +55,9 @@ function SearchForm({
 }) {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const router = useRouter();
+  const listId = `${compact ? "mobile" : "desktop"}-search-suggestions`;
 
   const matches = useMemo(() => {
     const term = query.trim().toLowerCase();
@@ -77,7 +80,10 @@ function SearchForm({
       <div
         className="relative"
         onBlur={(event) => {
-          if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false);
+          if (!event.currentTarget.contains(event.relatedTarget)) {
+            setOpen(false);
+            setActiveIndex(-1);
+          }
         }}
       >
         <div className="flex items-center gap-2 rounded-xl border border-line bg-canvas/70 px-3.5 py-2.5 transition-colors focus-within:border-accent focus-within:bg-surface focus-within:ring-2 focus-within:ring-accent/15">
@@ -89,28 +95,64 @@ function SearchForm({
             onChange={(event) => {
               setQuery(event.target.value);
               setOpen(true);
+              setActiveIndex(-1);
             }}
             onFocus={() => setOpen(true)}
             onKeyDown={(event) => {
-              if (event.key === "Escape") setOpen(false);
+              if (event.key === "Escape") {
+                setOpen(false);
+                setActiveIndex(-1);
+                return;
+              }
+              if (!open || matches.length === 0) return;
+              if (event.key === "ArrowDown") {
+                event.preventDefault();
+                setActiveIndex((index) => (index + 1) % matches.length);
+              } else if (event.key === "ArrowUp") {
+                event.preventDefault();
+                setActiveIndex((index) =>
+                  index <= 0 ? matches.length - 1 : index - 1,
+                );
+              } else if (event.key === "Enter" && activeIndex >= 0) {
+                event.preventDefault();
+                router.push(
+                  `/products?q=${encodeURIComponent(matches[activeIndex].name)}`,
+                );
+                setOpen(false);
+                setActiveIndex(-1);
+              }
             }}
             placeholder="Search products, brands and categories..."
             autoComplete="off"
+            role="combobox"
+            aria-expanded={open}
+            aria-controls={listId}
+            aria-autocomplete="list"
             className="w-full bg-transparent text-sm outline-none placeholder:text-subtle"
           />
         </div>
 
         {open && matches.length > 0 && (
-          <div className="dropdown-pop absolute left-0 right-0 top-[calc(100%+8px)] z-50 overflow-hidden rounded-xl premium-card p-2">
+          <div
+            id={listId}
+            className="dropdown-pop absolute left-0 right-0 top-[calc(100%+8px)] z-50 overflow-hidden rounded-xl premium-card p-2"
+          >
             <p className="px-2 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-subtle">
               {query ? "Suggestions" : "Popular searches"}
             </p>
-            {matches.map((item) => (
+            {matches.map((item, index) => (
               <Link
                 key={item.slug}
                 href={`/products?q=${encodeURIComponent(item.name)}`}
-                onClick={() => setOpen(false)}
-                className="flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-ink/75 hover:bg-canvas hover:text-accent"
+                onClick={() => {
+                  setOpen(false);
+                  setActiveIndex(-1);
+                }}
+                className={`flex items-center gap-2 rounded-lg px-2 py-2 text-sm transition-colors ${
+                  activeIndex === index
+                    ? "bg-canvas text-accent"
+                    : "text-ink/75 hover:bg-canvas hover:text-accent"
+                }`}
               >
                 <Search aria-hidden="true" className="h-3.5 w-3.5 text-subtle" />
                 <span className="truncate">{item.name}</span>
@@ -213,10 +255,24 @@ export function SiteHeader({
   whatsappUrl: string;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-surface/95 backdrop-blur-xl">
+    <header
+      className={`sticky top-0 z-40 border-b backdrop-blur-xl transition-shadow duration-300 ${
+        scrolled
+          ? "border-line/70 bg-surface/90 shadow-[0_14px_36px_-28px_rgba(23,28,44,0.65)]"
+          : "border-line bg-surface/95"
+      }`}
+    >
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
         <Link
           href="/"
@@ -232,8 +288,10 @@ export function SiteHeader({
             <Link
               key={link.href}
               href={link.href}
-              className={`text-sm transition-colors hover:text-accent ${
-                pathname === link.href ? "font-medium text-accent" : "text-ink/70"
+              className={`relative inline-flex text-sm transition-colors after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-accent after:transition-transform after:duration-300 hover:text-accent hover:after:scale-x-100 ${
+                pathname === link.href
+                  ? "font-medium text-accent after:scale-x-100"
+                  : "text-ink/70"
               }`}
             >
               {link.label}
@@ -321,7 +379,10 @@ export function SiteHeader({
       </nav>
 
       {menuOpen && (
-        <div id="mobile-menu" className="border-t border-line bg-surface lg:hidden">
+        <div
+          id="mobile-menu"
+          className="dropdown-pop border-t border-line bg-surface lg:hidden"
+        >
           <div className="space-y-5 px-4 py-5 sm:px-6">
             <SearchForm suggestions={suggestions} compact />
             <nav aria-label="Mobile navigation" className="grid grid-cols-2 gap-2">

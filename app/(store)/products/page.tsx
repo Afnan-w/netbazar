@@ -179,7 +179,7 @@ export default async function ProductsPage({
 
           {result.items.length > 0 ? (
             values.view === "grid" ? (
-              <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4">
+              <div className="product-grid grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4">
                 {result.items.map((product) => (
                   <ProductCard
                     key={product.id}
