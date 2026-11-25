@@ -24,7 +24,7 @@ export function Pagination({
       {page > 1 ? (
         <Link
           href={buildHref(page - 1)}
-          className="inline-flex h-9 items-center gap-1 rounded-full border border-ink/15 px-3 text-sm hover:border-brand hover:text-brand"
+          className="inline-flex h-9 items-center gap-1 rounded-full border border-ink/15 px-3 text-sm hover:border-link hover:text-link"
         >
           <ChevronLeft aria-hidden="true" className="h-4 w-4" />
           Previous
@@ -48,8 +48,8 @@ export function Pagination({
             aria-current={candidate === page ? "page" : undefined}
             className={`inline-flex h-9 w-9 items-center justify-center rounded-full border text-sm transition-colors ${
               candidate === page
-                ? "border-brand bg-mint font-medium text-brand"
-                : "border-ink/15 hover:border-brand hover:text-brand"
+                ? "border-action bg-canvas font-medium text-action-strong"
+                : "border-ink/15 hover:border-link hover:text-link"
             }`}
           >
             {candidate}
@@ -60,7 +60,7 @@ export function Pagination({
       {page < totalPages ? (
         <Link
           href={buildHref(page + 1)}
-          className="inline-flex h-9 items-center gap-1 rounded-full border border-ink/15 px-3 text-sm hover:border-brand hover:text-brand"
+          className="inline-flex h-9 items-center gap-1 rounded-full border border-ink/15 px-3 text-sm hover:border-link hover:text-link"
         >
           Next
           <ChevronRight aria-hidden="true" className="h-4 w-4" />

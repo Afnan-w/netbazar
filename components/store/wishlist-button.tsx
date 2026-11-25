@@ -28,7 +28,7 @@ export function WishlistButton({
   return (
     <button
       type="button"
-      className={`inline-flex h-8 w-8 items-center justify-center rounded-full border border-line bg-surface/90 text-ink/60 backdrop-blur transition-all hover:scale-110 hover:border-accent hover:text-accent active:scale-90 ${className}`}
+      className={`inline-flex h-8 w-8 items-center justify-center rounded-full border border-line bg-surface/90 text-ink/60 backdrop-blur transition-all hover:scale-110 hover:border-action hover:text-action active:scale-90 ${className}`}
       aria-label={saved ? `Remove ${name} from wishlist` : `Save ${name} to wishlist`}
       aria-pressed={saved}
       onClick={(event) => {
@@ -39,7 +39,7 @@ export function WishlistButton({
     >
       <Heart
         aria-hidden="true"
-        className={`h-4 w-4 ${saved ? "fill-accent text-accent" : ""}`}
+        className={`h-4 w-4 ${saved ? "fill-action text-action" : ""}`}
       />
     </button>
   );

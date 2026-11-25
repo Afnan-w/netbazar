@@ -26,8 +26,8 @@ type ProductPageProps = { params: Promise<{ slug: string }> };
 
 const badgeClasses: Record<string, string> = {
   "Best seller": "bg-[#171C2C] text-white",
-  Hot: "bg-[#4D8DCA] text-white",
-  New: "bg-mint text-accent",
+  Hot: "bg-action text-dark",
+  New: "bg-[#E8F1FA] text-[#3C6FA3]",
   Limited: "bg-[#E8F1FA] text-[#3C6FA3]",
 };
 
@@ -101,7 +101,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <Link
         href="/products"
-        className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-brand"
+        className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-link"
       >
         <ArrowLeft aria-hidden="true" className="h-4 w-4" />
         Back to products
@@ -122,7 +122,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             {product.category && (
               <Link
                 href={`/products?category=${encodeURIComponent(product.category.slug)}`}
-                className="rounded-full border border-line px-3 py-1 text-xs text-muted transition-colors hover:border-brand hover:text-brand"
+                className="rounded-full border border-line px-3 py-1 text-xs text-muted transition-colors hover:border-link hover:text-link"
               >
                 {product.category.name}
               </Link>
@@ -142,7 +142,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted">
             <span>SKU {product.sku}</span>
             <span className="inline-flex items-center gap-1 text-ink/70">
-              <Star aria-hidden="true" className="h-3.5 w-3.5 fill-accent text-accent" />
+              <Star aria-hidden="true" className="h-3.5 w-3.5 fill-action text-action" />
               {market.rating?.toFixed(1)} · {market.soldCount} sold
             </span>
           </div>
@@ -165,7 +165,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             <span
               className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs ${
                 available
-                  ? "border-accent/30 bg-mint text-accent"
+                  ? "border-success/30 bg-[#EAF7F2] text-success"
                   : "border-line text-muted"
               }`}
             >
@@ -188,7 +188,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-highlight"
+              className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-action px-6 py-3 text-sm font-semibold text-dark transition-colors hover:bg-action-strong"
             >
               <MessageCircle aria-hidden="true" className="h-4 w-4" />
               Order on WhatsApp
@@ -202,7 +202,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <ul className="mt-5 space-y-2 border-t border-line pt-5 text-xs text-muted">
             {assurances.map((item) => (
               <li key={item} className="flex items-center gap-2">
-                <Check aria-hidden="true" className="h-3.5 w-3.5 text-accent" />
+                <Check aria-hidden="true" className="h-3.5 w-3.5 text-success" />
                 {item}
               </li>
             ))}

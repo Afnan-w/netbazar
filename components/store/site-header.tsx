@@ -80,7 +80,7 @@ function SearchForm({
           if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false);
         }}
       >
-        <div className="flex items-center gap-2 rounded-xl border border-line bg-canvas/70 px-3.5 py-2.5 transition-colors focus-within:border-accent focus-within:bg-surface focus-within:ring-2 focus-within:ring-accent/15">
+        <div className="flex items-center gap-2 rounded-lg border border-line bg-canvas/70 px-3 py-1.5 transition-colors focus-within:border-action focus-within:bg-surface focus-within:ring-2 focus-within:ring-action/20">
           <Search aria-hidden="true" className="h-4 w-4 shrink-0 text-subtle" />
           <input
             id={compact ? "mobile-search" : "header-search"}
@@ -98,6 +98,13 @@ function SearchForm({
             autoComplete="off"
             className="w-full bg-transparent text-sm outline-none placeholder:text-subtle"
           />
+          <button
+            type="submit"
+            aria-label="Search products"
+            className="inline-flex h-8 w-9 shrink-0 items-center justify-center rounded-md bg-action text-dark transition-colors hover:bg-action-strong"
+          >
+            <Search aria-hidden="true" className="h-4 w-4" />
+          </button>
         </div>
 
         {open && matches.length > 0 && (
@@ -110,7 +117,7 @@ function SearchForm({
                 key={item.slug}
                 href={`/products?q=${encodeURIComponent(item.name)}`}
                 onClick={() => setOpen(false)}
-                className="flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-ink/75 hover:bg-canvas hover:text-accent"
+                className="flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-ink/75 hover:bg-canvas hover:text-link"
               >
                 <Search aria-hidden="true" className="h-3.5 w-3.5 text-subtle" />
                 <span className="truncate">{item.name}</span>
@@ -122,7 +129,7 @@ function SearchForm({
             {query && (
               <button
                 type="submit"
-                className="mt-1 flex w-full items-center justify-between rounded-lg bg-mint px-3 py-2 text-left text-xs font-medium text-accent"
+                className="mt-1 flex w-full items-center justify-between rounded-lg bg-[#E8F1FA] px-3 py-2 text-left text-xs font-medium text-link"
               >
                 See all results for “{query}”
                 <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
@@ -223,7 +230,7 @@ export function SiteHeader({
           className="shrink-0 text-xl font-semibold tracking-tight"
           onClick={() => setMenuOpen(false)}
         >
-          Net<span className="text-accent">bazar</span>
+          Net<span className="text-action">bazar</span>
         </Link>
 
         <nav aria-label="Main navigation" className="hidden items-center gap-5 lg:flex">
@@ -232,8 +239,8 @@ export function SiteHeader({
             <Link
               key={link.href}
               href={link.href}
-              className={`text-sm transition-colors hover:text-accent ${
-                pathname === link.href ? "font-medium text-accent" : "text-ink/70"
+              className={`text-sm transition-colors hover:text-link ${
+                pathname === link.href ? "font-medium text-link" : "text-ink/70"
               }`}
             >
               {link.label}
@@ -249,7 +256,7 @@ export function SiteHeader({
           <Link
             href="/admin/login"
             aria-label="Account"
-            className="hidden h-10 w-10 items-center justify-center rounded-full border border-line text-ink/70 transition-colors hover:border-accent hover:text-accent sm:inline-flex"
+            className="hidden h-10 w-10 items-center justify-center rounded-full border border-line text-ink/70 transition-colors hover:border-action hover:text-action sm:inline-flex"
           >
             <UserRound aria-hidden="true" className="h-4 w-4" />
           </Link>
@@ -260,7 +267,7 @@ export function SiteHeader({
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-accent px-4 py-2 text-sm font-medium text-white shadow-[0_12px_28px_-16px_rgba(138,112,232,0.9)] transition-all hover:-translate-y-0.5 hover:bg-highlight hover:shadow-[0_16px_32px_-14px_rgba(138,112,232,0.95)]"
+            className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-action px-4 py-2 text-sm font-semibold text-dark transition-all hover:-translate-y-0.5 hover:bg-action-strong hover:shadow-[0_16px_32px_-14px_rgba(255,153,0,0.85)]"
           >
             <MessageCircle aria-hidden="true" className="h-4 w-4" />
             <span className="hidden sm:inline">Order on WhatsApp</span>
@@ -287,7 +294,7 @@ export function SiteHeader({
         <div className="mx-auto flex h-11 max-w-7xl items-center gap-1 overflow-x-auto px-4 sm:px-6 lg:px-8">
           <Link
             href="/products"
-            className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-semibold text-accent hover:bg-mint"
+            className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-semibold text-action-strong hover:bg-canvas"
           >
             All Categories
           </Link>
@@ -297,7 +304,7 @@ export function SiteHeader({
               <Link
                 key={category.slug}
                 href={`/products?category=${encodeURIComponent(category.slug)}`}
-                className="inline-flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs text-ink/65 transition-colors hover:bg-canvas hover:text-accent"
+                className="inline-flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs text-ink/65 transition-colors hover:bg-canvas hover:text-link"
               >
                 <Icon aria-hidden="true" className="h-3.5 w-3.5 text-subtle" />
                 {category.name}
@@ -307,13 +314,13 @@ export function SiteHeader({
           <span aria-hidden="true" className="mx-2 h-4 w-px shrink-0 bg-line" />
           <Link
             href="/products?featured=1"
-            className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium text-ink/65 hover:bg-canvas hover:text-accent"
+            className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium text-ink/65 hover:bg-canvas hover:text-link"
           >
             Featured Products
           </Link>
           <Link
             href="/products?sort=newest"
-            className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium text-ink/65 hover:bg-canvas hover:text-accent"
+            className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium text-ink/65 hover:bg-canvas hover:text-link"
           >
             New Arrivals
           </Link>
@@ -330,7 +337,7 @@ export function SiteHeader({
                   key={link.href}
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className="rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-accent hover:text-accent"
+                  className="rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-action hover:text-action"
                 >
                   {link.label}
                 </Link>
@@ -338,14 +345,14 @@ export function SiteHeader({
               <Link
                 href="/wishlist"
                 onClick={() => setMenuOpen(false)}
-                className="rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-accent hover:text-accent"
+                className="rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-action hover:text-action"
               >
                 Wishlist
               </Link>
               <Link
                 href="/admin/login"
                 onClick={() => setMenuOpen(false)}
-                className="rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-accent hover:text-accent"
+                className="rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-action hover:text-action"
               >
                 Account
               </Link>
@@ -362,9 +369,9 @@ export function SiteHeader({
                       key={category.slug}
                       href={`/products?category=${encodeURIComponent(category.slug)}`}
                       onClick={() => setMenuOpen(false)}
-                      className="inline-flex items-center gap-2 rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-accent hover:text-accent"
+                      className="inline-flex items-center gap-2 rounded-xl border border-line px-3 py-2 text-sm text-ink/75 hover:border-action hover:text-action"
                     >
-                      <Icon aria-hidden="true" className="h-4 w-4 text-accent" />
+                      <Icon aria-hidden="true" className="h-4 w-4 text-action-strong" />
                       {category.name}
                     </Link>
                   );

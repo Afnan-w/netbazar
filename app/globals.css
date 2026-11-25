@@ -15,6 +15,9 @@
   --color-success: var(--success);
   --color-discount: var(--discount);
   --color-dark: var(--dark);
+  --color-action: var(--action);
+  --color-action-strong: var(--action-strong);
+  --color-link: var(--link);
   --font-sans: var(--font-inter);
 }
 
@@ -34,6 +37,9 @@
   --success: #269b71;
   --discount: #e76c68;
   --dark: #171c2c;
+  --action: #ff9900;
+  --action-strong: #f79400;
+  --link: #146eb4;
   background: var(--canvas);
   color: var(--ink);
 }
@@ -55,6 +61,9 @@
     --success: #3fb98a;
     --discount: #ef8581;
     --dark: #0e1220;
+    --action: #ffb23f;
+    --action-strong: #ff9900;
+    --link: #74a9dc;
   }
 }
 
@@ -70,7 +79,7 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--action);
   outline-offset: 3px;
 }
 
@@ -197,7 +206,7 @@ body {
     background: linear-gradient(
       100deg,
       transparent 30%,
-      color-mix(in srgb, var(--highlight) 12%, transparent) 50%,
+      color-mix(in srgb, var(--action) 12%, transparent) 50%,
       transparent 70%
     );
     transform: translateX(-120%) skewX(-18deg);

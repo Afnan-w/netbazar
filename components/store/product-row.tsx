@@ -37,7 +37,7 @@ export function ProductRow({
   );
 
   return (
-    <article className="group flex flex-col gap-4 rounded-xl premium-card p-4 transition-colors hover:border-accent/40 sm:flex-row sm:items-center">
+    <article className="group flex flex-col gap-4 rounded-xl premium-card p-4 transition-colors hover:border-action/40 sm:flex-row sm:items-center">
       <Link
         href={`/products/${product.slug}`}
         className="relative h-32 w-full shrink-0 overflow-hidden rounded-xl bg-canvas sm:h-28 sm:w-32"
@@ -66,18 +66,18 @@ export function ProductRow({
           {market.badge && (
             <>
               <span aria-hidden="true">·</span>
-              <span className="text-accent">{market.badge}</span>
+              <span className="text-action-strong">{market.badge}</span>
             </>
           )}
         </div>
         <Link href={`/products/${product.slug}`}>
-          <h3 className="mt-1 truncate text-sm font-medium text-ink group-hover:text-accent">
+          <h3 className="mt-1 truncate text-sm font-medium text-ink group-hover:text-link">
             {product.name}
           </h3>
         </Link>
         <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-muted">
           <span className="inline-flex items-center gap-1 text-ink/70">
-            <Star aria-hidden="true" className="h-3 w-3 fill-accent text-accent" />
+            <Star aria-hidden="true" className="h-3 w-3 fill-action text-action" />
             {market.rating?.toFixed(1)} · {market.soldCount} sold
           </span>
           <span className="inline-flex items-center gap-1">
@@ -106,7 +106,7 @@ export function ProductRow({
           <Link
             href={`/products/${product.slug}`}
             aria-label={`View ${product.name}`}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line text-ink/60 hover:border-accent hover:text-accent"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line text-ink/60 hover:border-link hover:text-link"
           >
             <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
           </Link>
@@ -114,7 +114,7 @@ export function ProductRow({
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-3.5 py-2 text-xs font-medium text-white transition-colors hover:bg-highlight"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-action px-3.5 py-2 text-xs font-semibold text-dark transition-colors hover:bg-action-strong"
           >
             <MessageCircle aria-hidden="true" className="h-3.5 w-3.5" />
             Order
