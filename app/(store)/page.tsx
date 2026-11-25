@@ -1,5 +1,7 @@
 import {
   ArrowRight,
+  BadgeCheck,
+  Clock3,
   Compass,
   Cpu,
   Gamepad2,
@@ -49,8 +51,27 @@ const steps = [
 ];
 
 const heroPositions = [
-  "absolute left-0 top-4 rotate-[-3deg]",
-  "absolute right-0 bottom-4 rotate-[3deg]",
+  "absolute left-0 top-4 rotate-[-5deg]",
+  "absolute right-2 top-0 rotate-[4deg]",
+  "absolute bottom-0 left-24 rotate-[-2deg]",
+];
+
+const trustPoints = [
+  {
+    icon: BadgeCheck,
+    title: "Curated catalogue",
+    text: "Hand-picked products, not a noisy marketplace.",
+  },
+  {
+    icon: WalletCards,
+    title: "Clear BDT pricing",
+    text: "Prices shown in taka with no checkout surprises.",
+  },
+  {
+    icon: Clock3,
+    title: "Confirmed first",
+    text: "Shipping and delivery time agreed before payment.",
+  },
 ];
 
 function HeroProductCard({ product }: { product: ProductListItem }) {
@@ -94,7 +115,7 @@ function HeroProductCard({ product }: { product: ProductListItem }) {
 
 export default async function HomePage() {
   const [featured, arrivals, popular, categories, settings, all] = await Promise.all([
-    getProducts({ featured: true, availability: "available", pageSize: 4 }),
+    getProducts({ featured: true, availability: "available", pageSize: 8 }),
     getProducts({ availability: "available", sort: "newest", pageSize: 4, offset: 8 }),
     getProducts({ popular: true, availability: "available", pageSize: 4, offset: 4 }),
     getCategories(),
@@ -110,6 +131,7 @@ export default async function HomePage() {
   const heroProducts = [
     featured.items[0] ?? all.items[0],
     featured.items[1] ?? all.items[1],
+    featured.items[2] ?? all.items[2],
   ].filter((product): product is ProductListItem => Boolean(product));
 
   const categoryImages = new Map<string, string>();
@@ -181,7 +203,15 @@ export default async function HomePage() {
               </div>
             </div>
 
-            <div className="relative hidden min-h-[400px] lg:block">
+            <div className="relative hidden min-h-[440px] lg:block">
+              <div
+                aria-hidden="true"
+                className="absolute left-8 top-4 h-[380px] w-[380px] rounded-full border border-white/10"
+              />
+              <div
+                aria-hidden="true"
+                className="absolute right-0 top-16 h-[340px] w-[340px] rounded-full border border-white/10"
+              />
               {heroProducts.map((product, index) => (
                 <div key={product.id} className={heroPositions[index]}>
                   <HeroProductCard product={product} />
@@ -367,6 +397,23 @@ export default async function HomePage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <SectionHeading eyebrow="Why Netbazar" title="Sourcing with clarity" />
+        <div className="grid gap-4 md:grid-cols-3">
+          {trustPoints.map((point) => (
+            <div key={point.title} className="flex gap-4 rounded-xl border border-line bg-canvas/50 p-5">
+              <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-surface text-accent shadow-sm">
+                <point.icon aria-hidden="true" className="h-4 w-4" />
+              </span>
+              <div>
+                <h3 className="text-sm font-medium">{point.title}</h3>
+                <p className="mt-1 text-sm text-muted">{point.text}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     </div>
