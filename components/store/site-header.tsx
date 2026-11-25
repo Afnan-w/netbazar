@@ -12,7 +12,7 @@ type HeaderCategory = {
 
 const primaryLinks = [
   { href: "/products", label: "Shop" },
-  { href: "/request", label: "Request a product" },
+  { href: "/request", label: "Request" },
   { href: "/faq", label: "FAQ" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
@@ -84,8 +84,7 @@ export function SiteHeader({
           className="ml-auto inline-flex shrink-0 items-center gap-2 rounded-full bg-brand px-4 py-2 text-sm font-medium text-white shadow-[0_12px_28px_-16px_rgba(22,168,120,0.9)] transition-opacity hover:opacity-90 md:ml-0"
         >
           <MessageCircle aria-hidden="true" className="h-4 w-4" />
-          <span className="hidden sm:inline">Order on WhatsApp</span>
-          <span className="sm:hidden">Order</span>
+          <span>WhatsApp</span>
         </a>
 
         <button
@@ -103,29 +102,6 @@ export function SiteHeader({
           )}
         </button>
       </div>
-
-      <nav
-        aria-label="Categories"
-        className="hidden border-t border-ink/5 lg:block"
-      >
-        <div className="mx-auto flex max-w-7xl gap-2.5 overflow-x-auto px-4 py-2.5 text-sm sm:px-6 lg:px-8">
-          <Link
-            href="/products"
-            className="whitespace-nowrap rounded-full border border-ink/10 bg-canvas/60 px-3.5 py-1.5 text-ink/65 transition-colors hover:border-brand/40 hover:text-brand"
-          >
-            All products
-          </Link>
-          {categories.map((category) => (
-            <Link
-              key={category.slug}
-              href={`/products?category=${encodeURIComponent(category.slug)}`}
-              className="whitespace-nowrap rounded-full border border-ink/10 px-3.5 py-1.5 text-ink/65 transition-colors hover:border-brand/40 hover:text-brand"
-            >
-              {category.name}
-            </Link>
-          ))}
-        </div>
-      </nav>
 
       {menuOpen && (
         <div id="mobile-menu" className="border-t border-ink/10 bg-surface lg:hidden">

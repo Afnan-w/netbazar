@@ -14,6 +14,8 @@ export const demoCategories: Category[] = [
   { id: "demo-cat-fashion", name: "Style", slug: "fashion", sort_order: 4, created_at: now, updated_at: now },
   { id: "demo-cat-toys", name: "Toys", slug: "toys-and-games", sort_order: 5, created_at: now, updated_at: now },
   { id: "demo-cat-travel", name: "Travel", slug: "outdoor-and-travel", sort_order: 6, created_at: now, updated_at: now },
+  { id: "demo-cat-beauty", name: "Care", slug: "beauty-and-care", sort_order: 7, created_at: now, updated_at: now },
+  { id: "demo-cat-everyday", name: "Everyday", slug: "everyday", sort_order: 8, created_at: now, updated_at: now },
 ];
 
 const img = (url: string, alt: string) => [{ id: url, storage_path: url, sort_order: 0, alt }];
@@ -48,7 +50,7 @@ const demoProductsRaw: DemoProduct[] = [
     description: "DEMO — Simple desk stand for hands-free calls and charging.",
     specifications: { "Material": "Aluminium", "Angle": "Adjustable", "Use": "Desk" },
     price_bdt: 950, reference_price_bdt: 1300, category_id: "demo-cat-phone", categorySlug: "phone-accessories",
-    status: "available", is_featured: false, is_popular: true, created_at: now, updated_at: now,
+    status: "available", is_featured: true, is_popular: true, created_at: now, updated_at: now,
     images: img("https://images.unsplash.com/photo-1586953208448-b95a79798f07?auto=format&fit=crop&w=900&q=80", "Smartphone on a minimal desk stand"),
   },
   {
@@ -112,8 +114,24 @@ const demoProductsRaw: DemoProduct[] = [
     description: "DEMO — Compact backpack for daily carry or short trips.",
     specifications: { "Capacity": "20 L", "Laptop": "15 inch", "Material": "Water-resistant" },
     price_bdt: 2600, reference_price_bdt: 3400, category_id: "demo-cat-travel", categorySlug: "outdoor-and-travel",
-    status: "available", is_featured: false, is_popular: true, created_at: now, updated_at: now,
+    status: "available", is_featured: true, is_popular: true, created_at: now, updated_at: now,
     images: img("https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=900&q=80", "Black travel backpack on a clean background"),
+  },
+  {
+    id: "demo-13", sku: "DEMO-BC-001", name: "Reusable Makeup Pads", slug: "reusable-makeup-pads",
+    description: "DEMO — Soft reusable pads with a washable pouch for daily care.",
+    specifications: { "Count": "12", "Material": "Microfibre", "Care": "Washable" },
+    price_bdt: 390, reference_price_bdt: 560, category_id: "demo-cat-beauty", categorySlug: "beauty-and-care",
+    status: "available", is_featured: false, is_popular: true, created_at: now, updated_at: now,
+    images: img("https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=900&q=80", "Neat cosmetic pads and bottles on a table"),
+  },
+  {
+    id: "demo-14", sku: "DEMO-EV-001", name: "Cable Tidy Clips", slug: "cable-tidy-clips",
+    description: "DEMO — Small clips that keep desk and bedside cables in place.",
+    specifications: { "Count": "8", "Material": "Silicone", "Colours": "Grey, mint" },
+    price_bdt: 240, reference_price_bdt: 360, category_id: "demo-cat-everyday", categorySlug: "everyday",
+    status: "available", is_featured: false, is_popular: false, created_at: now, updated_at: now,
+    images: img("https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=900&q=80", "Tidy desk accessories and cables"),
   },
 ];
 

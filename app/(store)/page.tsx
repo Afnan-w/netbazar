@@ -15,11 +15,12 @@ import {
   Wallet,
   type LucideIcon,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
-// import { PaymentNote } from "@/components/store/payment-note";
 import { ProductCard } from "@/components/store/product-card";
 import { ProductGrid, SectionHeading } from "@/components/store/section-heading";
 import { getCategories, getProducts, getSiteSettings } from "@/lib/data/store";
+import { getProductImageUrl } from "@/lib/utils/images";
 import { buildWhatsAppUrl } from "@/lib/utils/whatsapp";
 
 const categoryIcons: Record<string, LucideIcon> = {
@@ -41,10 +42,8 @@ const steps = [
 ];
 
 export default async function HomePage() {
-  const [featured, arrivals, popular, categories, settings] = await Promise.all([
+  const [featured, categories, settings] = await Promise.all([
     getProducts({ featured: true, availability: "available", pageSize: 8 }),
-    getProducts({ availability: "available", pageSize: 4, sort: "newest" }),
-    getProducts({ popular: true, availability: "available", pageSize: 4 }),
     getCategories(),
     getSiteSettings(),
   ]);
@@ -103,8 +102,13 @@ export default async function HomePage() {
                     className={`group relative overflow-hidden rounded-[22px] border border-white/70 bg-surface shadow-[0_20px_50px_-30px_rgba(24,35,45,0.45)] ${i === 0 ? "row-span-2 aspect-[3/4]" : "aspect-square"}`}
                   >
                     {p.images[0] ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={p.images[0].storage_path.startsWith("http") ? p.images[0].storage_path : ""} alt={p.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" />
+                      <Image
+                        src={getProductImageUrl(p.images[0].storage_path)}
+                        alt={p.images[0].alt || p.name}
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 420px"
+                        className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                      />
                     ) : (
                       <div className="h-full w-full bg-mint/40" />
                     )}
@@ -142,30 +146,6 @@ export default async function HomePage() {
           <SectionHeading title="Featured" action={{ href: "/products", label: "View all" }} />
           <ProductGrid>
             {featured.items.slice(0, 8).map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </ProductGrid>
-        </section>
-      )}
-
-      {arrivals.items.length > 0 && (
-        <section className="border-y border-ink/5 bg-canvas/30 py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <SectionHeading title="New arrivals" action={{ href: "/products?sort=newest", label: "See all" }} />
-            <ProductGrid>
-              {arrivals.items.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </ProductGrid>
-          </div>
-        </section>
-      )}
-
-      {popular.items.length > 0 && (
-        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <SectionHeading title="Popular now" action={{ href: "/products", label: "Browse" }} />
-          <ProductGrid>
-            {popular.items.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </ProductGrid>

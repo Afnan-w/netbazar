@@ -26,12 +26,10 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
               net<span className="text-brand">bazar</span>
             </Link>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-ink/65">
-              Products picked from Chinese suppliers and sourced for customers in
-              Bangladesh. Order and confirm on WhatsApp.
+              China to Bangladesh sourcing. Browse, ask and order on WhatsApp.
             </p>
-            <p className="mt-4 text-xs leading-relaxed text-ink/50">
-              Payment is upfront. Final price, shipping and delivery time are
-              confirmed before payment.
+            <p className="mt-3 text-xs leading-relaxed text-ink/50">
+              Upfront payment. Price, shipping and delivery confirmed first.
             </p>
           </div>
 

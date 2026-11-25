@@ -76,7 +76,7 @@ export default async function ProductsPage({
           <h1 className="mt-2 text-3xl font-light tracking-tight sm:text-4xl">All products</h1>
         </div>
         <p className="max-w-sm text-sm text-ink/50">
-          Curated from trusted suppliers. Confirm details on WhatsApp before payment.
+          Browse the catalogue. Price and delivery are confirmed on WhatsApp before payment.
         </p>
       </header>
 

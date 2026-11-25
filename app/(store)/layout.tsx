@@ -1,4 +1,3 @@
-// import { AnnouncementBar } from "@/components/store/announcement-bar";
 import { SiteFooter } from "@/components/store/site-footer";
 import { SiteHeader } from "@/components/store/site-header";
 import { getCategories, getSiteSettings } from "@/lib/data/store";
@@ -18,7 +17,6 @@ export default async function StoreLayout({ children }: { children: ReactNode })
 
   return (
     <div className="flex min-h-screen flex-col">
-      {/* <AnnouncementBar text={settings.announcement_text} /> */}
       <SiteHeader
         categories={categories.map(({ name, slug }) => ({ name, slug }))}
         whatsappUrl={whatsappUrl}

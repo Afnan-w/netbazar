@@ -2,7 +2,6 @@ import { ArrowLeft, MessageCircle, PackageCheck } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-// import { PaymentNote } from "@/components/store/payment-note";
 import { ProductCard } from "@/components/store/product-card";
 import { ProductGallery } from "@/components/store/product-gallery";
 import { SectionHeading } from "@/components/store/section-heading";
@@ -145,7 +144,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </div>
 
           <p className="mt-6 max-w-prose text-sm leading-relaxed text-ink/60">
-            {product.description?.replace(/^(?:SAMPLE DATA|DEMO) — .*?\.\s*/, "") || "Details confirmed on WhatsApp."}
+            {product.description?.replace(/^(?:SAMPLE DATA|DEMO)\s*—\s*/, "") || "Details confirmed on WhatsApp."}
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
