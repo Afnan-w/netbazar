@@ -44,7 +44,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="inline-flex items-center gap-2 rounded-full border border-action bg-action px-5 py-2.5 text-sm font-semibold text-dark transition-colors hover:bg-action-strong disabled:cursor-not-allowed disabled:opacity-60"
+      className="inline-flex items-center gap-2 rounded-full border border-brand bg-brand px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
     >
       {pending ? "Sending…" : "Send request"}
       {!pending && <ArrowRight aria-hidden="true" className="h-4 w-4" />}
@@ -53,7 +53,7 @@ function SubmitButton() {
 }
 
 const inputClass =
-  "mt-1.5 w-full rounded-xl border border-ink/15 bg-surface px-3.5 py-2.5 text-sm outline-none transition-colors focus:border-action focus:ring-2 focus:ring-action/20";
+  "mt-1.5 w-full rounded-xl border border-ink/15 bg-surface px-3.5 py-2.5 text-sm outline-none transition-colors focus:border-brand";
 
 export function RequestForm() {
   const [state, formAction] = useActionState(
@@ -88,7 +88,7 @@ export function RequestForm() {
               href={state.success.whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 inline-flex items-center gap-2 rounded-full border border-action bg-action px-5 py-2.5 text-sm font-semibold text-dark transition-colors hover:bg-action-strong"
+              className="mt-6 inline-flex items-center gap-2 rounded-full border border-brand bg-brand px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
             >
               <MessageCircle aria-hidden="true" className="h-4 w-4" />
               Continue on WhatsApp

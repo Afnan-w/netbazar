@@ -19,8 +19,8 @@ import {
 
 const badgeClasses: Record<string, string> = {
   "Best seller": "bg-[#171C2C] text-white",
-  Hot: "bg-action text-dark",
-  New: "bg-[#E8F1FA] text-[#3C6FA3]",
+  Hot: "bg-[#4D8DCA] text-white",
+  New: "bg-mint text-accent",
   Limited: "bg-[#E8F1FA] text-[#3C6FA3]",
 };
 
@@ -49,7 +49,7 @@ export function ProductCard({
   );
 
   return (
-    <article className="card-shine group relative flex h-full flex-col overflow-hidden rounded-xl premium-card transition-all duration-300 hover:-translate-y-1 hover:border-action/40 hover:shadow-[0_18px_40px_-28px_rgba(23,28,44,0.4)]">
+    <article className="card-shine group relative flex h-full flex-col overflow-hidden rounded-xl premium-card transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_18px_40px_-28px_rgba(23,28,44,0.4)]">
       <div className="relative aspect-square overflow-hidden bg-canvas">
         <Link
           href={`/products/${product.slug}`}
@@ -100,7 +100,7 @@ export function ProductCard({
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute bottom-3 right-3 z-20 inline-flex translate-y-1 items-center gap-1.5 rounded-lg bg-action px-3 py-1.5 text-[11px] font-semibold text-dark opacity-100 shadow-lg transition-all hover:bg-action-strong md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 md:group-focus-within:translate-y-0 md:group-focus-within:opacity-100"
+          className="absolute bottom-3 right-3 z-20 inline-flex translate-y-1 items-center gap-1.5 rounded-lg bg-accent px-3 py-1.5 text-[11px] font-medium text-white opacity-100 shadow-lg transition-all hover:bg-highlight md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 md:group-focus-within:translate-y-0 md:group-focus-within:opacity-100"
         >
           <MessageCircle aria-hidden="true" className="h-3.5 w-3.5" />
           Order
@@ -113,14 +113,14 @@ export function ProductCard({
             {product.category?.name ?? "General"}
           </span>
           <span className="inline-flex items-center gap-1 text-ink/70">
-            <Star aria-hidden="true" className="h-3 w-3 fill-action text-action" />
+            <Star aria-hidden="true" className="h-3 w-3 fill-accent text-accent" />
             {market.rating?.toFixed(1)}
             <span className="text-muted">({market.soldCount})</span>
           </span>
         </div>
 
         <Link href={`/products/${product.slug}`} className="mt-2 block">
-          <h3 className="line-clamp-2 min-h-[2.5rem] text-sm font-medium leading-snug text-ink transition-colors group-hover:text-link">
+          <h3 className="line-clamp-2 min-h-[2.5rem] text-sm font-medium leading-snug text-ink transition-colors group-hover:text-accent">
             {product.name}
           </h3>
         </Link>
@@ -143,7 +143,7 @@ export function ProductCard({
 
         <Link
           href={`/products/${product.slug}`}
-          className="mt-4 inline-flex items-center justify-center gap-1.5 rounded-lg border border-line py-2 text-xs font-medium text-link transition-colors hover:border-link/40 hover:bg-[#E8F1FA]"
+          className="mt-4 inline-flex items-center justify-center gap-1.5 rounded-lg border border-line py-2 text-xs font-medium text-ink/75 transition-colors hover:border-accent hover:bg-accent hover:text-white"
           aria-label={`View ${product.name}`}
         >
           View details

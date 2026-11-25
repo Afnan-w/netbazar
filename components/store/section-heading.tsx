@@ -16,7 +16,7 @@ export function SectionHeading({
     <div className="mb-8 flex items-end justify-between gap-4">
       <div>
         {eyebrow && (
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-action-strong">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent">
             {eyebrow}
           </p>
         )}
@@ -28,7 +28,7 @@ export function SectionHeading({
       {action && (
         <Link
           href={action.href}
-          className="shrink-0 text-sm font-medium text-muted transition-colors hover:text-link"
+          className="shrink-0 text-sm font-medium text-muted transition-colors hover:text-accent"
         >
           {action.label} →
         </Link>

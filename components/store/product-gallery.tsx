@@ -74,8 +74,8 @@ export function ProductGallery({
               aria-pressed={index === activeIndex}
               className={`relative h-20 w-20 overflow-hidden rounded-lg border bg-canvas transition-all hover:-translate-y-0.5 hover:scale-105 ${
                 index === activeIndex
-                  ? "border-action ring-2 ring-action/20"
-                  : "border-line hover:border-action/50"
+                  ? "border-accent ring-2 ring-accent/20"
+                  : "border-line hover:border-accent/50"
               }`}
             >
               {image.url ? (

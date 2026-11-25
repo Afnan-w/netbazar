@@ -105,7 +105,7 @@ function HeroProductCard({ product }: { product: ProductListItem }) {
         <div className="mt-1 flex items-center justify-between text-[11px]">
           <span className="font-semibold text-brand">{formatBDT(product.price_bdt)}</span>
           <span className="inline-flex items-center gap-1 text-muted">
-            <Star aria-hidden="true" className="h-3 w-3 fill-action text-action" />
+            <Star aria-hidden="true" className="h-3 w-3 fill-accent text-accent" />
             {market.rating?.toFixed(1)}
           </span>
         </div>
@@ -178,7 +178,7 @@ export default async function HomePage() {
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
                   href="/products"
-                  className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-dark transition-colors hover:bg-action"
+                  className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-dark transition-colors hover:bg-highlight"
                 >
                   Explore Products
                   <ArrowRight aria-hidden="true" className="h-4 w-4" />
@@ -241,7 +241,7 @@ export default async function HomePage() {
               <Link
                 key={category.id}
                 href={`/products?category=${encodeURIComponent(category.slug)}`}
-                className="group relative aspect-[4/3] overflow-hidden rounded-xl border border-line premium-card transition-all duration-300 hover:-translate-y-1 hover:border-action/40 hover:shadow-lg"
+                className="group relative aspect-[4/3] overflow-hidden rounded-xl border border-line premium-card transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg"
               >
                 {image ? (
                   <Image
@@ -371,7 +371,7 @@ export default async function HomePage() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/request"
-                className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-dark transition-all hover:-translate-y-0.5 hover:bg-action"
+                className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-dark transition-all hover:-translate-y-0.5 hover:bg-highlight"
               >
                 Request any product
                 <ArrowRight aria-hidden="true" className="h-4 w-4" />
@@ -400,7 +400,7 @@ export default async function HomePage() {
           />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((step, index) => (
-              <div key={step.title} className="premium-card rounded-xl p-5 transition-all duration-300 hover:-translate-y-1 hover:border-action/40 hover:shadow-lg">
+              <div key={step.title} className="premium-card rounded-xl p-5 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg">
                 <div className="flex items-center justify-between">
                   <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-mint text-accent">
                     <step.icon aria-hidden="true" className="h-4 w-4" />
@@ -421,7 +421,7 @@ export default async function HomePage() {
         <SectionHeading eyebrow="Why Netbazar" title="Sourcing with clarity" />
         <div className="grid gap-4 md:grid-cols-3">
           {trustPoints.map((point) => (
-            <div key={point.title} className="flex gap-4 rounded-xl border border-line bg-canvas/50 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-action/40 hover:bg-surface hover:shadow-lg">
+            <div key={point.title} className="flex gap-4 rounded-xl border border-line bg-canvas/50 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:bg-surface hover:shadow-lg">
               <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-surface text-accent shadow-sm">
                 <point.icon aria-hidden="true" className="h-4 w-4" />
               </span>

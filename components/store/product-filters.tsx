@@ -21,7 +21,7 @@ export type ProductFilterValues = {
 };
 
 const fieldClass =
-  "w-full rounded-lg border border-line bg-canvas/60 px-3 py-2 text-sm outline-none transition-colors focus:border-action focus:bg-surface focus:ring-2 focus:ring-action/20";
+  "w-full rounded-lg border border-line bg-canvas/60 px-3 py-2 text-sm outline-none transition-colors focus:border-accent focus:bg-surface focus:ring-2 focus:ring-accent/15";
 
 const labelClass =
   "mb-2 block text-[11px] font-semibold uppercase tracking-widest text-muted";
@@ -147,11 +147,11 @@ function FilterFields({
       <div className="flex items-center gap-3 pt-1">
         <button
           type="submit"
-          className="rounded-lg bg-action px-4 py-2 text-sm font-semibold text-dark transition-colors hover:bg-action-strong"
+          className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-highlight"
         >
           Apply filters
         </button>
-        <Link href="/products" className="text-sm text-muted hover:text-link">
+        <Link href="/products" className="text-sm text-muted hover:text-brand">
           Clear
         </Link>
       </div>

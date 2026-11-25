@@ -116,7 +116,7 @@ export default async function ProductsPage({
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <header className="mb-8 flex flex-col gap-4 border-b border-line pb-8 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-action-strong">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent">
             {featuredOnly ? "Curated selection" : "Catalogue"}
           </p>
           <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
@@ -124,7 +124,7 @@ export default async function ProductsPage({
           </h1>
           <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted">
             <span className="inline-flex items-center gap-1.5">
-              <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5 text-success" />
+              <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5 text-accent" />
               Verified suppliers
             </span>
             <span className="inline-flex items-center gap-1.5">
@@ -156,8 +156,8 @@ export default async function ProductsPage({
                 aria-current={values.view === "grid" ? "page" : undefined}
                 className={`inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
                   values.view === "grid"
-                    ? "bg-action text-dark"
-                    : "text-muted hover:text-action-strong"
+                    ? "bg-accent text-white"
+                    : "text-muted hover:text-accent"
                 }`}
               >
                 <LayoutGrid aria-hidden="true" className="h-4 w-4" />
@@ -168,8 +168,8 @@ export default async function ProductsPage({
                 aria-current={values.view === "list" ? "page" : undefined}
                 className={`inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
                   values.view === "list"
-                    ? "bg-action text-dark"
-                    : "text-muted hover:text-action-strong"
+                    ? "bg-accent text-white"
+                    : "text-muted hover:text-accent"
                 }`}
               >
                 <List aria-hidden="true" className="h-4 w-4" />
@@ -201,14 +201,14 @@ export default async function ProductsPage({
             )
           ) : (
             <div className="rounded-xl border border-dashed border-line bg-canvas/60 px-6 py-16 text-center">
-              <PackageSearch aria-hidden="true" className="mx-auto h-8 w-8 text-action-strong" />
+              <PackageSearch aria-hidden="true" className="mx-auto h-8 w-8 text-accent" />
               <h2 className="mt-4 text-lg font-medium">No products found</h2>
               <p className="mt-2 text-sm text-muted">
                 Try different filters or request the item directly.
               </p>
               <Link
                 href="/request"
-                className="mt-6 inline-flex rounded-lg bg-action px-5 py-2.5 text-sm font-semibold text-dark hover:bg-action-strong"
+                className="mt-6 inline-flex rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white hover:bg-highlight"
               >
                 Request a product
               </Link>
