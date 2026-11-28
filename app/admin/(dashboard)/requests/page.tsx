@@ -17,6 +17,17 @@ const statuses: ProductRequestStatus[] = [
   "cancelled",
 ];
 
+const statusLabels: Record<string, string> = {
+  all: "All",
+  new: "New request",
+  contacted: "Checking supplier",
+  quoted: "Quote sent",
+  paid: "Paid",
+  shipped: "In transit",
+  closed: "Delivered",
+  cancelled: "Cancelled",
+};
+
 type RequestsPageProps = {
   searchParams: Promise<{ status?: string | string[] }>;
 };
@@ -38,8 +49,8 @@ export default async function AdminRequestsPage({ searchParams }: RequestsPagePr
   return (
     <div>
       <PageHeader
-        title="Product requests"
-        description="Customers who asked for items that are not listed yet. Contact them on WhatsApp."
+        title="Sourcing requests"
+        description="Check supplier availability, send quotes and move each request through to delivery."
       />
 
       <nav
@@ -51,13 +62,13 @@ export default async function AdminRequestsPage({ searchParams }: RequestsPagePr
             key={filter}
             href={filterHref(filter)}
             aria-current={filter === status ? "page" : undefined}
-            className={`inline-flex min-h-9 items-center rounded-full px-3.5 text-xs font-semibold capitalize transition-colors ${
+            className={`inline-flex min-h-9 items-center rounded-full px-3.5 text-xs font-semibold transition-colors ${
               filter === status
                 ? "bg-primary text-white shadow-card"
                 : "text-secondary-ink hover:bg-primary-tint hover:text-primary"
             }`}
           >
-            {filter}
+            {statusLabels[filter] ?? filter}
           </Link>
         ))}
       </nav>

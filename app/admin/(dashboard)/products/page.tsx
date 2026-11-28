@@ -23,7 +23,7 @@ export default async function AdminProductsPage({ searchParams }: ProductsPagePr
     <div>
       <PageHeader
         title="Products"
-        description="Create and manage the catalogue shown to customers."
+        description="Manage the example items shown to customers. Your supplier can source much more than this list."
         action={
           <ButtonLink href="/admin/products/new" pill>
             <Plus aria-hidden="true" className="h-4 w-4" />
@@ -65,7 +65,7 @@ export default async function AdminProductsPage({ searchParams }: ProductsPagePr
           <p className="mt-1 text-xs text-muted">
             {query
               ? "Try a different name or SKU."
-              : "Add your first product to start the catalogue."}
+              : "Add your first example item to show what you can source."}
           </p>
         </div>
       ) : (

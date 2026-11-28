@@ -15,8 +15,8 @@ export default function NotFound() {
           This page could not be found.
         </h1>
         <p className="mt-4 text-sm leading-relaxed text-secondary-ink">
-          The link may be old, or the product may no longer be listed. Browse the
-          catalogue or ask us about an item on WhatsApp.
+          The link may be old, or the example may no longer be listed. Send us a
+          photo or link and we&apos;ll source the item for you.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Link
@@ -31,7 +31,7 @@ export default function NotFound() {
             className="inline-flex min-h-11 items-center gap-2 rounded-control border border-border bg-surface px-5 text-sm font-semibold text-primary pressable hover:bg-primary-tint"
           >
             <LayoutGrid aria-hidden="true" className="h-4 w-4" />
-            Browse products
+            See examples
           </Link>
         </div>
       </div>

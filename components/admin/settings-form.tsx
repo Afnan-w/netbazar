@@ -61,7 +61,7 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
                 name="announcement_text"
                 maxLength={300}
                 defaultValue={settings.announcement_text}
-                placeholder="Order on WhatsApp — final price confirmed before payment"
+                placeholder="Sourcing check — quote confirmed before payment"
               />
             </Field>
           </div>

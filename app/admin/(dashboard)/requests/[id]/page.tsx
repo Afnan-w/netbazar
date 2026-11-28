@@ -18,13 +18,13 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
 
   const whatsappUrl = buildWhatsAppUrl(
     request.phone,
-    `Hello ${request.name}, I am following up on your Netbazar product request: ${request.description}`,
+    `Hello ${request.name}, thanks for your Netbazar sourcing request for: ${request.description}. I am checking with our supplier and will send you a quote with unit price, shipping and delivery time shortly.`,
   );
 
   const rows: { label: string; value: string }[] = [
     { label: "Name", value: request.name },
     { label: "Phone", value: request.phone },
-    { label: "Requested item", value: request.description },
+    { label: "Item wanted", value: request.description },
     { label: "Quantity", value: String(request.quantity) },
     { label: "Budget", value: formatBDT(request.budget_bdt) || "Not specified" },
     { label: "Delivery address", value: request.address },
@@ -53,7 +53,7 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
               className={buttonClass({ pill: true })}
             >
               <MessageCircle aria-hidden="true" className="h-4 w-4" />
-              Message customer
+              Send quote on WhatsApp
             </a>
           }
         />

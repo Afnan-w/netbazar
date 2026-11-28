@@ -1,6 +1,8 @@
 import {
   ArrowRight,
   BadgeCheck,
+  Camera,
+  ClipboardList,
   Clock3,
   Compass,
   Cpu,
@@ -8,34 +10,23 @@ import {
   Gift,
   Grid2X2,
   Home,
+  Link2,
   MessageCircle,
   Search,
   Shirt,
   Smartphone,
   Sparkles,
-  Star,
-  Tags,
   Truck,
-  Wallet,
   WalletCards,
   type LucideIcon,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { CategoryRow, type CategoryItem, type CategoryTone } from "@/components/ui/category-row";
 import { Hero } from "@/components/ui/hero";
-import { PromoCard } from "@/components/ui/promo-card";
 import { SectionHeader } from "@/components/ui/section-header";
 import { TrustStrip } from "@/components/ui/trust-strip";
-import { ProductCard } from "@/components/store/product-card";
-import { ProductVisual } from "@/components/store/product-visual";
 import { Reveal } from "@/components/store/reveal";
-import { ProductGrid } from "@/components/store/section-heading";
-import type { ProductListItem } from "@/lib/data/store";
-import { getCategories, getProducts, getSiteSettings } from "@/lib/data/store";
-import { formatBDT } from "@/lib/utils/format";
-import { getProductImageUrl } from "@/lib/utils/images";
-import { marketplaceFor } from "@/lib/utils/marketplace";
+import { getCategories, getSiteSettings } from "@/lib/data/store";
 import { buildWhatsAppUrl } from "@/lib/utils/whatsapp";
 
 const sectionClass = "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8";
@@ -54,107 +45,65 @@ const categoryIcons: Record<string, LucideIcon> = {
 const categoryTones: CategoryTone[] = ["lilac", "blush", "sage", "peach", "primary", "lilac"];
 
 const steps = [
-  { icon: Search, title: "Browse", text: "Find a product or ask for any item." },
-  { icon: MessageCircle, title: "Confirm", text: "Price and delivery on WhatsApp." },
-  { icon: Wallet, title: "Pay", text: "Pay upfront after confirmation." },
-  { icon: Truck, title: "Receive", text: "Shipped direct to Bangladesh." },
+  {
+    icon: ClipboardList,
+    title: "Send a request",
+    text: "Share a photo, a product link or just a description — from Alibaba, AliExpress, 1688, Taobao or anywhere else.",
+  },
+  {
+    icon: Search,
+    title: "We check suppliers",
+    text: "Our team checks whether our trusted supplier in China can provide that exact item.",
+  },
+  {
+    icon: WalletCards,
+    title: "You get a quote",
+    text: "We send the unit price, shipping, total cost and delivery time before any payment.",
+  },
+  {
+    icon: Truck,
+    title: "Accept & track",
+    text: "Once you accept, we connect you with the supplier and track your order to Bangladesh.",
+  },
 ];
 
 const stepTones = ["bg-lilac", "bg-blush", "bg-sage", "bg-peach"];
 
-const heroPositions = [
-  "absolute left-0 top-2 rotate-[-5deg] animate-float-soft",
-  "absolute right-0 top-0 rotate-[4deg] animate-float-soft [animation-delay:-2.4s]",
-  "absolute bottom-0 left-20 rotate-[-2deg] animate-float-soft [animation-delay:-4.8s]",
-];
-
 const trustPoints = [
   {
     icon: BadgeCheck,
-    title: "Curated catalogue",
-    description: "Hand-picked products, not a noisy marketplace.",
+    title: "Trusted suppliers",
+    description: "We check the source before we quote — no guesswork.",
   },
   {
     icon: WalletCards,
-    title: "Clear BDT pricing",
-    description: "Prices shown in taka with no checkout surprises.",
+    title: "One clear quote",
+    description: "Unit price, shipping and total in BDT, confirmed up front.",
   },
   {
     icon: Clock3,
-    title: "Confirmed first",
-    description: "Shipping and delivery time agreed before payment.",
+    title: "Delivery agreed first",
+    description: "You know the timeline before you decide to pay.",
   },
   {
     icon: MessageCircle,
-    title: "WhatsApp support",
-    description: "Ask about any product before you order.",
+    title: "Direct WhatsApp chat",
+    description: "Photos, questions and updates in one conversation.",
   },
 ];
 
-function HeroProductCard({ product }: { product: ProductListItem }) {
-  const market = marketplaceFor(product);
-  const imageUrl = product.images[0]
-    ? getProductImageUrl(product.images[0].storage_path)
-    : "";
-
-  return (
-    <div className="glass-panel w-44 rounded-card border border-white/60 p-2 shadow-card-hover ring-1 ring-white/20 backdrop-blur sm:w-52">
-      <div className="relative aspect-square overflow-hidden rounded-control bg-image-backdrop">
-        {imageUrl ? (
-          <Image
-            src={imageUrl}
-            alt={product.images[0].alt || product.name}
-            fill
-            sizes="220px"
-            className="object-cover"
-          />
-        ) : (
-          <ProductVisual
-            categorySlug={product.category?.slug ?? "everyday"}
-            name={product.name}
-            iconClassName="h-10 w-10"
-          />
-        )}
-      </div>
-      <div className="px-1 pb-1 pt-2 text-ink">
-        <p className="truncate text-xs font-semibold">{product.name}</p>
-        <div className="mt-1 flex items-center justify-between text-[11px]">
-          <span className="font-bold text-primary">{formatBDT(product.price_bdt)}</span>
-          <span className="inline-flex items-center gap-1 text-secondary-ink">
-            <Star aria-hidden="true" className="h-3 w-3 fill-star text-star" />
-            {market.rating?.toFixed(1)}
-          </span>
-        </div>
-        {market.badge && (
-          <span className="mt-2 inline-flex rounded-badge bg-primary-tint px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary">
-            {market.badge}
-          </span>
-        )}
-      </div>
-    </div>
-  );
-}
+const sources = ["Alibaba", "AliExpress", "1688", "Taobao", "Any product link"];
 
 export default async function HomePage() {
-  const [featured, arrivals, popular, categories, settings, all] = await Promise.all([
-    getProducts({ featured: true, availability: "available", pageSize: 8 }),
-    getProducts({ availability: "available", sort: "newest", pageSize: 4, offset: 8 }),
-    getProducts({ popular: true, availability: "available", pageSize: 4, offset: 4 }),
+  const [categories, settings] = await Promise.all([
     getCategories(),
     getSiteSettings(),
-    getProducts({ availability: "available", pageSize: 48 }),
   ]);
 
   const whatsappUrl = buildWhatsAppUrl(
     settings.whatsapp_number,
-    "Hello Netbazar, I would like to know more about your products.",
+    "Hello Netbazar, I want to source a product from China. Can you help me?",
   );
-
-  const heroProducts = [
-    featured.items[0] ?? all.items[0],
-    featured.items[1] ?? all.items[1],
-    featured.items[2] ?? all.items[2],
-  ].filter((product): product is ProductListItem => Boolean(product));
 
   const categoryItems: CategoryItem[] = categories.slice(0, 6).map((category, index) => ({
     label: category.name,
@@ -167,195 +116,99 @@ export default async function HomePage() {
     <div className="space-y-8 pb-12 sm:space-y-10">
       <section className={`${sectionClass} pt-6 sm:pt-8`}>
         <Hero
-          eyebrow="DISCOVER THE WORLD OF SMART SHOPPING"
+          eyebrow="CHINA SOURCING FOR BANGLADESH"
           title={
             <>
-              Everything You Want.{" "}
-              <span className="text-white/85">One Marketplace.</span>
+              Show us what you want from China.{" "}
+              <span className="text-white/85">We&apos;ll source it for you.</span>
             </>
           }
-          description="Discover quality products sourced from China and delivered to Bangladesh."
-          primaryAction={{ href: "/products", label: "Explore Products" }}
-          secondaryAction={{ href: "/#categories", label: "Browse Categories" }}
+          description="Send a photo, a link or just a description. We check our trusted suppliers, send you a quote with shipping and delivery time, and connect you with the supplier."
+          primaryAction={{ href: "/request", label: "Submit a product request" }}
+          secondaryAction={{ href: "#how-it-works", label: "See how it works" }}
         >
           <div className="relative hidden min-h-[400px] lg:block">
             <div
               aria-hidden="true"
-              className="absolute left-6 top-2 h-[340px] w-[340px] rounded-full border border-white/25"
+              className="absolute inset-6 rounded-panel border border-white/25 hairline-grid"
             />
-            <div
-              aria-hidden="true"
-              className="absolute right-0 top-14 h-[300px] w-[300px] rounded-full border border-white/25"
-            />
-            {heroProducts.map((product, index) => (
-              <div key={product.id} className={heroPositions[index]}>
-                <HeroProductCard product={product} />
+            <div className="glass-panel absolute left-3 top-5 w-[310px] rounded-card border border-white/60 p-4 shadow-card-hover ring-1 ring-white/20 backdrop-blur sm:left-8">
+              <div className="flex items-center gap-2 text-xs font-bold text-primary">
+                <ClipboardList aria-hidden="true" className="h-4 w-4" />
+                Your request
               </div>
-            ))}
+              <div className="mt-4 space-y-2.5">
+                <div className="flex items-center gap-3 rounded-control bg-surface/85 p-3 shadow-soft">
+                  <Camera aria-hidden="true" className="h-4 w-4 shrink-0 text-primary" />
+                  <span className="text-xs font-medium text-ink">A photo of the product</span>
+                </div>
+                <div className="flex items-center gap-3 rounded-control bg-surface/85 p-3 shadow-soft">
+                  <Link2 aria-hidden="true" className="h-4 w-4 shrink-0 text-primary" />
+                  <span className="text-xs font-medium text-ink">A link, if you have one</span>
+                </div>
+                <div className="flex items-center gap-3 rounded-control bg-surface/85 p-3 shadow-soft">
+                  <WalletCards aria-hidden="true" className="h-4 w-4 shrink-0 text-primary" />
+                  <span className="text-xs font-medium text-ink">Quantity and budget</span>
+                </div>
+              </div>
+              <div className="mt-4 flex items-center justify-between rounded-control bg-primary px-3 py-2.5 text-xs font-semibold text-white shadow-card">
+                We check the supplier
+                <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
+              </div>
+            </div>
+            <div className="glass-panel absolute bottom-5 right-0 w-[265px] rounded-card border border-white/60 p-4 shadow-card-hover ring-1 ring-white/20 backdrop-blur sm:right-5">
+              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-primary">
+                What you receive
+              </p>
+              <dl className="mt-3 space-y-2 text-xs">
+                <div className="flex items-center justify-between gap-3 text-secondary-ink">
+                  <dt>Unit price</dt>
+                  <dd className="font-semibold text-ink">Confirmed</dd>
+                </div>
+                <div className="flex items-center justify-between gap-3 text-secondary-ink">
+                  <dt>Shipping to BD</dt>
+                  <dd className="font-semibold text-ink">Included in quote</dd>
+                </div>
+                <div className="flex items-center justify-between gap-3 text-secondary-ink">
+                  <dt>Delivery time</dt>
+                  <dd className="font-semibold text-ink">Agreed first</dd>
+                </div>
+              </dl>
+              <p className="mt-3 border-t border-border pt-3 text-[11px] font-medium text-success">
+                Pay only after you accept
+              </p>
+            </div>
           </div>
         </Hero>
       </section>
 
       <Reveal>
-        <section id="categories" className={sectionClass}>
+        <section id="categories" className={`${sectionClass} scroll-mt-28`}>
           <SectionHeader
-            eyebrow="Explore"
-            title="Shop by category"
-            action={{ href: "/products", label: "View all" }}
+            eyebrow="What we can source"
+            title="Tell us what you have in mind"
+            action={{ href: "/products", label: "See examples" }}
           />
           {categoryItems.length > 0 ? (
             <CategoryRow items={categoryItems} />
           ) : (
             <div className="nova-card p-8 text-center text-sm text-secondary-ink">
-              Categories are being prepared.
+              Just send us your item — we handle the sourcing.
             </div>
           )}
+          <p className="mt-4 text-center text-xs text-secondary-ink">
+            These are example categories. Your item does not need to be listed here —
+            send us anything you find in China.
+          </p>
         </section>
       </Reveal>
 
       <Reveal>
-        <section className={sectionClass}>
-          <SectionHeader eyebrow="This week" title="Offers worth a look" />
-          <div className="grid gap-4 md:grid-cols-3">
-            <PromoCard
-              tone="blush"
-              eyebrow="Flash sale"
-              title="Fresh finds"
-              subtitle="New picks from our suppliers."
-              href="/products?sort=newest"
-              countdown="23:59:59"
-            >
-              <Sparkles aria-hidden="true" className="h-20 w-20 text-primary/25" />
-            </PromoCard>
-            <PromoCard
-              tone="sage"
-              eyebrow="Everyday"
-              title="Home & essentials"
-              subtitle="Simple things for every day."
-              href="/products"
-            >
-              <Tags aria-hidden="true" className="h-20 w-20 text-primary/25" />
-            </PromoCard>
-            <PromoCard
-              tone="peach"
-              eyebrow="Most loved"
-              title="Favourite picks"
-              subtitle="The products customers ask for most."
-              href="/products?featured=1"
-            >
-              <Gift aria-hidden="true" className="h-20 w-20 text-primary/25" />
-            </PromoCard>
-          </div>
-        </section>
-      </Reveal>
-
-      {featured.items.length > 0 && (
-        <Reveal>
-          <section className={sectionClass}>
-            <SectionHeader
-              eyebrow="Curated for you"
-              title="Featured picks"
-              action={{ href: "/products", label: "View all" }}
-            />
-            <ProductGrid>
-              {featured.items.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  whatsappNumber={settings.whatsapp_number}
-                />
-              ))}
-            </ProductGrid>
-          </section>
-        </Reveal>
-      )}
-
-      <Reveal delay={60}>
-        <section className={`${sectionClass} rounded-panel bg-surface/60 py-8 sm:py-10`}>
+        <section id="how-it-works" className={`${sectionClass} scroll-mt-28`}>
           <SectionHeader
-            eyebrow="Just landed"
-            title="New arrivals"
-            action={{ href: "/products?sort=newest", label: "See all" }}
+            eyebrow="How sourcing works"
+            title="From your find to your doorstep"
           />
-          <ProductGrid>
-            {arrivals.items.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                whatsappNumber={settings.whatsapp_number}
-              />
-            ))}
-          </ProductGrid>
-        </section>
-      </Reveal>
-
-      {popular.items.length > 0 && (
-        <Reveal>
-          <section className={sectionClass}>
-            <SectionHeader
-              eyebrow="Trending"
-              title="Best sellers"
-              action={{ href: "/products", label: "Browse" }}
-            />
-            <ProductGrid>
-              {popular.items.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  whatsappNumber={settings.whatsapp_number}
-                />
-              ))}
-            </ProductGrid>
-          </section>
-        </Reveal>
-      )}
-
-      <Reveal>
-        <section className={sectionClass}>
-          <div className="nova-panel relative overflow-hidden bg-lilac/50 p-6 sm:p-10">
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute -right-10 -top-16 h-56 w-56 rounded-full bg-primary/10 blur-3xl"
-            />
-            <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-              <div className="max-w-xl">
-                <span className="inline-flex items-center gap-2 rounded-badge bg-surface/80 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-primary shadow-soft">
-                  <Sparkles aria-hidden="true" className="h-3.5 w-3.5" />
-                  Can’t find it?
-                </span>
-                <h2 className="mt-4 text-balance text-2xl font-bold tracking-tight text-ink sm:text-3xl">
-                  Request any product from China.
-                </h2>
-                <p className="mt-2 text-sm leading-relaxed text-secondary-ink">
-                  Send us the item, link or photo. We confirm availability, price and delivery on WhatsApp.
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  href="/request"
-                  className="inline-flex min-h-12 items-center gap-2 rounded-full bg-primary px-6 text-sm font-bold text-white shadow-card pressable hover:bg-primary-hover active:bg-primary-active"
-                >
-                  Request any product
-                  <ArrowRight aria-hidden="true" className="h-4 w-4" />
-                </Link>
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex min-h-12 items-center gap-2 rounded-full border border-border bg-surface/70 px-6 text-sm font-semibold text-primary pressable hover:bg-primary-tint"
-                >
-                  <MessageCircle aria-hidden="true" className="h-4 w-4" />
-                  WhatsApp
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-      </Reveal>
-
-      <Reveal delay={60}>
-        <section className={`${sectionClass} rounded-panel bg-surface/60 py-8 sm:py-10`}>
-          <SectionHeader eyebrow="How it works" title="Browse. Confirm. Receive." />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((step, index) => (
               <div
@@ -379,10 +232,118 @@ export default async function HomePage() {
         </section>
       </Reveal>
 
+      <Reveal delay={60}>
+        <section className={sectionClass}>
+          <div className="nova-panel relative overflow-hidden p-6 sm:p-10">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -right-10 -top-16 h-56 w-56 rounded-full bg-primary/10 blur-3xl"
+            />
+            <div className="relative grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-center">
+              <div>
+                <span className="inline-flex items-center gap-2 rounded-badge bg-primary-tint px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-primary">
+                  <Sparkles aria-hidden="true" className="h-3.5 w-3.5" />
+                  Not a store — a sourcing service
+                </span>
+                <h2 className="mt-4 text-balance text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+                  Seen it on Alibaba, AliExpress, 1688 or Taobao? Send it to us.
+                </h2>
+                <p className="mt-3 max-w-xl text-sm leading-relaxed text-secondary-ink">
+                  Netbazar is not a product marketplace with a cart. We are your sourcing
+                  partner in China: we check the supplier, work out the real landed cost
+                  to Bangladesh and introduce you before you pay.
+                </p>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {sources.map((source) => (
+                    <span
+                      key={source}
+                      className="rounded-full border border-border bg-page/60 px-3 py-1.5 text-xs font-medium text-secondary-ink"
+                    >
+                      {source}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="rounded-card border border-border bg-page/60 p-5 sm:p-6">
+                <h3 className="text-sm font-bold text-ink">What we handle for you</h3>
+                <ul className="mt-4 space-y-3 text-sm text-secondary-ink">
+                  {[
+                    "Finding the right supplier and checking availability",
+                    "Quoting unit price, shipping, total and delivery time",
+                    "Connecting you with the supplier after you accept",
+                    "Tracking the order until it reaches Bangladesh",
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2.5">
+                      <BadgeCheck
+                        aria-hidden="true"
+                        className="mt-0.5 h-4 w-4 shrink-0 text-primary"
+                      />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-5 border-t border-border pt-4 text-xs leading-relaxed text-muted">
+                  No cart, no add-to-checkout games. You approve one clear quote before
+                  payment.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </Reveal>
+
       <Reveal>
         <section className={sectionClass}>
+          <div className="nova-panel relative overflow-hidden bg-lilac/50 p-6 sm:p-10">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -right-10 -top-16 h-56 w-56 rounded-full bg-primary/10 blur-3xl"
+            />
+            <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+              <div className="max-w-xl">
+                <span className="inline-flex items-center gap-2 rounded-badge bg-surface/80 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-primary shadow-soft">
+                  <Camera aria-hidden="true" className="h-3.5 w-3.5" />
+                  Already know what you want?
+                </span>
+                <h2 className="mt-4 text-balance text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+                  Send the photo or link. We&apos;ll do the rest.
+                </h2>
+                <p className="mt-2 text-sm leading-relaxed text-secondary-ink">
+                  One request is all it takes. We reply on WhatsApp with supplier
+                  availability and a full quote in BDT.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  href="/request"
+                  className="inline-flex min-h-12 items-center gap-2 rounded-full bg-primary px-6 text-sm font-bold text-white shadow-card pressable hover:bg-primary-hover active:bg-primary-active"
+                >
+                  Start a sourcing request
+                  <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                </Link>
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-12 items-center gap-2 rounded-full border border-border bg-surface/70 px-6 text-sm font-semibold text-primary pressable hover:bg-primary-tint"
+                >
+                  <MessageCircle aria-hidden="true" className="h-4 w-4" />
+                  Chat with us
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </Reveal>
+
+      <Reveal delay={60}>
+        <section className={`${sectionClass} rounded-panel bg-surface/60 py-8 sm:py-10`}>
           <SectionHeader eyebrow="Why Netbazar" title="Sourcing with clarity" />
           <TrustStrip items={trustPoints} />
+          <p className="mt-5 inline-flex items-center gap-2 text-xs text-secondary-ink">
+            <Truck aria-hidden="true" className="h-4 w-4 text-primary" />
+            Orders are tracked from the supplier in China to your address in Bangladesh.
+          </p>
         </section>
       </Reveal>
     </div>

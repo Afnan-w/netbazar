@@ -4,7 +4,6 @@ import {
   Bell,
   ChevronDown,
   FolderTree,
-  Grid2X2,
   Inbox,
   LayoutDashboard,
   LifeBuoy,
@@ -15,8 +14,6 @@ import {
   Search,
   Settings,
   Sparkles,
-  Tag,
-  TrendingUp,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -28,15 +25,10 @@ import { Navbar } from "@/components/ui/navbar";
 import { Sidebar, type SidebarItem } from "@/components/ui/sidebar";
 
 const primaryItems: SidebarItem[] = [
-  { href: "/admin", label: "Home", icon: LayoutDashboard },
-  { href: "/admin/products", label: "Products", icon: Package },
+  { href: "/admin", label: "Overview", icon: LayoutDashboard },
+  { href: "/admin/requests", label: "Sourcing requests", icon: Inbox },
+  { href: "/admin/products", label: "Source examples", icon: Package },
   { href: "/admin/categories", label: "Categories", icon: FolderTree },
-  { href: "/admin/requests", label: "Requests", icon: Inbox },
-  { href: "/products?sort=price-asc", label: "Deals", icon: Tag, badge: "Hot" },
-  { href: "/products?sort=newest", label: "New Arrivals", icon: TrendingUp },
-  { href: "/products?featured=1", label: "Best Sellers", icon: Sparkles },
-  { href: "/products", label: "Brands", icon: Grid2X2 },
-  { href: "/products?view=grid", label: "Collections", icon: LayoutDashboard },
 ];
 
 const accountItems: SidebarItem[] = [
@@ -45,13 +37,13 @@ const accountItems: SidebarItem[] = [
 
 const topLinks = [
   { href: "/admin", label: "Overview" },
-  { href: "/admin/products", label: "Products" },
   { href: "/admin/requests", label: "Requests" },
+  { href: "/admin/products", label: "Source examples" },
 ];
 
 const quickLinks = [
-  { href: "/admin/products/new", label: "Add a product", icon: Package },
   { href: "/admin/requests?status=new", label: "New requests", icon: Inbox },
+  { href: "/admin/products/new", label: "Add an example", icon: Package },
   { href: "/admin/categories", label: "Categories", icon: FolderTree },
 ];
 
@@ -96,13 +88,14 @@ function RightRail() {
             <MessageCircle aria-hidden="true" className="h-5 w-5" />
           </span>
           <div>
-            <h2 className="text-card-title font-bold text-ink">Order channel: WhatsApp</h2>
-            <p className="text-xs text-secondary-ink">Chat-first checkout</p>
+            <h2 className="text-card-title font-bold text-ink">Sourcing chat: WhatsApp</h2>
+            <p className="text-xs text-secondary-ink">Quote-first workflow</p>
           </div>
         </div>
         <p className="mt-4 text-sm leading-relaxed text-secondary-ink">
-          Customers confirm availability, price and delivery details directly in
-          chat. Keep your number current in site settings.
+          Customers send photos and requests in chat. Check the supplier, send
+          the quote, then connect them with the supplier. Keep your number current
+          in site settings.
         </p>
         <Link
           href="/admin/settings"
@@ -186,10 +179,10 @@ export function AdminShell({
             primaryItems={primaryItems}
             accountItems={accountItems}
             promo={{
-              title: "Fresh drops sell faster",
-              subtitle: "Add a new product to the catalogue today.",
-              href: "/admin/products/new",
-              label: "Add product",
+              title: "New request waiting?",
+              subtitle: "Review it and send your sourcing quote.",
+              href: "/admin/requests",
+              label: "Review requests",
             }}
             open={menuOpen}
             onClose={() => setMenuOpen(false)}
@@ -216,12 +209,12 @@ export function AdminShell({
             search={
               <Link
                 href="/admin/products"
-                aria-label="Search products"
+                aria-label="Search source examples"
                 className="flex min-h-11 items-center gap-3 rounded-control border border-border bg-page px-4 text-sm text-muted transition-colors hover:border-primary/30 hover:bg-surface hover:text-secondary-ink"
               >
                 <Search aria-hidden="true" className="h-4 w-4 shrink-0 text-primary" />
                 <span className="hidden truncate sm:inline">
-                  Search products by name or SKU…
+                  Search examples by name or ref…
                 </span>
               </Link>
             }

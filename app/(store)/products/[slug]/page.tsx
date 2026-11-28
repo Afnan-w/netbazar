@@ -1,10 +1,10 @@
 import {
   ArrowLeft,
+  BadgeCheck,
   Check,
+  ClipboardList,
   MessageCircle,
-  PackageCheck,
   ShieldCheck,
-  Star,
   Truck,
 } from "lucide-react";
 import type { Metadata } from "next";
@@ -13,28 +13,20 @@ import { notFound } from "next/navigation";
 import { SectionHeader } from "@/components/ui/section-header";
 import { ProductCard } from "@/components/store/product-card";
 import { ProductGallery } from "@/components/store/product-gallery";
-import { WishlistButton } from "@/components/store/wishlist-button";
 import { getProductBySlug, getRelatedProducts, getSiteSettings } from "@/lib/data/store";
 import { formatBDT } from "@/lib/utils/format";
 import { getProductImageUrl } from "@/lib/utils/images";
-import { discountPercent, marketplaceFor } from "@/lib/utils/marketplace";
 import { absoluteProductUrl } from "@/lib/utils/product-url";
 import { specificationRows } from "@/lib/utils/specifications";
-import { buildWhatsAppUrl, productOrderMessage } from "@/lib/utils/whatsapp";
+import { buildWhatsAppUrl, productQuoteMessage } from "@/lib/utils/whatsapp";
 
 type ProductPageProps = { params: Promise<{ slug: string }> };
 
-const badgeClasses: Record<string, string> = {
-  "Best seller": "bg-primary text-white",
-  Hot: "bg-blush text-primary",
-  New: "bg-primary-tint text-primary ring-1 ring-primary/20",
-  Limited: "bg-lilac text-primary",
-};
-
 const assurances = [
-  "Price confirmed before payment",
-  "Shipping and delivery agreed on WhatsApp",
-  "No cart or checkout — order directly",
+  "We check supplier availability before quoting",
+  "Quote includes unit price, shipping, total and delivery time",
+  "You pay only after you accept the quote",
+  "Order tracked from China to Bangladesh",
 ];
 
 export async function generateMetadata({
@@ -42,7 +34,7 @@ export async function generateMetadata({
 }: ProductPageProps): Promise<Metadata> {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
-  if (!product) return { title: "Product not found" };
+  if (!product) return { title: "Item not found" };
 
   const description =
     product.description.slice(0, 155) ||
@@ -53,7 +45,7 @@ export async function generateMetadata({
   const canonical = absoluteProductUrl(product.slug);
 
   return {
-    title: product.name,
+    title: `${product.name} | Sourcing example`,
     description,
     alternates: { canonical },
     openGraph: {
@@ -83,11 +75,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
   ]);
 
   const price = formatBDT(product.price_bdt);
-  const market = marketplaceFor(product);
-  const discount = discountPercent(product.price_bdt, product.reference_price_bdt);
   const whatsappUrl = buildWhatsAppUrl(
     settings.whatsapp_number,
-    productOrderMessage({
+    productQuoteMessage({
       name: product.name,
       sku: product.sku,
       price,
@@ -95,7 +85,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
     }),
   );
   const specs = specificationRows(product.specifications);
-  const available = product.status === "available";
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
@@ -104,7 +93,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-secondary-ink transition-colors hover:text-primary"
       >
         <ArrowLeft aria-hidden="true" className="h-4 w-4" />
-        Back to products
+        Back to sourcing examples
       </Link>
 
       <div className="mt-6 grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">
@@ -129,83 +118,75 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 {product.category.name}
               </Link>
             )}
-            {market.badge && (
-              <span
-                className={`inline-flex items-center rounded-badge px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${badgeClasses[market.badge] ?? ""}`}
-              >
-                {market.badge}
-              </span>
-            )}
+            <span className="inline-flex items-center rounded-badge bg-primary-tint px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary">
+              Sourcing example
+            </span>
           </div>
 
           <h1 className="mt-4 text-balance text-3xl font-bold tracking-tight text-ink sm:text-4xl">
             {product.name}
           </h1>
-          <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-secondary-ink">
-            <span>SKU {product.sku}</span>
-            <span className="inline-flex items-center gap-1 text-ink">
-              <Star aria-hidden="true" className="h-3.5 w-3.5 fill-star text-star" />
-              {market.rating?.toFixed(1)} · {market.soldCount} sold
-            </span>
-          </div>
+          <p className="mt-2 text-xs text-secondary-ink">Ref {product.sku}</p>
 
-          <div className="mt-6 flex flex-wrap items-baseline gap-3 border-y border-border py-5">
-            <span className="text-3xl font-bold tracking-tight text-primary">{price}</span>
-            {product.reference_price_bdt !== null && (
-              <span className="text-lg text-muted line-through">
-                {formatBDT(product.reference_price_bdt)}
-              </span>
-            )}
-            {discount > 0 && (
-              <span className="rounded-badge bg-primary-tint px-2.5 py-1 text-xs font-bold text-primary ring-1 ring-primary/20">
-                Save {discount}%
-              </span>
-            )}
+          <div className="mt-6 border-y border-border py-5">
+            <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-muted">
+              Indicative price
+            </p>
+            <p className="mt-1 text-3xl font-bold tracking-tight text-primary">{price}</p>
+            <p className="mt-2 text-sm text-secondary-ink">
+              This is a reference only. Your quote includes the confirmed unit price,
+              shipping to Bangladesh and delivery time.
+            </p>
           </div>
 
           <div className="mt-5 flex flex-wrap items-center gap-3">
             <span
               className={`inline-flex items-center gap-2 rounded-badge px-3 py-1.5 text-xs font-semibold ${
-                available
+                product.status === "available"
                   ? "bg-primary-tint text-primary ring-1 ring-primary/20"
                   : "bg-image-backdrop text-secondary-ink"
               }`}
             >
-              <PackageCheck aria-hidden="true" className="h-3.5 w-3.5" />
-              {available ? "Available" : "Unavailable"}
-            </span>
-            <span className="inline-flex items-center gap-2 text-xs text-secondary-ink">
-              <Truck aria-hidden="true" className="h-3.5 w-3.5 text-primary" />
-              Ships in {market.shippingDays}
+              <BadgeCheck aria-hidden="true" className="h-3.5 w-3.5" />
+              {product.status === "available"
+                ? "Our supplier can usually source this"
+                : "Ask us to check availability"}
             </span>
           </div>
 
-          <div className="mt-7 flex flex-wrap items-center gap-3">
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <Link
+              href={`/request?item=${encodeURIComponent(product.slug)}`}
+              className="inline-flex min-h-12 flex-1 items-center justify-center gap-2 rounded-control bg-primary px-6 text-sm font-bold text-white shadow-card pressable hover:bg-primary-hover active:bg-primary-active"
+            >
+              <ClipboardList aria-hidden="true" className="h-4 w-4" />
+              Request a quote
+            </Link>
             <a
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-12 flex-1 items-center justify-center gap-2 rounded-control bg-primary px-6 text-sm font-bold text-white shadow-card pressable hover:bg-primary-hover active:bg-primary-active"
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-control border border-border bg-surface px-5 text-sm font-semibold text-primary transition-colors hover:border-primary hover:bg-primary-tint pressable"
             >
               <MessageCircle aria-hidden="true" className="h-4 w-4" />
-              Order on WhatsApp
+              Ask on WhatsApp
             </a>
-            <div className="flex items-center gap-2">
-              <WishlistButton id={product.id} name={product.name} className="h-11 w-11" />
-              <span className="text-xs text-secondary-ink">Save</span>
-            </div>
           </div>
+          <p className="mt-3 text-xs text-secondary-ink">
+            Not exactly this item? Send us any photo or link — we source from Alibaba,
+            AliExpress, 1688, Taobao and more.
+          </p>
 
           <section className="mt-7 rounded-card border border-border bg-page/60 p-5">
             <div aria-hidden="true" className="flex flex-wrap gap-2">
               <span className="rounded-control bg-primary px-3 py-2 text-xs font-bold text-white shadow-card">
-                Description
+                Details
               </span>
               <span className="rounded-control bg-surface px-3 py-2 text-xs font-bold text-primary shadow-soft">
                 Specifications
               </span>
               <span className="rounded-control bg-surface px-3 py-2 text-xs font-bold text-primary shadow-soft">
-                Shipping
+                Sourcing & delivery
               </span>
             </div>
 
@@ -245,11 +226,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
               <div className="border-t border-border pt-5">
                 <h2 className="text-[11px] font-bold uppercase tracking-[0.14em] text-primary">
-                  Shipping
+                  Sourcing & delivery
                 </h2>
                 <p className="mt-2 inline-flex items-center gap-2 text-sm text-secondary-ink">
                   <Truck aria-hidden="true" className="h-4 w-4 text-primary" />
-                  Ships in {market.shippingDays}
+                  Delivered to your address in Bangladesh after you accept the quote.
                 </p>
                 <ul className="mt-3 space-y-2 text-xs text-secondary-ink">
                   {assurances.map((item) => (
@@ -265,7 +246,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
           <p className="mt-5 inline-flex items-center gap-2 text-xs text-secondary-ink">
             <ShieldCheck aria-hidden="true" className="h-4 w-4 text-primary" />
-            Verified supplier listing
+            Supplier checked by Netbazar before your quote.
           </p>
         </aside>
       </div>
@@ -273,17 +254,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
       {related.length > 0 && (
         <section className="mt-12 border-t border-border pt-8">
           <SectionHeader
-            eyebrow="More to explore"
-            title="Related products"
-            action={{ href: "/products", label: "View all" }}
+            eyebrow="More examples"
+            title="Similar items we can source"
+            action={{ href: "/products", label: "See all examples" }}
           />
           <div className="product-grid grid grid-cols-2 gap-4 md:grid-cols-4">
             {related.map((item) => (
-              <ProductCard
-                key={item.id}
-                product={item}
-                whatsappNumber={settings.whatsapp_number}
-              />
+              <ProductCard key={item.id} product={item} />
             ))}
           </div>
         </section>

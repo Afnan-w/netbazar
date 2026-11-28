@@ -9,20 +9,20 @@ export const metadata: Metadata = {
 
 const points = [
   {
-    title: "Manual product selection",
-    text: "The owner chooses products from Chinese suppliers and lists them here with prices in BDT.",
+    title: "You show us the item",
+    text: "Send a photo, a link from Alibaba, AliExpress, 1688 or Taobao, or just a description of what you want.",
   },
   {
-    title: "Confirmation on WhatsApp",
-    text: "Orders start with a conversation. We confirm availability, final price, shipping and delivery time before payment.",
+    title: "We check the supplier",
+    text: "Our team checks with trusted suppliers in China to confirm availability and a realistic price.",
   },
   {
-    title: "Payment upfront, direct delivery",
-    text: "You pay Netbazar first. Netbazar pays the supplier, and the supplier ships directly to your address in Bangladesh.",
+    title: "You receive one clear quote",
+    text: "The quote includes unit price, shipping, total in BDT and delivery time. You only pay after you accept it.",
   },
   {
-    title: "Requests are welcome",
-    text: "If an item is not listed, send a product request and we will check whether we can source it.",
+    title: "We connect and track",
+    text: "After payment, we connect you with the supplier and follow the order until it reaches your address in Bangladesh.",
   },
 ];
 
@@ -38,9 +38,10 @@ export default function AboutPage() {
           China-to-Bangladesh sourcing, kept simple.
         </h1>
         <p className="mt-5 max-w-2xl text-sm leading-relaxed text-secondary-ink">
-          Netbazar is a small sourcing store, not a marketplace. We list a focused
-          catalogue of products picked from Chinese suppliers and help customers in
-          Bangladesh order them through WhatsApp.
+          Netbazar is a sourcing and matching service, not a store or a marketplace.
+          We do not sell from our own catalogue. We find what you want through
+          trusted suppliers in China, quote the full cost, and connect you with the
+          supplier so it can be delivered to Bangladesh.
         </p>
       </div>
 
@@ -59,15 +60,15 @@ export default function AboutPage() {
       <div className="nova-panel mt-8 bg-lilac/40 p-6 sm:p-8">
         <h2 className="text-lg font-bold text-ink">Ready to start?</h2>
         <p className="mt-2 text-sm leading-relaxed text-secondary-ink">
-          Browse the catalogue or tell us what you need. We will confirm the details
-          on WhatsApp before any payment.
+          Tell us what you need. We will check the supplier and send your quote on
+          WhatsApp before any payment.
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
           <Link
             href="/products"
             className="inline-flex min-h-11 items-center gap-2 rounded-control bg-primary px-4 text-sm font-bold text-white pressable hover:bg-primary-hover active:bg-primary-active"
           >
-            Browse products
+            See what we source
             <ArrowRight aria-hidden="true" className="h-4 w-4" />
           </Link>
           <Link

@@ -46,7 +46,7 @@ function SubmitButton() {
       disabled={pending}
       className="inline-flex min-h-11 items-center gap-2 rounded-full border border-primary bg-primary px-5 text-sm font-medium text-white shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-hover hover:shadow-card-hover active:translate-y-0 active:bg-primary-active disabled:cursor-not-allowed disabled:opacity-60 pressable"
     >
-      {pending ? "Sending…" : "Send request"}
+      {pending ? "Sending…" : "Submit sourcing request"}
       {!pending && <ArrowRight aria-hidden="true" className="h-4 w-4" />}
     </button>
   );
@@ -57,7 +57,13 @@ const inputClass =
 
 const labelClass = "text-sm font-medium text-ink";
 
-export function RequestForm() {
+export function RequestForm({
+  defaultDescription = "",
+  defaultLink = "",
+}: {
+  defaultDescription?: string;
+  defaultLink?: string;
+}) {
   const [state, formAction] = useActionState(
     submitProductRequest,
     initialRequestState,
@@ -81,7 +87,9 @@ export function RequestForm() {
         <span className="flex h-12 w-12 items-center justify-center rounded-control bg-surface text-primary shadow-card">
           <CheckCircle2 aria-hidden="true" className="h-8 w-8" />
         </span>
-        <h2 className="mt-5 text-2xl font-semibold tracking-tight text-ink">Request received</h2>
+        <h2 className="mt-5 text-2xl font-semibold tracking-tight text-ink">
+          Request received — we&apos;ll check the supplier
+        </h2>
         <p className="mt-2 text-sm leading-relaxed text-secondary-ink">{state.message}</p>
         {state.success && (
           <>
@@ -95,7 +103,7 @@ export function RequestForm() {
               className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-full border border-primary bg-primary px-5 text-sm font-medium text-white shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-hover hover:shadow-card-hover active:translate-y-0 active:bg-primary-active pressable"
             >
               <MessageCircle aria-hidden="true" className="h-4 w-4" />
-              Continue on WhatsApp
+              Continue with photos on WhatsApp
             </a>
           </>
         )}
@@ -121,19 +129,23 @@ export function RequestForm() {
       <div className="grid gap-6 sm:grid-cols-2">
         <div className="sm:col-span-2">
           <label htmlFor="description" className={labelClass}>
-            What are you looking for? <span aria-hidden="true">*</span>
+            What do you want from China? <span aria-hidden="true">*</span>
           </label>
           <textarea
             id="description"
             name="description"
             rows={4}
-            placeholder="Product name, description or model"
+            defaultValue={defaultDescription}
+            placeholder="Product name, description, model or colour"
             required
             aria-invalid={Boolean(errors.description)}
             aria-describedby={errors.description ? "description-error" : undefined}
             className={inputClass}
           />
           <FieldError id="description-error" error={errors.description} />
+          <p className="mt-1.5 text-xs text-muted">
+            A photo is even better — you can attach it when we continue on WhatsApp.
+          </p>
         </div>
 
         <div className="sm:col-span-2">
@@ -144,12 +156,16 @@ export function RequestForm() {
             id="product_link"
             name="product_link"
             type="url"
-            placeholder="https://"
+            defaultValue={defaultLink}
+            placeholder="https://alibaba.com / aliexpress.com / 1688.com / taobao.com"
             aria-invalid={Boolean(errors.product_link)}
             aria-describedby={errors.product_link ? "product_link-error" : undefined}
             className={inputClass}
           />
           <FieldError id="product_link-error" error={errors.product_link} />
+          <p className="mt-1.5 text-xs text-muted">
+            Saw it on another site? Paste the link here and we&apos;ll check it.
+          </p>
         </div>
 
         <div>
@@ -255,7 +271,7 @@ export function RequestForm() {
 
       <div className="mt-7 flex flex-wrap items-center gap-4">
         <SubmitButton />
-        <p className="text-xs text-muted">We usually reply on WhatsApp.</p>
+        <p className="text-xs text-muted">No payment until you accept our quote.</p>
       </div>
     </form>
   );

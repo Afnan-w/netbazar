@@ -24,7 +24,6 @@ import {
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { WishlistLink } from "@/components/store/wishlist-link";
 
 type HeaderCategory = { name: string; slug: string };
 type SearchSuggestion = { name: string; slug: string; category?: string };
@@ -41,8 +40,8 @@ const categoryIcons: Record<string, LucideIcon> = {
 };
 
 const primaryLinks = [
-  { href: "/products", label: "Shop" },
-  { href: "/request", label: "Request" },
+  { href: "/products", label: "What we source" },
+  { href: "/#how-it-works", label: "How it works" },
   { href: "/faq", label: "FAQ" },
 ];
 
@@ -75,7 +74,7 @@ function SearchForm({
   return (
     <form action="/products" method="get" role="search" className="w-full">
       <label htmlFor={compact ? "mobile-search" : "header-search"} className="sr-only">
-        Search products
+        Search sourcing examples
       </label>
       <div
         className="relative"
@@ -121,7 +120,7 @@ function SearchForm({
                 setActiveIndex(-1);
               }
             }}
-            placeholder="Search products, brands and categories..."
+            placeholder="Search example items..."
             autoComplete="off"
             role="combobox"
             aria-expanded={open}
@@ -138,7 +137,7 @@ function SearchForm({
             className="dropdown-pop absolute left-0 right-0 top-[calc(100%+8px)] z-50 overflow-hidden rounded-card border border-border bg-surface/95 p-2 shadow-card-hover backdrop-blur-xl"
           >
             <p className="px-2 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted">
-              {query ? "Suggestions" : "Popular searches"}
+              {query ? "Example items" : "Recently sourced examples"}
             </p>
             {matches.map((item, index) => (
               <Link
@@ -166,7 +165,7 @@ function SearchForm({
                 type="submit"
                 className="mt-1 flex min-h-11 w-full items-center justify-between rounded-control bg-primary-tint px-3 py-2 text-left text-xs font-semibold text-primary transition-colors duration-200 hover:bg-primary/15"
               >
-                See all results for “{query}”
+                See all examples for “{query}”
                 <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
               </button>
             )}
@@ -177,7 +176,7 @@ function SearchForm({
   );
 }
 
-function MegaMenu({ categories }: { categories: HeaderCategory[] }) {
+function SourceMenu({ categories }: { categories: HeaderCategory[] }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -189,12 +188,12 @@ function MegaMenu({ categories }: { categories: HeaderCategory[] }) {
       <button
         type="button"
         aria-expanded={open}
-        aria-controls="mega-menu"
+        aria-controls="source-menu"
         onClick={() => setOpen((value) => !value)}
         onFocus={() => setOpen(true)}
         className="inline-flex min-h-11 items-center gap-1 rounded-control px-3 text-sm text-secondary-ink transition-colors duration-200 hover:bg-primary-tint hover:text-primary"
       >
-        Categories
+        What we source
         <ChevronDown
           aria-hidden="true"
           className={`h-3.5 w-3.5 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
@@ -203,19 +202,19 @@ function MegaMenu({ categories }: { categories: HeaderCategory[] }) {
 
       {open && (
         <div
-          id="mega-menu"
+          id="source-menu"
           className="dropdown-pop absolute left-0 top-[calc(100%+1rem)] z-50 w-[min(860px,calc(100vw-2rem))] rounded-panel border border-border bg-surface/95 p-4 shadow-card-hover backdrop-blur-xl"
         >
-          <div className="mb-3 flex items-center justify-between px-1">
+          <div className="mb-3 flex items-center justify-between gap-4 px-1">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
-              Shop by category
+              Example categories
             </p>
             <Link
-              href="/products"
+              href="/request"
               onClick={() => setOpen(false)}
               className="inline-flex min-h-11 items-center gap-1 rounded-control px-2 text-xs font-semibold text-primary transition-colors duration-200 hover:bg-primary-tint"
             >
-              View all
+              Request another item
               <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
             </Link>
           </div>
@@ -239,6 +238,10 @@ function MegaMenu({ categories }: { categories: HeaderCategory[] }) {
               );
             })}
           </div>
+          <p className="mt-3 px-1 text-[11px] text-muted">
+            Your item does not need to be listed. Send us a photo or link from any
+            Chinese store.
+          </p>
         </div>
       )}
     </div>
@@ -283,7 +286,7 @@ export function SiteHeader({
         </Link>
 
         <nav aria-label="Main navigation" className="hidden items-center gap-1 lg:flex">
-          <MegaMenu categories={categories} />
+          <SourceMenu categories={categories} />
           {primaryLinks.map((link) => (
             <Link
               key={link.href}
@@ -299,35 +302,39 @@ export function SiteHeader({
           ))}
         </nav>
 
-        <div className="mx-auto hidden w-full max-w-xl md:block">
+        <div className="mx-auto hidden w-full max-w-sm md:block">
           <SearchForm suggestions={suggestions} />
         </div>
 
         <div className="ml-auto flex items-center gap-2 md:ml-0">
           <Link
             href="/admin/login"
-            aria-label="Account"
+            aria-label="Admin sign in"
             className="hidden min-h-11 min-w-11 items-center justify-center rounded-full border border-border bg-surface text-secondary-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:text-primary hover:shadow-card sm:inline-flex"
           >
             <UserRound aria-hidden="true" className="h-4 w-4" />
           </Link>
-          <div className="hidden md:block">
-            <WishlistLink />
-          </div>
           <a
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Chat with Netbazar on WhatsApp"
+            className="hidden min-h-11 min-w-11 items-center justify-center rounded-full border border-border bg-surface text-secondary-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:text-primary hover:shadow-card sm:inline-flex"
+          >
+            <MessageCircle aria-hidden="true" className="h-4 w-4" />
+          </a>
+          <Link
+            href="/request"
             className="relative inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-primary bg-primary px-4 text-sm font-semibold text-white shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-hover hover:shadow-card-hover active:translate-y-0 active:bg-primary-active pressable"
           >
             <span
               aria-hidden="true"
               className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-success ring-2 ring-surface"
             />
-            <MessageCircle aria-hidden="true" className="h-4 w-4" />
-            <span className="hidden sm:inline">Order on WhatsApp</span>
-            <span className="sm:hidden">Order</span>
-          </a>
+            <Sparkles aria-hidden="true" className="h-4 w-4" />
+            <span className="hidden sm:inline">Request a product</span>
+            <span className="sm:hidden">Request</span>
+          </Link>
           <button
             type="button"
             className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full border border-border bg-surface text-secondary-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:text-primary hover:shadow-card lg:hidden pressable"
@@ -345,39 +352,31 @@ export function SiteHeader({
         </div>
       </div>
 
-      <nav aria-label="Category navigation" className="hidden border-t border-border bg-surface/95 lg:block">
+      <nav aria-label="Sourcing category navigation" className="hidden border-t border-border bg-surface/95 lg:block">
         <div className="mx-auto flex h-11 max-w-7xl items-center gap-1 overflow-x-auto px-4 sm:px-6 lg:px-8">
           <Link
             href="/products"
             className="inline-flex min-h-11 shrink-0 items-center rounded-full bg-primary-tint px-4 text-xs font-semibold text-primary transition-colors duration-200 hover:bg-primary/15"
           >
-            All Categories
+            All examples
           </Link>
-          {categories.map((category) => {
-            const Icon = categoryIcons[category.slug] ?? Grid2X2;
-            return (
-              <Link
-                key={category.slug}
-                href={`/products?category=${encodeURIComponent(category.slug)}`}
-                className="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full px-3 text-xs text-secondary-ink transition-colors duration-200 hover:bg-primary-tint hover:text-primary"
-              >
-                <Icon aria-hidden="true" className="h-3.5 w-3.5 text-primary" />
-                {category.name}
-              </Link>
-            );
-          })}
+          {categories.map((category) => (
+            <Link
+              key={category.slug}
+              href={`/products?category=${encodeURIComponent(category.slug)}`}
+              className="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full px-3 text-xs text-secondary-ink transition-colors duration-200 hover:bg-primary-tint hover:text-primary"
+            >
+              <Grid2X2 aria-hidden="true" className="h-3.5 w-3.5 text-primary" />
+              {category.name}
+            </Link>
+          ))}
           <span aria-hidden="true" className="mx-2 h-4 w-px shrink-0 bg-border" />
           <Link
-            href="/products?featured=1"
-            className="inline-flex min-h-11 shrink-0 items-center rounded-full px-3 text-xs font-medium text-secondary-ink transition-colors duration-200 hover:bg-primary-tint hover:text-primary"
+            href="/request"
+            className="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full px-3 text-xs font-semibold text-primary transition-colors duration-200 hover:bg-primary-tint"
           >
-            Featured Products
-          </Link>
-          <Link
-            href="/products?sort=newest"
-            className="inline-flex min-h-11 shrink-0 items-center rounded-full px-3 text-xs font-medium text-secondary-ink transition-colors duration-200 hover:bg-primary-tint hover:text-primary"
-          >
-            New Arrivals
+            <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
+            Can&apos;t find it? Request it
           </Link>
         </div>
       </nav>
@@ -401,23 +400,23 @@ export function SiteHeader({
                 </Link>
               ))}
               <Link
-                href="/wishlist"
+                href="/request"
                 onClick={() => setMenuOpen(false)}
-                className="inline-flex min-h-11 items-center justify-center rounded-control border border-border bg-surface px-3 text-sm text-secondary-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:bg-primary-tint hover:text-primary"
+                className="inline-flex min-h-11 items-center justify-center rounded-control bg-primary px-3 text-sm font-semibold text-white pressable hover:bg-primary-hover"
               >
-                Wishlist
+                Request a product
               </Link>
               <Link
                 href="/admin/login"
                 onClick={() => setMenuOpen(false)}
                 className="inline-flex min-h-11 items-center justify-center rounded-control border border-border bg-surface px-3 text-sm text-secondary-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:bg-primary-tint hover:text-primary"
               >
-                Account
+                Admin sign in
               </Link>
             </nav>
             <div>
               <p className="pb-2 text-[11px] font-semibold uppercase tracking-widest text-muted">
-                Categories
+                Example categories
               </p>
               <div className="grid grid-cols-2 gap-2">
                 {categories.map((category) => {
@@ -443,7 +442,7 @@ export function SiteHeader({
               </span>
               <span className="inline-flex items-center gap-1">
                 <WalletCards aria-hidden="true" className="h-3.5 w-3.5 text-primary" />
-                BDT pricing
+                Quote before payment
               </span>
             </div>
           </div>

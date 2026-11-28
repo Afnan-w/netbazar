@@ -98,7 +98,7 @@ function FilterFields({
 
       <div>
         <label htmlFor={`${idPrefix}-availability`} className={labelClass}>
-          Availability
+          Supplier stock
         </label>
         <select
           id={`${idPrefix}-availability`}
@@ -106,8 +106,8 @@ function FilterFields({
           defaultValue={values.availability}
           className={fieldClass}
         >
-          <option value="all">All products</option>
-          <option value="available">Available</option>
+          <option value="all">Any stock status</option>
+          <option value="available">Ready to source</option>
           <option value="unavailable">Unavailable</option>
         </select>
       </div>

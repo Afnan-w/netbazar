@@ -14,11 +14,11 @@ const policies = {
       },
       {
         heading: "How delivery works",
-        body: "After payment, Netbazar pays the supplier and the supplier ships directly to the customer. Add typical timelines here.",
+        body: "After you accept the quote and pay, Netbazar coordinates with the supplier and the supplier ships directly to your address in Bangladesh. Add typical timelines here.",
       },
       {
         heading: "Shipping cost",
-        body: "Shipping is confirmed on WhatsApp before payment. Add any fixed rates or calculation rules here.",
+        body: "Shipping to Bangladesh is included in your quote and confirmed on WhatsApp before payment. Add any fixed rates or calculation rules here.",
       },
     ],
   },
@@ -29,7 +29,7 @@ const policies = {
     sections: [
       {
         heading: "Payment is upfront",
-        body: "Customers pay Netbazar in advance. Netbazar then pays the supplier. We confirm the final price, shipping and delivery time on WhatsApp before payment.",
+        body: "Customers pay Netbazar only after accepting a quote. Netbazar then pays the supplier. We confirm the final price, shipping and delivery time on WhatsApp before payment.",
       },
       {
         heading: "Accepted methods",
@@ -37,7 +37,7 @@ const policies = {
       },
       {
         heading: "Price confirmation",
-        body: "Catalogue prices are indicative in BDT. The final quoted price is agreed in the WhatsApp conversation.",
+        body: "Prices shown on sourcing examples are indicative in BDT. Your final quoted price is agreed in the WhatsApp conversation before payment.",
       },
     ],
   },

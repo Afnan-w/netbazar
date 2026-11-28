@@ -7,14 +7,15 @@ import { buildWhatsAppUrl } from "@/lib/utils/whatsapp";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Contact Netbazar on WhatsApp or email about products and orders.",
+  description:
+    "Contact Netbazar on WhatsApp or email about sourcing a product from China.",
 };
 
 export default async function ContactPage() {
   const settings = await getSiteSettings();
   const whatsappUrl = buildWhatsAppUrl(
     settings.whatsapp_number,
-    "Hello Netbazar, I have a question about a product.",
+    "Hello Netbazar, I would like to ask about sourcing a product from China.",
   );
 
   return (
@@ -25,11 +26,12 @@ export default async function ContactPage() {
           Contact
         </span>
         <h1 className="mt-4 text-balance text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-          Talk to us before you order.
+          Talk to us before we source.
         </h1>
         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-secondary-ink">
-          WhatsApp is the fastest way to confirm availability, final price, shipping
-          and delivery time. Email is available for general questions.
+          WhatsApp is the fastest way to send photos, check supplier availability
+          and receive your quote with shipping and delivery time. Email is for
+          general questions.
         </p>
       </div>
 
@@ -45,7 +47,7 @@ export default async function ContactPage() {
           </span>
           <h2 className="mt-5 text-lg font-bold text-ink">WhatsApp</h2>
           <p className="mt-2 text-sm leading-relaxed text-secondary-ink">
-            Order a listed product, ask a question or follow up on a request.
+            Send a photo or link, ask about a quote or follow up on a request.
           </p>
           <span className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-control bg-primary px-4 text-sm font-bold text-white pressable">
             Open WhatsApp
@@ -59,7 +61,7 @@ export default async function ContactPage() {
           </span>
           <h2 className="mt-5 text-lg font-bold text-ink">Email</h2>
           <p className="mt-2 text-sm leading-relaxed text-secondary-ink">
-            For general enquiries. Orders and confirmations are handled on WhatsApp.
+            For general enquiries. Sourcing and quotes are handled on WhatsApp.
           </p>
           {settings.contact_email ? (
             <a
@@ -79,7 +81,7 @@ export default async function ContactPage() {
       </div>
 
       <div className="nova-panel mt-8 flex flex-wrap items-center gap-2 bg-blush/25 p-6 text-sm text-secondary-ink">
-        <span>Looking for an item that is not listed?</span>{" "}
+        <span>Know what you want from China?</span>{" "}
         <Link
           href="/request"
           className="inline-flex min-h-11 items-center gap-1 font-bold text-primary hover:text-primary-hover"

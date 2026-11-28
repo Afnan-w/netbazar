@@ -13,7 +13,7 @@ export default async function StoreLayout({ children }: { children: ReactNode })
 
   const whatsappUrl = buildWhatsAppUrl(
     settings.whatsapp_number,
-    "Hello Netbazar, I would like to know more about your products.",
+    "Hello Netbazar, I want to source a product from China. Can you help me?",
   );
 
   return (

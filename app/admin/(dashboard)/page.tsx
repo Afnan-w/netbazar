@@ -21,11 +21,11 @@ export default async function AdminOverviewPage() {
     <div>
       <PageHeader
         title="Overview"
-        description="A quick look at the catalogue and incoming product requests."
+        description="Incoming sourcing requests and the examples your customers can see."
         action={
-          <ButtonLink href="/admin/products/new" pill>
+          <ButtonLink href="/admin/requests?status=new" pill>
             <Plus aria-hidden="true" className="h-4 w-4" />
-            Add product
+            Review new requests
           </ButtonLink>
         }
       />
@@ -48,7 +48,7 @@ export default async function AdminOverviewPage() {
             {overview.productCount}
           </p>
           <p className="mt-1 text-sm text-secondary-ink">
-            Products in the catalogue
+            Sourcing examples on the site
           </p>
         </Link>
         <Link
@@ -68,7 +68,7 @@ export default async function AdminOverviewPage() {
             {overview.newRequestCount}
           </p>
           <p className="mt-1 text-sm text-secondary-ink">
-            New product requests
+            New sourcing requests
           </p>
         </Link>
       </div>
@@ -79,7 +79,7 @@ export default async function AdminOverviewPage() {
             <div>
               <h2 className="text-base font-bold text-ink">Recent requests</h2>
               <p className="mt-1 text-xs text-muted">
-                Latest requests waiting for a reply
+                Latest requests waiting for a supplier check
               </p>
             </div>
             <Link
@@ -94,7 +94,7 @@ export default async function AdminOverviewPage() {
             <div className="mt-5 rounded-card border border-dashed border-border bg-page/60 px-6 py-10 text-center">
               <Inbox aria-hidden="true" className="mx-auto h-6 w-6 text-muted" />
               <p className="mt-3 text-sm text-secondary-ink">
-                No new requests yet. Submitted requests will appear here.
+                No new requests yet. Submitted sourcing requests will appear here.
               </p>
             </div>
           ) : (
@@ -129,7 +129,7 @@ export default async function AdminOverviewPage() {
         </section>
 
         <section className="nova-panel p-5 sm:p-6">
-          <h2 className="text-base font-bold text-ink">Request pipeline</h2>
+          <h2 className="text-base font-bold text-ink">Quote pipeline</h2>
           <p className="mt-1 text-xs text-muted">Every request by current stage</p>
           <ul className="mt-5 space-y-4">
             {overview.requestsByStatus.map(({ status, count }) => {

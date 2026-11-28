@@ -1,4 +1,4 @@
-import { PackageCheck, ShoppingBag, Sparkles } from "lucide-react";
+import { ClipboardList, PackageCheck, Sparkles } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LoginForm } from "@/components/admin/login-form";
@@ -44,18 +44,18 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
               Owner workspace
             </span>
             <h2 className="mt-7 max-w-lg text-3xl font-bold leading-tight tracking-tight sm:text-display">
-              Your whole store, beautifully in one place.
+              Your sourcing workspace, all in one place.
             </h2>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-white/85">
-              Manage the catalogue, organise categories and follow up on product
-              requests — all from one calm dashboard.
+              Review product requests, check suppliers, send quotes and manage the
+              examples customers see — all from one calm dashboard.
             </p>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-3">
             {[
-              { icon: PackageCheck, label: "Catalogue" },
-              { icon: ShoppingBag, label: "Requests" },
+              { icon: ClipboardList, label: "Requests" },
+              { icon: PackageCheck, label: "Examples" },
               { icon: Sparkles, label: "Insights" },
             ].map(({ icon: Icon, label }) => (
               <div

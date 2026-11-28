@@ -9,14 +9,14 @@ import { Field, Select, Textarea } from "@/components/ui/input";
 import { idleActionResult } from "@/types/actions";
 import type { ProductRequest, ProductRequestStatus } from "@/types/database";
 
-const statuses: ProductRequestStatus[] = [
-  "new",
-  "contacted",
-  "quoted",
-  "paid",
-  "shipped",
-  "closed",
-  "cancelled",
+const statuses: { value: ProductRequestStatus; label: string }[] = [
+  { value: "new", label: "New request" },
+  { value: "contacted", label: "Checking supplier" },
+  { value: "quoted", label: "Quote sent" },
+  { value: "paid", label: "Paid" },
+  { value: "shipped", label: "In transit" },
+  { value: "closed", label: "Delivered" },
+  { value: "cancelled", label: "Cancelled" },
 ];
 
 export function RequestUpdateForm({ request }: { request: ProductRequest }) {
@@ -35,9 +35,9 @@ export function RequestUpdateForm({ request }: { request: ProductRequest }) {
           <ClipboardList aria-hidden="true" className="h-5 w-5" />
         </span>
         <div>
-          <h2 className="text-base font-bold text-ink">Update request</h2>
+          <h2 className="text-base font-bold text-ink">Update sourcing request</h2>
           <p className="mt-0.5 text-xs text-muted">
-            Track progress and keep internal notes.
+            Track the supplier check, quote and delivery.
           </p>
         </div>
       </div>
@@ -50,8 +50,8 @@ export function RequestUpdateForm({ request }: { request: ProductRequest }) {
             defaultValue={request.status}
           >
             {statuses.map((status) => (
-              <option key={status} value={status}>
-                {status.charAt(0).toUpperCase() + status.slice(1)}
+              <option key={status.value} value={status.value}>
+                {status.label}
               </option>
             ))}
           </Select>
@@ -68,7 +68,7 @@ export function RequestUpdateForm({ request }: { request: ProductRequest }) {
               rows={5}
               maxLength={5000}
               defaultValue={request.admin_notes}
-              placeholder="Supplier quotes, quotes given, payment status, delivery notes…"
+              placeholder="Supplier quote, unit price, shipping, quote sent, payment and delivery notes…"
             />
           </Field>
         </div>

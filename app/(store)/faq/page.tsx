@@ -6,44 +6,50 @@ import { buildWhatsAppUrl } from "@/lib/utils/whatsapp";
 
 export const metadata: Metadata = {
   title: "FAQ",
-  description: "Answers about ordering, payment, shipping and product requests at Netbazar.",
+  description:
+    "Answers about sourcing products from China, quotes, payment and delivery with Netbazar.",
 };
 
 const faqs = [
   {
-    question: "Is Netbazar a marketplace?",
+    question: "What exactly does Netbazar do?",
     answer:
-      "No. Netbazar picks products from Chinese suppliers and lists them here. Customers contact Netbazar on WhatsApp to order. There are no seller accounts, cart or online checkout.",
+      "We are a sourcing and matching service, not a marketplace. You show us an item you want from China — on Alibaba, AliExpress, 1688, Taobao or anywhere else — and we check our trusted supplier, send you a quote, and connect you with the supplier once you accept.",
   },
   {
-    question: "How do I order a listed product?",
+    question: "How do I ask you to source something?",
     answer:
-      "Open the product page and tap Order on WhatsApp. The message already includes the product name, SKU, price and page link. We then confirm availability, final price, shipping and delivery time.",
+      "Submit a product request with a photo, a link or a description, plus quantity, budget and your delivery address in Bangladesh. If you already have photos, you can send them when we continue on WhatsApp.",
+  },
+  {
+    question: "What does your quote include?",
+    answer:
+      "Your quote shows the unit price, shipping, total cost in BDT and the delivery time. We send it only after checking the supplier, and you decide whether to accept it.",
   },
   {
     question: "When should I pay?",
     answer:
-      "Payment is upfront to Netbazar, but only after we have confirmed availability, the final price, shipping cost and delivery time with you on WhatsApp.",
+      "Only after you accept the quote. We confirm availability, the final price, shipping and delivery time with you on WhatsApp first.",
   },
   {
     question: "How does delivery work?",
     answer:
-      "After you pay, Netbazar pays the supplier. The supplier ships your order directly to your address in Bangladesh.",
+      "After you accept and pay, we coordinate with the supplier. The supplier ships directly to your address in Bangladesh and we track the order until delivery.",
   },
   {
-    question: "Can I request an unlisted product?",
+    question: "Do you only source items shown on this site?",
     answer:
-      "Yes. Use the request a product form with a description or link, quantity, budget and delivery address. We will check with our suppliers and reply on WhatsApp.",
+      "No. The items here are examples of what we can source. Almost anything available from a Chinese supplier can be requested — just send us the details.",
   },
   {
-    question: "Are the listed prices final?",
+    question: "Are the displayed prices final?",
     answer:
-      "Listed prices are indicative in BDT. The final price, shipping and delivery time are confirmed on WhatsApp before you pay.",
+      "No. Prices shown on example items are indicative only. Your actual unit price, shipping and delivery time are confirmed in your quote before payment.",
   },
   {
     question: "Which payment methods do you accept?",
     answer:
-      "We agree on a payment method with you on WhatsApp before payment. See the payment policy page for the current placeholder details.",
+      "We agree on a payment method with you on WhatsApp before payment. See the payment policy page for the current details.",
   },
 ];
 
@@ -65,8 +71,8 @@ export default async function FaqPage() {
           Frequently asked questions
         </h1>
         <p className="mt-4 text-sm leading-relaxed text-secondary-ink">
-          If your question is not here, message us on WhatsApp or use the product
-          request form.
+          If your question is not here, message us on WhatsApp or submit a
+          product request.
         </p>
       </div>
 

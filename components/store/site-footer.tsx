@@ -3,10 +3,10 @@ import Link from "next/link";
 import { buildWhatsAppUrl } from "@/lib/utils/whatsapp";
 import type { SiteSettings } from "@/types/database";
 
-const shopLinks = [
-  { href: "/products", label: "All products" },
-  { href: "/wishlist", label: "Wishlist" },
-  { href: "/request", label: "Request a product" },
+const sourceLinks = [
+  { href: "/products", label: "What we source" },
+  { href: "/#how-it-works", label: "How it works" },
+  { href: "/request", label: "Submit a product request" },
   { href: "/faq", label: "FAQ" },
 ];
 
@@ -29,20 +29,21 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
               Net<span className="text-primary">bazar</span>
             </Link>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-secondary-ink">
-              China to Bangladesh sourcing. Curated products, BDT pricing and WhatsApp ordering.
+              Show us what you want from China. We source it through trusted
+              suppliers and deliver it to Bangladesh.
             </p>
             <p className="mt-4 inline-flex items-center gap-2 rounded-badge bg-surface/80 px-3 py-2 text-xs text-secondary-ink shadow-card ring-1 ring-border/70">
               <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5 text-primary" />
-              Price, shipping and delivery confirmed first.
+              Supplier checked. Quote confirmed before payment.
             </p>
           </div>
 
-          <nav aria-label="Shop links">
+          <nav aria-label="Sourcing links">
             <h2 className="inline-flex min-h-11 items-center text-sm font-semibold text-ink">
-              Shop
+              Sourcing
             </h2>
             <ul className="mt-2 space-y-1 text-sm text-secondary-ink">
-              {shopLinks.map((link) => (
+              {sourceLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
@@ -83,7 +84,10 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
             </h2>
             <div className="mt-2 flex flex-wrap gap-2 text-sm text-secondary-ink">
               <a
-                href={buildWhatsAppUrl(settings.whatsapp_number, "Hello Netbazar")}
+                href={buildWhatsAppUrl(
+                  settings.whatsapp_number,
+                  "Hello Netbazar, I would like to ask about sourcing a product.",
+                )}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex min-h-11 items-center gap-2 rounded-full border border-primary/20 bg-surface px-3 text-sm font-medium text-primary shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:bg-primary-tint hover:shadow-card-hover pressable"
@@ -128,7 +132,7 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
           <p>© {new Date().getFullYear()} Netbazar. All rights reserved.</p>
           <p className="inline-flex items-center gap-2">
             <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-primary" />
-            China → Bangladesh · Verified suppliers · BDT pricing
+            China → Bangladesh · Supplier sourcing · Quote before payment
           </p>
         </div>
       </div>

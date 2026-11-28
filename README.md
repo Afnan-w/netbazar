@@ -1,6 +1,6 @@
 # Netbazar
 
-A small catalogue site for sourcing products from China to Bangladesh. Customers browse products, then order or request items on WhatsApp. Payment is upfront to Netbazar; the supplier ships directly to Bangladesh. There is no cart, checkout, marketplace or payment gateway.
+A sourcing and matching platform for products from China to Bangladesh. Customers show Netbazar what they want — a photo, a link from Alibaba/AliExpress/1688/Taobao, or a description — and the admin checks a trusted supplier, sends a quote (unit price, shipping, total and delivery time), then connects the customer with the supplier. Payment happens only after the quote is accepted; the supplier ships directly to Bangladesh. This is not a marketplace: there are no seller accounts, product cart, checkout or payment gateway.
 
 The build is delivered in four phases:
 
@@ -40,23 +40,23 @@ Admin access is controlled by the `public.admins` table rather than a JWT claim:
 
 ## Customer storefront
 
-- `/` — hero, categories, featured/new/popular products, how it works, FAQs.
-- `/products` — URL-driven search, category, availability and sort filters, 12 products per page with pagination and a mobile filter drawer.
-- `/products/[slug]` — image gallery, specifications, availability and a prefilled WhatsApp order link.
-- `/request` — zod-validated sourcing request with honeypot, basic rate limiting and a WhatsApp continuation link.
+- `/` — sourcing-first hero, product-request CTA, what we can source, four-step process and trust information. No product grid.
+- `/products` — example items our suppliers can source, with URL-driven search, category, availability and sort filters, 12 examples per page and a mobile filter drawer. Request CTA throughout.
+- `/products/[slug]` — example gallery, specifications and a "Request a quote" link that prefills `/request`; WhatsApp ask link uses a sourcing message.
+- `/request` — the primary flow: zod-validated product request with photo/link guidance, honeypot, basic rate limiting and a WhatsApp continuation link.
 - `/faq`, `/about`, `/contact` — general information.
 - `/policies/shipping`, `/policies/payment`, `/policies/refund` — editable placeholder text in `app/(store)/policies/[slug]/page.tsx`.
 
-Every ordering page states that payment is upfront to Netbazar and that final price, shipping and delivery time are confirmed before payment.
+Every page states that the supplier is checked first, that one quote covers unit price, shipping, total and delivery time, and that payment happens only after the quote is accepted.
 
 ## Admin dashboard
 
 - `/admin/login` — Supabase email/password sign-in, restricted to users in `admins`.
-- `/admin` — catalogue and request counts, recent requests and request pipeline.
-- `/admin/products` — searchable list with edit, duplicate and delete.
-- `/admin/products/new`, `/admin/products/[id]/edit` — product details, dynamic specifications and image management (upload, reorder, alt text, delete).
+- `/admin` — request pipeline and source-example counts, with new requests first.
+- `/admin/products` — searchable list of example items with edit, duplicate and delete.
+- `/admin/products/new`, `/admin/products/[id]/edit` — example details, dynamic specifications and image management (upload, reorder, alt text, delete).
 - `/admin/categories` — category create, edit, reorder and guarded delete.
-- `/admin/requests`, `/admin/requests/[id]` — filter by status, inspect a request, update status and internal notes, message the customer on WhatsApp.
+- `/admin/requests`, `/admin/requests/[id]` — filter by quote stage, inspect a request, update status and internal notes, quote/message the customer on WhatsApp.
 - `/admin/settings` — WhatsApp number, announcement text, email and social links.
 
 All writes go through server actions with zod validation. The service role key is only read in server code.
@@ -105,12 +105,12 @@ The build also works without Supabase environment variables: the storefront show
 
 ## Production checklist
 
-- Replace sample products and add real photos with meaningful alt text.
+- Replace sample example items and add real photos with meaningful alt text.
 - Confirm the WhatsApp number (+880 1627 293330), announcement and contact details in `/admin/settings`.
 - Replace all three policy pages with final wording.
-- Confirm every category, price and availability status.
+- Confirm every category and indicative price.
 - Verify `/sitemap.xml` and `/robots.txt` use the final domain.
-- Test one product order and one product request end to end on WhatsApp.
+- Test one product request end to end: submit → supplier check → quote → accept → delivery tracking.
 
 ## Assumptions
 

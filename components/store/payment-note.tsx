@@ -8,11 +8,11 @@ export function PaymentNote({ children }: { children?: ReactNode }) {
         <Info aria-hidden="true" className="h-4 w-4" />
       </span>
       <div>
-        <p className="font-semibold text-ink">Before you pay</p>
+        <p className="font-semibold text-ink">We quote before you pay</p>
         {children ?? (
           <p className="mt-1">
-            Payment is upfront to Netbazar. We confirm availability, the final
-            price, shipping and delivery time on WhatsApp before payment.
+            We check the supplier and send your quote with unit price, shipping,
+            total and delivery time on WhatsApp. You only pay after you accept it.
           </p>
         )}
       </div>

@@ -1,5 +1,18 @@
 import type { ProductRequestStatus, ProductStatus } from "@/types/database";
 
+const labels: Record<string, string> = {
+  new: "New request",
+  contacted: "Checking supplier",
+  quoted: "Quote sent",
+  paid: "Paid",
+  shipped: "In transit",
+  closed: "Delivered",
+  cancelled: "Cancelled",
+  available: "Ready to source",
+  draft: "Draft",
+  unavailable: "Not available",
+};
+
 const tones: Record<string, string> = {
   available: "badge-success",
   paid: "badge-success",
@@ -20,11 +33,11 @@ export function StatusBadge({
 }) {
   return (
     <span
-      className={`inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold capitalize ring-1 ring-border ${
+      className={`inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold ring-1 ring-border ${
         tones[status] ?? "bg-image-backdrop text-secondary-ink"
       }`}
     >
-      {status}
+      {labels[status] ?? status}
     </span>
   );
 }

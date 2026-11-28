@@ -11,13 +11,7 @@ import {
   subscribeWishlist,
 } from "@/lib/utils/wishlist";
 
-export function WishlistView({
-  products,
-  whatsappNumber,
-}: {
-  products: ProductListItem[];
-  whatsappNumber: string;
-}) {
+export function WishlistView({ products }: { products: ProductListItem[] }) {
   const ids = useSyncExternalStore(
     subscribeWishlist,
     getWishlistSnapshot,
@@ -29,21 +23,17 @@ export function WishlistView({
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <header className="mb-10">
         <p className="inline-flex rounded-badge bg-primary-tint px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-primary">
-          Saved picks
+          Saved examples
         </p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-          Your wishlist
+          Items you saved
         </h1>
       </header>
 
       {saved.length > 0 ? (
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {saved.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              whatsappNumber={whatsappNumber}
-            />
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
       ) : (
@@ -53,13 +43,14 @@ export function WishlistView({
           </span>
           <h2 className="mt-4 text-lg font-semibold text-ink">Nothing saved yet</h2>
           <p className="mx-auto mt-2 max-w-sm text-sm text-secondary-ink">
-            Tap the heart on any product to keep it here while you browse.
+            Anything you need can be requested directly — a saved item is not
+            required.
           </p>
           <Link
-            href="/products"
+            href="/request"
             className="mt-6 inline-flex min-h-11 items-center rounded-full border border-primary bg-primary px-5 text-sm font-medium text-white shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-hover hover:shadow-card-hover active:translate-y-0 active:bg-primary-active pressable"
           >
-            Browse products
+            Request a product
           </Link>
         </div>
       )}

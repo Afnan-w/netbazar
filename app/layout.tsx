@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s | Netbazar",
   },
   description:
-    "Hand-picked products from China, sourced for customers in Bangladesh. Browse the catalogue or request a product on WhatsApp.",
+    "Show Netbazar what you want from China. We check trusted suppliers, send a quote with shipping and delivery time, and source it for delivery in Bangladesh.",
   openGraph: {
     type: "website",
     siteName: "Netbazar",

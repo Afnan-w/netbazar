@@ -12,15 +12,15 @@ import {
 import {
   getCategories,
   getProducts,
-  getSiteSettings,
   type AvailabilityFilter,
   type ProductSort,
   type ShippingFilter,
 } from "@/lib/data/store";
 
 export const metadata: Metadata = {
-  title: "All products",
-  description: "Browse curated China-to-Bangladesh products with BDT pricing.",
+  title: "What we can source",
+  description:
+    "Examples of items Netbazar can source from China for delivery in Bangladesh. Your own item does not need to be listed — send us a request.",
 };
 
 type SearchParams = Record<string, string | string[] | undefined>;
@@ -76,7 +76,7 @@ export default async function ProductsPage({
   const page = Number.isFinite(parsedPage) && parsedPage > 0 ? parsedPage : 1;
   const pageSize = 12;
 
-  const [categories, result, settings] = await Promise.all([
+  const [categories, result] = await Promise.all([
     getCategories(),
     getProducts({
       search: values.search,
@@ -90,7 +90,6 @@ export default async function ProductsPage({
       page,
       pageSize,
     }),
-    getSiteSettings(),
   ]);
 
   const totalPages = Math.max(1, Math.ceil(result.total / pageSize));
@@ -117,15 +116,20 @@ export default async function ProductsPage({
       <header className="nova-panel mb-8 flex flex-col gap-5 p-6 sm:p-8 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary">
-            {featuredOnly ? "Curated selection" : "Catalogue"}
+            {featuredOnly ? "Popular requests" : "Sourcing examples"}
           </p>
           <h1 className="mt-2 text-balance text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-            {featuredOnly ? "Featured products" : "All products"}
+            {featuredOnly ? "Often requested items" : "What we can source for you"}
           </h1>
+          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-secondary-ink">
+            These are examples our suppliers have handled. Saw something else on
+            Alibaba, AliExpress, 1688 or Taobao? Send us the photo or link and
+            we&apos;ll check it for you.
+          </p>
           <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-secondary-ink">
             <span className="inline-flex items-center gap-1.5">
               <ShieldCheck aria-hidden="true" className="h-4 w-4 text-primary" />
-              Verified suppliers
+              Supplier checked before quoting
             </span>
             <span className="inline-flex items-center gap-1.5">
               <Truck aria-hidden="true" className="h-4 w-4 text-primary" />
@@ -133,9 +137,13 @@ export default async function ProductsPage({
             </span>
           </div>
         </div>
-        <p className="max-w-sm rounded-card bg-primary-tint/60 px-4 py-3 text-sm leading-relaxed text-secondary-ink">
-          Price and delivery are confirmed on WhatsApp before you pay.
-        </p>
+        <Link
+          href="/request"
+          className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-bold text-white shadow-card pressable hover:bg-primary-hover active:bg-primary-active"
+        >
+          Request your item
+          <PackageSearch aria-hidden="true" className="h-4 w-4" />
+        </Link>
       </header>
 
       <div className="grid gap-6 lg:grid-cols-[260px_1fr] lg:gap-8">
@@ -147,8 +155,8 @@ export default async function ProductsPage({
           <div className="nova-card mb-5 flex flex-wrap items-center justify-between gap-4 p-3 sm:px-4">
             <p className="text-sm text-secondary-ink">
               {result.total === 0
-                ? "No products found"
-                : `${result.total} product${result.total === 1 ? "" : "s"}`}
+                ? "No examples found"
+                : `${result.total} example${result.total === 1 ? "" : "s"}`}
               <span className="ml-2 text-muted">· Page {page} of {totalPages}</span>
             </p>
             <div className="inline-flex items-center gap-1 rounded-control bg-primary-tint/50 p-1">
@@ -183,21 +191,13 @@ export default async function ProductsPage({
             values.view === "grid" ? (
               <div className="product-grid grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
                 {result.items.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    whatsappNumber={settings.whatsapp_number}
-                  />
+                  <ProductCard key={product.id} product={product} />
                 ))}
               </div>
             ) : (
               <div className="space-y-3">
                 {result.items.map((product) => (
-                  <ProductRow
-                    key={product.id}
-                    product={product}
-                    whatsappNumber={settings.whatsapp_number}
-                  />
+                  <ProductRow key={product.id} product={product} />
                 ))}
               </div>
             )
@@ -206,20 +206,34 @@ export default async function ProductsPage({
               <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-primary-tint text-primary shadow-card">
                 <PackageSearch aria-hidden="true" className="h-8 w-8" strokeWidth={1.5} />
               </span>
-              <h2 className="mt-5 text-lg font-bold text-ink">No products found</h2>
+              <h2 className="mt-5 text-lg font-bold text-ink">Not here yet? No problem.</h2>
               <p className="mx-auto mt-2 max-w-sm text-sm text-secondary-ink">
-                Try different filters or request the item directly.
+                Send us a photo or link from any Chinese store and we&apos;ll check
+                whether our supplier can source it.
               </p>
               <Link
                 href="/request"
                 className="mt-6 inline-flex min-h-11 items-center justify-center rounded-control bg-primary px-5 text-sm font-bold text-white pressable hover:bg-primary-hover active:bg-primary-active"
               >
-                Request a product
+                Submit a product request
               </Link>
             </div>
           )}
 
           <Pagination page={page} totalPages={totalPages} buildHref={buildHref} />
+
+          <div className="nova-panel mt-8 flex flex-col gap-3 p-5 text-sm text-secondary-ink sm:flex-row sm:items-center sm:justify-between">
+            <p>
+              Anything you see elsewhere in China can be requested — even if it is
+              not shown here.
+            </p>
+            <Link
+              href="/request"
+              className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full bg-primary px-5 text-sm font-bold text-white pressable hover:bg-primary-hover active:bg-primary-active"
+            >
+              Send a product request
+            </Link>
+          </div>
         </div>
       </div>
     </div>

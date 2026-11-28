@@ -33,7 +33,7 @@ export default async function AdminCategoriesPage() {
           <div className="nova-panel mt-4 px-6 py-12 text-center">
             <p className="text-sm text-secondary-ink">No categories yet.</p>
             <p className="mt-1 text-xs text-muted">
-              Add one above to organise the catalogue.
+              Add one above to organise your sourcing examples.
             </p>
           </div>
         ) : (

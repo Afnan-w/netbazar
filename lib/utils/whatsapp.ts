@@ -6,17 +6,18 @@ export function buildWhatsAppUrl(number: string, message: string): string {
   return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
 }
 
-export function productOrderMessage(input: {
+export function productQuoteMessage(input: {
   name: string;
   sku: string;
   price: string;
   url: string;
 }): string {
   return [
-    `Hello Netbazar, I would like to order ${input.name} (SKU: ${input.sku}) listed at ${input.price}.`,
-    `Product page: ${input.url}`,
+    `Hello Netbazar, can you source ${input.name} (Ref: ${input.sku}) for me?`,
+    `Example page: ${input.url}`,
+    `Indicative price: ${input.price}`,
     "",
-    "Please confirm availability, the final price, shipping cost and delivery time before I pay.",
+    "Please confirm whether your supplier can provide it, then send the unit price, shipping, total and delivery time before I pay.",
   ].join("\n");
 }
 
@@ -30,8 +31,8 @@ export function requestWhatsAppMessage(input: {
   address: string;
 }): string {
   return [
-    "Hello Netbazar, I submitted a product request on your website.",
-    `Product: ${input.description}`,
+    "Hello Netbazar, I submitted a sourcing request on your website.",
+    `Item you want: ${input.description}`,
     input.productLink ? `Link: ${input.productLink}` : "",
     `Quantity: ${input.quantity}`,
     input.budget ? `Budget: ${input.budget}` : "",
@@ -39,7 +40,7 @@ export function requestWhatsAppMessage(input: {
     `Phone: ${input.phone}`,
     `Delivery address: ${input.address}`,
     "",
-    "Please confirm availability, the final price, shipping cost and delivery time before I pay.",
+    "Please check with your supplier and send me a quote with the unit price, shipping, total and delivery time before I pay. I can also send photos here.",
   ]
     .filter(Boolean)
     .join("\n");

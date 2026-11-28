@@ -9,7 +9,7 @@ export default async function NewProductPage() {
     <div className="mx-auto max-w-4xl">
       <PageHeader
         title="New product"
-        description="Add a listing to the catalogue. It starts as a draft until you set it to available."
+        description="Add a sourcing example. It starts as a draft until you set it to available."
       />
       <ProductForm categories={categories} />
     </div>
