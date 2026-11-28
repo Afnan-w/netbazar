@@ -84,6 +84,8 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -93,6 +95,7 @@ body {
   font-family: var(--font-sans);
   font-size: 14px;
   line-height: 1.5;
+  overflow-x: clip;
 }
 
 :focus-visible {
@@ -110,6 +113,8 @@ a,
 input,
 select,
 textarea {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
   transition:
     color 200ms ease,
     background-color 200ms ease,
@@ -118,9 +123,23 @@ textarea {
     transform 200ms ease;
 }
 
+/* iOS zooms the viewport when a focused input is under 16px. */
+@media (max-width: 640px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .safe-x {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
   }
 
   .hero-gradient {
@@ -436,6 +455,33 @@ textarea {
   .reveal.is-visible {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media (min-width: 640px) {
+  .safe-x {
+    padding-left: max(1.5rem, env(safe-area-inset-left));
+    padding-right: max(1.5rem, env(safe-area-inset-right));
+  }
+}
+
+@media (min-width: 1024px) {
+  .safe-x {
+    padding-left: max(2rem, env(safe-area-inset-left));
+    padding-right: max(2rem, env(safe-area-inset-right));
+  }
+}
+
+/* Touch screens keep the hover effect stuck after a tap; turn it off there. */
+@media (hover: none) {
+  .nova-lift:hover {
+    transform: none;
+    box-shadow: var(--shadow-card);
+    border-color: var(--border);
+  }
+
+  .card-shine:hover::after {
+    animation: none;
   }
 }
 

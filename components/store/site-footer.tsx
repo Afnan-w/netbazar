@@ -1,5 +1,6 @@
 import { ArrowUpRight, Mail, MessageCircle, ShieldCheck } from "lucide-react";
 import Link from "next/link";
+import { getContactEmail } from "@/lib/utils/contact";
 import { buildWhatsAppUrl } from "@/lib/utils/whatsapp";
 import type { SiteSettings } from "@/types/database";
 
@@ -16,7 +17,15 @@ const policyLinks = [
   { href: "/policies/refund", label: "Refund" },
 ];
 
-export function SiteFooter({ settings }: { settings: SiteSettings }) {
+export function SiteFooter({
+  settings,
+  categories,
+}: {
+  settings: SiteSettings;
+  categories: { name: string; slug: string }[];
+}) {
+  const email = getContactEmail(settings.contact_email);
+
   return (
     <footer className="mt-20 bg-lilac text-ink">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
@@ -95,15 +104,14 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
                 <MessageCircle aria-hidden="true" className="h-4 w-4" />
                 WhatsApp
               </a>
-              {settings.contact_email && (
-                <a
-                  href={`mailto:${settings.contact_email}`}
-                  className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border bg-surface px-3 text-sm text-secondary-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:text-primary hover:shadow-card"
-                >
-                  <Mail aria-hidden="true" className="h-4 w-4 text-primary" />
-                  {settings.contact_email}
-                </a>
-              )}
+              <a
+                href={`mailto:${email}`}
+                aria-label={`Email ${email}`}
+                className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border bg-surface px-3 text-sm text-secondary-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:text-primary hover:shadow-card"
+              >
+                <Mail aria-hidden="true" className="h-4 w-4 text-primary" />
+                Email us
+              </a>
               {settings.facebook_url && (
                 <a
                   href={settings.facebook_url}
@@ -127,6 +135,25 @@ export function SiteFooter({ settings }: { settings: SiteSettings }) {
             </div>
           </div>
         </div>
+
+        {categories.length > 0 && (
+          <nav aria-label="Example categories" className="mt-6 rounded-card border border-border/70 bg-surface/50 p-4 shadow-card sm:p-5">
+            <h2 className="text-xs font-bold uppercase tracking-[0.16em] text-primary">
+              Example categories
+            </h2>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {categories.map((category) => (
+                <Link
+                  key={category.slug}
+                  href={`/products?category=${encodeURIComponent(category.slug)}`}
+                  className="inline-flex min-h-11 items-center rounded-full border border-border bg-surface px-3 text-xs text-secondary-ink transition-colors duration-200 hover:border-primary hover:text-primary"
+                >
+                  {category.name}
+                </Link>
+              ))}
+            </div>
+          </nav>
+        )}
 
         <div className="mt-8 flex flex-col gap-3 rounded-card border border-border/70 bg-surface/50 px-5 py-4 text-xs text-muted shadow-card sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Netbazar. All rights reserved.</p>

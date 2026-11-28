@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import type { ReactNode } from "react";
 import "./globals.css";
@@ -19,16 +19,34 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   ),
+  applicationName: "Netbazar",
   title: {
     default: "Netbazar | China-to-Bangladesh sourcing",
     template: "%s | Netbazar",
   },
   description:
     "Show Netbazar what you want from China. We check trusted suppliers, send a quote with shipping and delivery time, and source it for delivery in Bangladesh.",
+  appleWebApp: {
+    capable: true,
+    title: "Netbazar",
+    statusBarStyle: "default",
+  },
+  icons: {
+    apple: "/icons/apple-touch-icon.png",
+  },
+  manifest: "/manifest.webmanifest",
   openGraph: {
     type: "website",
     siteName: "Netbazar",
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#6c4fd6",
+  colorScheme: "light",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

@@ -84,8 +84,8 @@ insert into public.site_settings (id, whatsapp_number, announcement_text, contac
 values (
   1,
   '8801627293330',
-  'Payment is upfront. We confirm the final price, shipping and delivery time on WhatsApp before you pay.',
-  'hello@netbazar.example'
+  'Supplier checked first. We send the price, shipping and delivery time in your quote before you pay.',
+  'ox17afnan@gmail.com'
 );
 
 create index products_status_created_at_idx on public.products (status, created_at desc);

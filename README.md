@@ -49,6 +49,8 @@ Admin access is controlled by the `public.admins` table rather than a JWT claim:
 
 Every page states that the supplier is checked first, that one quote covers unit price, shipping, total and delivery time, and that payment happens only after the quote is accepted.
 
+The storefront is mobile-first: a single compact header with search/menu toggles, category links in the menu and footer instead of a busy top bar, 44px+ touch targets, iOS-safe input sizing and safe-area padding, plus a web manifest and home-screen icons for Android/iOS. `scripts/generate-icons.mjs` rebuilds the icons in `public/icons` from `app/icon.svg`.
+
 ## Admin dashboard
 
 - `/admin/login` — Supabase email/password sign-in, restricted to users in `admins`.
@@ -57,7 +59,7 @@ Every page states that the supplier is checked first, that one quote covers unit
 - `/admin/products/new`, `/admin/products/[id]/edit` — example details, dynamic specifications and image management (upload, reorder, alt text, delete).
 - `/admin/categories` — category create, edit, reorder and guarded delete.
 - `/admin/requests`, `/admin/requests/[id]` — filter by quote stage, inspect a request, update status and internal notes, quote/message the customer on WhatsApp.
-- `/admin/settings` — WhatsApp number, announcement text, email and social links.
+- `/admin/settings` — WhatsApp number, announcement text, email and social links. General enquiries currently go to `ox17afnan@gmail.com` (Netbazar has no dedicated mailbox yet); the public site falls back to that address until a real one is saved here.
 
 All writes go through server actions with zod validation. The service role key is only read in server code.
 

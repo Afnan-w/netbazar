@@ -6,6 +6,7 @@ import { saveSettings } from "@/app/admin/(dashboard)/settings/actions";
 import { useToast } from "@/components/admin/toast";
 import { Button } from "@/components/ui/button";
 import { Field, Input } from "@/components/ui/input";
+import { CONTACT_EMAIL } from "@/lib/utils/contact";
 import { idleActionResult } from "@/types/actions";
 import type { SiteSettings } from "@/types/database";
 
@@ -46,14 +47,20 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
               placeholder="+88016XXXXXXXX or 016XXXXXXXX"
             />
           </Field>
-          <Field label="Contact email (optional)" htmlFor="contact_email">
-            <Input
-              id="contact_email"
-              name="contact_email"
-              type="email"
-              defaultValue={settings.contact_email}
-            />
-          </Field>
+          <div>
+            <Field label="Contact email (optional)" htmlFor="contact_email">
+              <Input
+                id="contact_email"
+                name="contact_email"
+                type="email"
+                defaultValue={settings.contact_email}
+                placeholder={CONTACT_EMAIL}
+              />
+            </Field>
+            <p className="mt-1.5 text-xs text-muted">
+              Leave blank to use {CONTACT_EMAIL}. Netbazar has no dedicated mailbox yet.
+            </p>
+          </div>
           <div className="sm:col-span-2">
             <Field label="Announcement bar (optional)" htmlFor="announcement_text">
               <Input

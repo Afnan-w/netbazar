@@ -3,16 +3,18 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PaymentNote } from "@/components/store/payment-note";
 import { getSiteSettings } from "@/lib/data/store";
+import { getContactEmail } from "@/lib/utils/contact";
 import { buildWhatsAppUrl } from "@/lib/utils/whatsapp";
 
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Contact Netbazar on WhatsApp or email about sourcing a product from China.",
+    "Contact Netbazar on WhatsApp or at ox17afnan@gmail.com about sourcing a product from China.",
 };
 
 export default async function ContactPage() {
   const settings = await getSiteSettings();
+  const email = getContactEmail(settings.contact_email);
   const whatsappUrl = buildWhatsAppUrl(
     settings.whatsapp_number,
     "Hello Netbazar, I would like to ask about sourcing a product from China.",
@@ -31,7 +33,7 @@ export default async function ContactPage() {
         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-secondary-ink">
           WhatsApp is the fastest way to send photos, check supplier availability
           and receive your quote with shipping and delivery time. Email is for
-          general questions.
+          general questions only.
         </p>
       </div>
 
@@ -61,18 +63,15 @@ export default async function ContactPage() {
           </span>
           <h2 className="mt-5 text-lg font-bold text-ink">Email</h2>
           <p className="mt-2 text-sm leading-relaxed text-secondary-ink">
-            For general enquiries. Sourcing and quotes are handled on WhatsApp.
+            For general enquiries only. Netbazar does not have a dedicated mailbox
+            yet, so please use this address and put sourcing requests on WhatsApp.
           </p>
-          {settings.contact_email ? (
-            <a
-              href={`mailto:${settings.contact_email}`}
-              className="mt-5 inline-flex min-h-11 items-center rounded-control border border-border bg-surface px-4 text-sm font-semibold text-primary pressable hover:bg-primary-tint"
-            >
-              {settings.contact_email}
-            </a>
-          ) : (
-            <p className="mt-5 text-sm text-muted">Email will be added soon.</p>
-          )}
+          <a
+            href={`mailto:${email}`}
+            className="mt-5 inline-flex min-h-11 items-center rounded-control border border-border bg-surface px-4 text-sm font-semibold text-primary pressable hover:bg-primary-tint"
+          >
+            {email}
+          </a>
         </div>
       </div>
 

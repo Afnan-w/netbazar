@@ -7,6 +7,7 @@ import type {
   SiteSettings,
 } from "@/types/database";
 import { demoCategories, demoProducts, getDemoProductBySlug, getDemoRelated } from "./demo-catalogue";
+import { CONTACT_EMAIL } from "@/lib/utils/contact";
 import { marketplaceFor, shippingDaysValue } from "@/lib/utils/marketplace";
 
 type StoreClient = Awaited<ReturnType<typeof createClient>>;
@@ -61,8 +62,8 @@ const fallbackSettings: SiteSettings = {
   id: 1,
   whatsapp_number: "8801627293330",
   announcement_text:
-    "Payment is upfront. We confirm the final price, shipping and delivery time on WhatsApp before you pay.",
-  contact_email: "hello@netbazar.example",
+    "Supplier checked first. We send the price, shipping and delivery time in your quote before you pay.",
+  contact_email: CONTACT_EMAIL,
   facebook_url: "",
   instagram_url: "",
   updated_at: new Date(0).toISOString(),

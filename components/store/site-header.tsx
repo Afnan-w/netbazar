@@ -2,14 +2,13 @@
 
 import {
   ArrowRight,
-  BadgeCheck,
-  ChevronDown,
   Compass,
   Cpu,
   Gamepad2,
   Gift,
   Grid2X2,
   Home,
+  Mail,
   Menu,
   MessageCircle,
   Search,
@@ -17,7 +16,6 @@ import {
   Smartphone,
   Sparkles,
   UserRound,
-  WalletCards,
   X,
   type LucideIcon,
 } from "lucide-react";
@@ -39,24 +37,25 @@ const categoryIcons: Record<string, LucideIcon> = {
   everyday: Gift,
 };
 
-const primaryLinks = [
+const quickLinks = [
   { href: "/products", label: "What we source" },
   { href: "/#how-it-works", label: "How it works" },
   { href: "/faq", label: "FAQ" },
+  { href: "/contact", label: "Contact" },
+  { href: "/wishlist", label: "Saved examples" },
 ];
 
 function SearchForm({
   suggestions,
-  compact = false,
+  onNavigate,
 }: {
   suggestions: SearchSuggestion[];
-  compact?: boolean;
+  onNavigate?: () => void;
 }) {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const router = useRouter();
-  const listId = `${compact ? "mobile" : "desktop"}-search-suggestions`;
 
   const matches = useMemo(() => {
     const term = query.trim().toLowerCase();
@@ -72,8 +71,14 @@ function SearchForm({
   }, [query, suggestions]);
 
   return (
-    <form action="/products" method="get" role="search" className="w-full">
-      <label htmlFor={compact ? "mobile-search" : "header-search"} className="sr-only">
+    <form
+      action="/products"
+      method="get"
+      role="search"
+      onSubmit={onNavigate}
+      className="w-full"
+    >
+      <label htmlFor="header-search" className="sr-only">
         Search sourcing examples
       </label>
       <div
@@ -85,9 +90,9 @@ function SearchForm({
           }
         }}
       >
-        <div className="flex min-h-11 items-center gap-2 rounded-control border border-border bg-page/70 px-3.5 transition-colors duration-200 focus-within:border-primary focus-within:bg-surface focus-within:shadow-card">
+        <div className="flex min-h-12 items-center gap-2 rounded-control border border-border bg-page/70 px-3.5 transition-colors duration-200 focus-within:border-primary focus-within:bg-surface focus-within:shadow-card">
           <input
-            id={compact ? "mobile-search" : "header-search"}
+            id="header-search"
             name="q"
             value={query}
             onChange={(event) => {
@@ -113,6 +118,7 @@ function SearchForm({
                 );
               } else if (event.key === "Enter" && activeIndex >= 0) {
                 event.preventDefault();
+                onNavigate?.();
                 router.push(
                   `/products?q=${encodeURIComponent(matches[activeIndex].name)}`,
                 );
@@ -122,18 +128,19 @@ function SearchForm({
             }}
             placeholder="Search example items..."
             autoComplete="off"
+            autoFocus
             role="combobox"
             aria-expanded={open}
-            aria-controls={listId}
+            aria-controls="header-search-suggestions"
             aria-autocomplete="list"
-            className="w-full min-h-11 bg-transparent text-sm text-ink outline-none placeholder:text-muted"
+            className="w-full min-h-12 bg-transparent text-sm text-ink outline-none placeholder:text-muted"
           />
           <Search aria-hidden="true" className="h-4 w-4 shrink-0 text-primary" />
         </div>
 
         {open && matches.length > 0 && (
           <div
-            id={listId}
+            id="header-search-suggestions"
             className="dropdown-pop absolute left-0 right-0 top-[calc(100%+8px)] z-50 overflow-hidden rounded-card border border-border bg-surface/95 p-2 shadow-card-hover backdrop-blur-xl"
           >
             <p className="px-2 py-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted">
@@ -144,6 +151,7 @@ function SearchForm({
                 key={item.slug}
                 href={`/products?q=${encodeURIComponent(item.name)}`}
                 onClick={() => {
+                  onNavigate?.();
                   setOpen(false);
                   setActiveIndex(-1);
                 }}
@@ -176,88 +184,19 @@ function SearchForm({
   );
 }
 
-function SourceMenu({ categories }: { categories: HeaderCategory[] }) {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <div
-      className="relative"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-    >
-      <button
-        type="button"
-        aria-expanded={open}
-        aria-controls="source-menu"
-        onClick={() => setOpen((value) => !value)}
-        onFocus={() => setOpen(true)}
-        className="inline-flex min-h-11 items-center gap-1 rounded-control px-3 text-sm text-secondary-ink transition-colors duration-200 hover:bg-primary-tint hover:text-primary"
-      >
-        What we source
-        <ChevronDown
-          aria-hidden="true"
-          className={`h-3.5 w-3.5 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
-        />
-      </button>
-
-      {open && (
-        <div
-          id="source-menu"
-          className="dropdown-pop absolute left-0 top-[calc(100%+1rem)] z-50 w-[min(860px,calc(100vw-2rem))] rounded-panel border border-border bg-surface/95 p-4 shadow-card-hover backdrop-blur-xl"
-        >
-          <div className="mb-3 flex items-center justify-between gap-4 px-1">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
-              Example categories
-            </p>
-            <Link
-              href="/request"
-              onClick={() => setOpen(false)}
-              className="inline-flex min-h-11 items-center gap-1 rounded-control px-2 text-xs font-semibold text-primary transition-colors duration-200 hover:bg-primary-tint"
-            >
-              Request another item
-              <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-            {categories.map((category) => {
-              const Icon = categoryIcons[category.slug] ?? Grid2X2;
-              return (
-                <Link
-                  key={category.slug}
-                  href={`/products?category=${encodeURIComponent(category.slug)}`}
-                  onClick={() => setOpen(false)}
-                  className="group/card flex flex-col gap-3 rounded-card border border-border bg-page/60 p-3 transition-all duration-200 hover:-translate-y-1 hover:border-primary/25 hover:bg-primary-tint hover:shadow-card"
-                >
-                  <span className="flex h-10 w-10 items-center justify-center rounded-control bg-primary-tint text-primary shadow-card">
-                    <Icon aria-hidden="true" className="h-4 w-4" />
-                  </span>
-                  <span className="text-sm font-medium text-ink transition-colors duration-200 group-hover/card:text-primary">
-                    {category.name}
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-          <p className="mt-3 px-1 text-[11px] text-muted">
-            Your item does not need to be listed. Send us a photo or link from any
-            Chinese store.
-          </p>
-        </div>
-      )}
-    </div>
-  );
-}
-
 export function SiteHeader({
   categories,
   suggestions,
   whatsappUrl,
+  email,
 }: {
   categories: HeaderCategory[];
   suggestions: SearchSuggestion[];
   whatsappUrl: string;
+  email: string;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
@@ -268,6 +207,17 @@ export function SiteHeader({
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        setSearchOpen(false);
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
+
   return (
     <header
       className={`sticky top-0 z-50 border-b backdrop-blur-xl transition-shadow duration-200 ${
@@ -276,25 +226,29 @@ export function SiteHeader({
           : "border-border bg-surface/95"
       }`}
     >
-      <div className="mx-auto flex h-[72px] max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
+      <div className="safe-x mx-auto flex h-16 max-w-7xl items-center gap-3 sm:h-[68px]">
         <Link
           href="/"
+          onClick={() => {
+            setMenuOpen(false);
+            setSearchOpen(false);
+          }}
           className="shrink-0 text-xl font-semibold tracking-tight text-ink transition-colors duration-200 hover:text-primary"
-          onClick={() => setMenuOpen(false)}
         >
           Net<span className="text-primary">bazar</span>
         </Link>
 
-        <nav aria-label="Main navigation" className="hidden items-center gap-1 lg:flex">
-          <SourceMenu categories={categories} />
-          {primaryLinks.map((link) => (
+        <nav aria-label="Main navigation" className="ml-4 hidden items-center gap-1 lg:flex">
+          {quickLinks.slice(0, 3).map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`relative inline-flex min-h-11 items-center rounded-control px-3 text-sm transition-colors duration-200 after:absolute after:bottom-1 after:left-3 after:h-0.5 after:w-[calc(100%-1.5rem)] after:origin-left after:scale-x-0 after:bg-primary after:transition-transform after:duration-200 hover:text-primary hover:after:scale-x-100 ${
-                pathname === link.href
-                  ? "font-medium text-primary after:scale-x-100"
-                  : "text-secondary-ink"
+              onClick={() => {
+                setMenuOpen(false);
+                setSearchOpen(false);
+              }}
+              className={`inline-flex min-h-11 items-center rounded-control px-3 text-sm transition-colors duration-200 hover:bg-primary-tint hover:text-primary ${
+                pathname === link.href ? "font-medium text-primary" : "text-secondary-ink"
               }`}
             >
               {link.label}
@@ -302,46 +256,48 @@ export function SiteHeader({
           ))}
         </nav>
 
-        <div className="mx-auto hidden w-full max-w-sm md:block">
-          <SearchForm suggestions={suggestions} />
-        </div>
-
-        <div className="ml-auto flex items-center gap-2 md:ml-0">
-          <Link
-            href="/admin/login"
-            aria-label="Admin sign in"
-            className="hidden min-h-11 min-w-11 items-center justify-center rounded-full border border-border bg-surface text-secondary-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:text-primary hover:shadow-card sm:inline-flex"
-          >
-            <UserRound aria-hidden="true" className="h-4 w-4" />
-          </Link>
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Chat with Netbazar on WhatsApp"
-            className="hidden min-h-11 min-w-11 items-center justify-center rounded-full border border-border bg-surface text-secondary-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:text-primary hover:shadow-card sm:inline-flex"
-          >
-            <MessageCircle aria-hidden="true" className="h-4 w-4" />
-          </a>
-          <Link
-            href="/request"
-            className="relative inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-primary bg-primary px-4 text-sm font-semibold text-white shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-hover hover:shadow-card-hover active:translate-y-0 active:bg-primary-active pressable"
-          >
-            <span
-              aria-hidden="true"
-              className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-success ring-2 ring-surface"
-            />
-            <Sparkles aria-hidden="true" className="h-4 w-4" />
-            <span className="hidden sm:inline">Request a product</span>
-            <span className="sm:hidden">Request</span>
-          </Link>
+        <div className="ml-auto flex items-center gap-2">
           <button
             type="button"
-            className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full border border-border bg-surface text-secondary-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:text-primary hover:shadow-card lg:hidden pressable"
+            aria-label={searchOpen ? "Close search" : "Search examples"}
+            aria-expanded={searchOpen}
+            aria-controls="header-search-panel"
+            onClick={() => {
+              setMenuOpen(false);
+              setSearchOpen((open) => !open);
+            }}
+            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-border bg-surface text-secondary-ink transition-colors duration-200 hover:border-primary hover:text-primary pressable"
+          >
+            {searchOpen ? (
+              <X aria-hidden="true" className="h-4 w-4" />
+            ) : (
+              <Search aria-hidden="true" className="h-4 w-4" />
+            )}
+          </button>
+
+          <Link
+            href="/request"
+            onClick={() => {
+              setMenuOpen(false);
+              setSearchOpen(false);
+            }}
+            className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full bg-primary px-4 text-sm font-semibold text-white shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:bg-primary-hover hover:shadow-card-hover active:translate-y-0 pressable"
+          >
+            <span className="hidden sm:inline">Request a product</span>
+            <span className="sm:hidden">Request</span>
+            <ArrowRight aria-hidden="true" className="h-4 w-4" />
+          </Link>
+
+          <button
+            type="button"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
-            aria-controls="mobile-menu"
-            onClick={() => setMenuOpen((open) => !open)}
+            aria-controls="site-menu"
+            onClick={() => {
+              setSearchOpen(false);
+              setMenuOpen((open) => !open);
+            }}
+            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-border bg-surface text-secondary-ink transition-colors duration-200 hover:border-primary hover:text-primary pressable"
           >
             {menuOpen ? (
               <X aria-hidden="true" className="h-5 w-5" />
@@ -352,73 +308,49 @@ export function SiteHeader({
         </div>
       </div>
 
-      <nav aria-label="Sourcing category navigation" className="hidden border-t border-border bg-surface/95 lg:block">
-        <div className="mx-auto flex h-11 max-w-7xl items-center gap-1 overflow-x-auto px-4 sm:px-6 lg:px-8">
-          <Link
-            href="/products"
-            className="inline-flex min-h-11 shrink-0 items-center rounded-full bg-primary-tint px-4 text-xs font-semibold text-primary transition-colors duration-200 hover:bg-primary/15"
-          >
-            All examples
-          </Link>
-          {categories.map((category) => (
-            <Link
-              key={category.slug}
-              href={`/products?category=${encodeURIComponent(category.slug)}`}
-              className="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full px-3 text-xs text-secondary-ink transition-colors duration-200 hover:bg-primary-tint hover:text-primary"
-            >
-              <Grid2X2 aria-hidden="true" className="h-3.5 w-3.5 text-primary" />
-              {category.name}
-            </Link>
-          ))}
-          <span aria-hidden="true" className="mx-2 h-4 w-px shrink-0 bg-border" />
-          <Link
-            href="/request"
-            className="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full px-3 text-xs font-semibold text-primary transition-colors duration-200 hover:bg-primary-tint"
-          >
-            <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
-            Can&apos;t find it? Request it
-          </Link>
+      {searchOpen && (
+        <div
+          id="header-search-panel"
+          className="dropdown-pop safe-x border-t border-border bg-surface/95 backdrop-blur-xl"
+        >
+          <div className="mx-auto max-w-2xl py-4">
+            <SearchForm
+              suggestions={suggestions}
+              onNavigate={() => setSearchOpen(false)}
+            />
+          </div>
         </div>
-      </nav>
+      )}
 
       {menuOpen && (
         <div
-          id="mobile-menu"
-          className="dropdown-pop border-t border-border bg-surface/95 backdrop-blur-xl lg:hidden"
+          id="site-menu"
+          className="dropdown-pop safe-x border-t border-border bg-surface/95 backdrop-blur-xl"
         >
-          <div className="space-y-5 px-4 py-5 sm:px-6">
-            <SearchForm suggestions={suggestions} compact />
-            <nav aria-label="Mobile navigation" className="grid grid-cols-2 gap-2">
-              {primaryLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="inline-flex min-h-11 items-center justify-center rounded-control border border-border bg-surface px-3 text-sm text-secondary-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:bg-primary-tint hover:text-primary"
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <Link
-                href="/request"
-                onClick={() => setMenuOpen(false)}
-                className="inline-flex min-h-11 items-center justify-center rounded-control bg-primary px-3 text-sm font-semibold text-white pressable hover:bg-primary-hover"
-              >
-                Request a product
-              </Link>
-              <Link
-                href="/admin/login"
-                onClick={() => setMenuOpen(false)}
-                className="inline-flex min-h-11 items-center justify-center rounded-control border border-border bg-surface px-3 text-sm text-secondary-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:bg-primary-tint hover:text-primary"
-              >
-                Admin sign in
-              </Link>
+          <div className="mx-auto grid max-w-7xl gap-6 py-6 sm:grid-cols-2 lg:grid-cols-3">
+            <nav aria-label="Quick links">
+              <h2 className="text-xs font-bold uppercase tracking-[0.16em] text-primary">
+                Explore
+              </h2>
+              <div className="mt-3 grid gap-1">
+                {quickLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="inline-flex min-h-11 items-center rounded-control px-2 text-sm text-secondary-ink transition-colors duration-200 hover:bg-primary-tint hover:text-primary"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
             </nav>
-            <div>
-              <p className="pb-2 text-[11px] font-semibold uppercase tracking-widest text-muted">
+
+            <nav aria-label="Example categories">
+              <h2 className="text-xs font-bold uppercase tracking-[0.16em] text-primary">
                 Example categories
-              </p>
-              <div className="grid grid-cols-2 gap-2">
+              </h2>
+              <div className="mt-3 grid grid-cols-2 gap-2">
                 {categories.map((category) => {
                   const Icon = categoryIcons[category.slug] ?? Grid2X2;
                   return (
@@ -426,24 +358,49 @@ export function SiteHeader({
                       key={category.slug}
                       href={`/products?category=${encodeURIComponent(category.slug)}`}
                       onClick={() => setMenuOpen(false)}
-                      className="inline-flex min-h-11 items-center gap-2 rounded-control border border-border bg-surface px-3 text-sm text-secondary-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:bg-primary-tint hover:text-primary"
+                      className="inline-flex min-h-11 items-center gap-2 rounded-control border border-border bg-page/60 px-3 text-xs text-secondary-ink transition-colors duration-200 hover:border-primary hover:text-primary"
                     >
-                      <Icon aria-hidden="true" className="h-4 w-4 text-primary" />
-                      {category.name}
+                      <Icon aria-hidden="true" className="h-4 w-4 shrink-0 text-primary" />
+                      <span className="truncate">{category.name}</span>
                     </Link>
                   );
                 })}
               </div>
-            </div>
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-border pt-4 text-[11px] text-muted">
-              <span className="inline-flex items-center gap-1">
-                <BadgeCheck aria-hidden="true" className="h-3.5 w-3.5 text-primary" />
-                Verified suppliers
-              </span>
-              <span className="inline-flex items-center gap-1">
-                <WalletCards aria-hidden="true" className="h-3.5 w-3.5 text-primary" />
-                Quote before payment
-              </span>
+              <p className="mt-3 text-xs text-muted">
+                Your item does not need to be listed here.
+              </p>
+            </nav>
+
+            <div>
+              <h2 className="text-xs font-bold uppercase tracking-[0.16em] text-primary">
+                Talk to us
+              </h2>
+              <div className="mt-3 grid gap-1">
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-11 items-center gap-2 rounded-control px-2 text-sm text-secondary-ink transition-colors duration-200 hover:bg-primary-tint hover:text-primary"
+                >
+                  <MessageCircle aria-hidden="true" className="h-4 w-4 text-primary" />
+                  Chat on WhatsApp
+                </a>
+                <a
+                  href={`mailto:${email}`}
+                  className="inline-flex min-h-11 items-center gap-2 rounded-control px-2 text-sm text-secondary-ink transition-colors duration-200 hover:bg-primary-tint hover:text-primary"
+                >
+                  <Mail aria-hidden="true" className="h-4 w-4 text-primary" />
+                  {email}
+                </a>
+                <Link
+                  href="/admin/login"
+                  onClick={() => setMenuOpen(false)}
+                  className="inline-flex min-h-11 items-center gap-2 rounded-control px-2 text-sm text-secondary-ink transition-colors duration-200 hover:bg-primary-tint hover:text-primary"
+                >
+                  <UserRound aria-hidden="true" className="h-4 w-4 text-primary" />
+                  Admin sign in
+                </Link>
+              </div>
             </div>
           </div>
         </div>

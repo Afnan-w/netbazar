@@ -10,7 +10,6 @@ import {
   Gift,
   Grid2X2,
   Home,
-  Link2,
   MessageCircle,
   Search,
   Shirt,
@@ -48,7 +47,7 @@ const steps = [
   {
     icon: ClipboardList,
     title: "Send a request",
-    text: "Share a photo, a product link or just a description — from Alibaba, AliExpress, 1688, Taobao or anywhere else.",
+    text: "Share a photo, a product link or just a description — plus quantity and budget. From Alibaba, AliExpress, 1688, Taobao or anywhere else.",
   },
   {
     icon: Search,
@@ -126,60 +125,7 @@ export default async function HomePage() {
           description="Send a photo, a link or just a description. We check our trusted suppliers, send you a quote with shipping and delivery time, and connect you with the supplier."
           primaryAction={{ href: "/request", label: "Submit a product request" }}
           secondaryAction={{ href: "#how-it-works", label: "See how it works" }}
-        >
-          <div className="relative hidden min-h-[400px] lg:block">
-            <div
-              aria-hidden="true"
-              className="absolute inset-6 rounded-panel border border-white/25 hairline-grid"
-            />
-            <div className="glass-panel absolute left-3 top-5 w-[310px] rounded-card border border-white/60 p-4 shadow-card-hover ring-1 ring-white/20 backdrop-blur sm:left-8">
-              <div className="flex items-center gap-2 text-xs font-bold text-primary">
-                <ClipboardList aria-hidden="true" className="h-4 w-4" />
-                Your request
-              </div>
-              <div className="mt-4 space-y-2.5">
-                <div className="flex items-center gap-3 rounded-control bg-surface/85 p-3 shadow-soft">
-                  <Camera aria-hidden="true" className="h-4 w-4 shrink-0 text-primary" />
-                  <span className="text-xs font-medium text-ink">A photo of the product</span>
-                </div>
-                <div className="flex items-center gap-3 rounded-control bg-surface/85 p-3 shadow-soft">
-                  <Link2 aria-hidden="true" className="h-4 w-4 shrink-0 text-primary" />
-                  <span className="text-xs font-medium text-ink">A link, if you have one</span>
-                </div>
-                <div className="flex items-center gap-3 rounded-control bg-surface/85 p-3 shadow-soft">
-                  <WalletCards aria-hidden="true" className="h-4 w-4 shrink-0 text-primary" />
-                  <span className="text-xs font-medium text-ink">Quantity and budget</span>
-                </div>
-              </div>
-              <div className="mt-4 flex items-center justify-between rounded-control bg-primary px-3 py-2.5 text-xs font-semibold text-white shadow-card">
-                We check the supplier
-                <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
-              </div>
-            </div>
-            <div className="glass-panel absolute bottom-5 right-0 w-[265px] rounded-card border border-white/60 p-4 shadow-card-hover ring-1 ring-white/20 backdrop-blur sm:right-5">
-              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-primary">
-                What you receive
-              </p>
-              <dl className="mt-3 space-y-2 text-xs">
-                <div className="flex items-center justify-between gap-3 text-secondary-ink">
-                  <dt>Unit price</dt>
-                  <dd className="font-semibold text-ink">Confirmed</dd>
-                </div>
-                <div className="flex items-center justify-between gap-3 text-secondary-ink">
-                  <dt>Shipping to BD</dt>
-                  <dd className="font-semibold text-ink">Included in quote</dd>
-                </div>
-                <div className="flex items-center justify-between gap-3 text-secondary-ink">
-                  <dt>Delivery time</dt>
-                  <dd className="font-semibold text-ink">Agreed first</dd>
-                </div>
-              </dl>
-              <p className="mt-3 border-t border-border pt-3 text-[11px] font-medium text-success">
-                Pay only after you accept
-              </p>
-            </div>
-          </div>
-        </Hero>
+        />
       </section>
 
       <Reveal>
@@ -282,7 +228,21 @@ export default async function HomePage() {
                     </li>
                   ))}
                 </ul>
-                <p className="mt-5 border-t border-border pt-4 text-xs leading-relaxed text-muted">
+                <dl className="mt-5 grid grid-cols-3 gap-2 border-t border-border pt-4 text-center">
+                  <div>
+                    <dt className="text-[10px] font-semibold uppercase tracking-wider text-muted">Unit price</dt>
+                    <dd className="mt-1 text-xs font-semibold text-ink">Confirmed</dd>
+                  </div>
+                  <div>
+                    <dt className="text-[10px] font-semibold uppercase tracking-wider text-muted">Shipping to BD</dt>
+                    <dd className="mt-1 text-xs font-semibold text-ink">In quote</dd>
+                  </div>
+                  <div>
+                    <dt className="text-[10px] font-semibold uppercase tracking-wider text-muted">Delivery time</dt>
+                    <dd className="mt-1 text-xs font-semibold text-ink">Agreed first</dd>
+                  </div>
+                </dl>
+                <p className="mt-4 text-xs leading-relaxed text-muted">
                   No cart, no add-to-checkout games. You approve one clear quote before
                   payment.
                 </p>
